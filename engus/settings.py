@@ -16,9 +16,10 @@ INSTALLED_APPS = (
     'easy_thumbnails',
     #'rest_framework',
     #'debug_toolbar',
+    'pytils',
 
     # Application base, containing global templates.
-    'engus.apps.base',
+    'engus.cards',
 
     # Local apps, referenced via engus.appname
 

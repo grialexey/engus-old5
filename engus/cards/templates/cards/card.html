@@ -1,0 +1,15 @@
+<div class="card">
+    <div class="card__top">
+        <span class="card__front">
+            <span class="card__front-word">{{ card.front.text }}</span>
+            <span class="card__front-pron">{{ card.front.pronunciation }}</span>
+        </span><!--
+     --><span class="card__back">{{ card.back }}</span>
+    </div>
+    <div class="card__example">{{ card.example|linebreaksbr }}</div>
+    {% if card.image %}
+        {% load thumbnail %}
+        {% thumbnail card.image 450x0  quality=80 as thumb %}
+        <img class="card__image" src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}">
+    {% endif %}
+</div>

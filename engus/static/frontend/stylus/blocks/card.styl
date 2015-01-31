@@ -1,0 +1,95 @@
+.card {
+    background-color: #fff;
+    border-bottom: 2px solid #00c3ff;
+    border-right: 2px solid #00c3ff;
+    border-top: 1px solid rgba(0,195,255,0.7);
+    border-left: 1px solid rgba(0,195,255,0.7);
+    margin: 10px 0;
+    padding: 0 23px 0 24px;
+    box-sizing: border-box;
+    /*text-align: center;*/
+
+    &__top {
+        margin: 11px 0;
+    }
+
+    &__front, &__back {
+        line-height: 24px;
+        display: inline-block;
+        width: 50%;
+        vertical-align: top;
+
+    }
+
+    &__front {
+        width: 45%;
+        margin-right: 5%;
+        font-size: 20px;
+
+        &-word {
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        &-pron {
+            color: #777;
+        }
+    }
+
+    &__back {
+        font-size: 18px;
+        color: #333;
+    }
+
+    &__example {
+        font-size: 15px;
+        color: #777;
+        margin: 10px 0;
+    }
+
+    &__image {
+        max-width: 100%;
+        display: block;
+        margin: 15px auto 15px;
+    }
+
+    &__modeswitch {
+        display: block;
+        margin: 25px 0;
+        transition: border 0.2s;
+
+        &.learning {
+            border: 1px solid orange;
+        }
+
+        &-input {
+            display: none;
+        }
+
+        &-input#id_learning:checked+&-label {
+            background-color: orange;
+            color: #fff;
+        }
+
+        &-input#id_repeating:checked+&-label {
+            background-color: green;
+            color: #fff;
+        }
+
+        &-label {
+            display: inline-block;
+            width: 33.3333%;
+            text-align: center;
+            padding: 10px 0;
+            /*font-weight: bold;*/
+            font-size: 18px;
+            transition: background-color 0.2s;
+            cursor: pointer;
+            color: #555;
+
+            &:hover {
+                background-color: #f7f7f7;
+            }
+        }
+    }
+}

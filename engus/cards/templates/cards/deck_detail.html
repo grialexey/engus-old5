@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+	<article class="deck">
+        {% if deck.image %}
+            {% load thumbnail %}
+            {% thumbnail deck.image 500x0  quality=80 as thumb %}
+            <img class="deck__image" src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}">
+        {% endif %}
+        <h1 class="deck__title">{{ deck.name }}</h1>
+        {{ deck.description }}
+    </article>
+
+
+    {% with cards=deck.cards.all %}
+        {% if cards %}
+            {% include "cards/cards.html" %}
+        {% endif %}
+    {% endwith %}
+{% endblock %}

@@ -1,0 +1,48 @@
+.header {
+    background-color: #00AEEC;
+
+    &__wrapper {
+        container()
+        position: relative;
+    }
+
+    &__logo {
+        display: inline-block;
+        vertical-align: top;
+        font-size: 25px;
+        line-height: 25px;
+        margin: 15px 10px 15px 0;
+        text-decoration: none;
+        color: #00AEEC;
+        background-color: #fff;
+        padding: 7px 20px;
+    }
+
+    &__item {
+        display: inline-block;
+        vertical-align: top;
+        font-size: 18px;
+        line-height: 25px;
+        margin: 15px 10px 15px 0;
+        text-decoration: none;
+        color: #fff;
+        padding: 7px 14px;
+        transition: background-color 0.1s;
+
+        &--add {
+            border: 1px solid #fff;
+            line-height 23px;
+            font-size: 23px;
+        }
+
+        &--toright {
+            float: right;
+            margin-right: 0;
+            margin-left: 10px;
+        }
+
+        &.active, &:hover {
+            background-color: #009dd9;
+        }
+    }
+}
