@@ -21,6 +21,12 @@ class CardFront(models.Model):
         return self.text
 
 
+class CardManager(models.Manager):
+
+    def get_queryset(self):
+        return super(CardManager, self).get_queryset().select_related('front')
+
+
 class Card(models.Model):
     VERY_BAD = -2
     BAD = -1
@@ -49,6 +55,8 @@ class Card(models.Model):
     parent = models.ForeignKey('self', null=True, blank=True)
     popularity = models.IntegerField(default=0)
     created = models.DateTimeField(auto_now_add=True, verbose_name=u'Создана')
+
+    objects = CardManager()
 
     class Meta:
         verbose_name = u'Карточка'

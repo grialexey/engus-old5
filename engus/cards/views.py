@@ -3,6 +3,7 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView
 from django.http import HttpResponse, Http404
 from django.contrib.auth.decorators import login_required
+from braces.views import LoginRequiredMixin
 from .models import Deck, Card, CardFront
 from .forms import NewCardForm
 
@@ -11,6 +12,14 @@ class DeckDetailView(DetailView):
 
     context_object_name = 'deck'
     model = Deck
+
+
+class MyCardListView(LoginRequiredMixin, ListView):
+
+    template_name = 'cards/my_card_list.html'
+
+    def get_queryset(self):
+        return Card.objects.filter(learner=self.request.user)
 
 
 @login_required
