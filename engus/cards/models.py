@@ -11,6 +11,7 @@ class CardFront(models.Model):
     audio = models.FileField(blank=True, upload_to='cards_audio/%Y_%m_%d')
     is_public = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True, verbose_name=u'Создана')
+    author = models.ForeignKey(User)
 
     class Meta:
         verbose_name = u'Верх карточки'
@@ -41,12 +42,13 @@ class Card(models.Model):
     icon = models.ImageField(upload_to='card_icon/%Y_%m_%d', blank=True, verbose_name=u'Иконка')
     example = models.TextField(blank=True, verbose_name=u'Пример употребления')
 
-    user = models.ForeignKey(User, null=True, blank=True)  # if User is None then card is public
+    user = models.ForeignKey(User, related_name='learning_card_set', null=True, blank=True)
     level = models.IntegerField(choices=LEVEL_CHOICES, default=NEW)
 
+    author = models.ForeignKey(User, related_name='authorship_card_set')
+    is_public = models.BooleanField(default=False)
     parent = models.ForeignKey('self', null=True, blank=True)
     popularity = models.IntegerField(default=0)
-
     created = models.DateTimeField(auto_now_add=True, verbose_name=u'Создана')
 
     class Meta:
@@ -55,7 +57,7 @@ class Card(models.Model):
         ordering = ['-created', ]
 
     def __unicode__(self):
-        return self.front.text
+        return u'#%d. %s – %s' % (self.pk, self.front.text, self.back)
 
 
 class Deck(models.Model):

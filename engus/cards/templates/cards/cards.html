@@ -3,6 +3,7 @@
  --><input type="radio" name="card-mode" id="id_repeating" class="card__modeswitch-input"><label for="id_repeating" class="card__modeswitch-label repeating">Повторение</label><!--
  --><input type="radio" name="card-mode" id="id_game" class="card__modeswitch-input"><label for="id_game" class="card__modeswitch-label game">Тренажёр</label>
 </div>
+
 {% for card in cards %}
     {% include "cards/card.html" %}
 {% endfor %}

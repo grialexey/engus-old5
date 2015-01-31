@@ -178,9 +178,12 @@ button {
   -o-transition: border 0.2s;
   -ms-transition: border 0.2s;
   transition: border 0.2s;
+  border: 1px solid #000;
+  border-bottom-width: 2px;
+  border-right-width: 2px;
 }
 .card__modeswitch.learning {
-  border: 1px solid #ffa500;
+  border-color: #ffa500;
 }
 .card__modeswitch-input {
   display: none;
