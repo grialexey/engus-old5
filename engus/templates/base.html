@@ -23,7 +23,7 @@
             <a href="/" class="header__logo">Ингус</a>
             {% if user.is_authenticated %}
             <span href="/" class="header__item header__item--add">+</span>
-            <a href="{% url "cards:my-card-list" %}" class="header__item">Моя страница</a>
+            <a href="{% url "cards:my-card-list" %}" class="header__item">Мои карточки</a>
             <a href="/" class="header__item header__item--toright">Выйти</a>
             {% include "cards/new_card_form.html" %}
             {% else %}
