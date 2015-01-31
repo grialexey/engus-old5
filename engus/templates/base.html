@@ -11,7 +11,8 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}css/global.min.css"/>
     {% block extrastyles %}{% endblock %}
 
-    <script type="text/javascript" src="{{ STATIC_URL }}dist/js/global.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/global.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}frontend/scripts/card-create-ajax.js"></script>
     {% block extrascripts %}{% endblock %}
 
     {% block extrahead %}{% endblock %}
@@ -21,12 +22,13 @@
         <div class="header__wrapper">
             <a href="/" class="header__logo">Ингус</a>
             {% if user.is_authenticated %}
-                <a href="/" class="header__item header__item--add">+</a>
-                <a href="/" class="header__item">Моя страница</a>
-                <a href="/" class="header__item header__item--toright">Выйти</a>
+            <span href="/" class="header__item header__item--add">+</span>
+            <a href="/" class="header__item">Моя страница</a>
+            <a href="/" class="header__item header__item--toright">Выйти</a>
+            {% include "cards/new_card_form.html" %}
             {% else %}
-                <a href="/" class="header__item header__item--toright">Войти</a>
-                <a href="/" class="header__item header__item--toright">О сайте</a>
+            <a href="/" class="header__item header__item--toright">Войти</a>
+            <a href="/" class="header__item header__item--toright">О сайте</a>
             {% endif %}
         </div>
     </header>

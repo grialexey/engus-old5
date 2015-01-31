@@ -28,21 +28,27 @@
         color: #fff;
         padding: 7px 14px;
         transition: background-color 0.1s;
+        cursor: pointer;
+
+        &.active, &:hover {
+            background-color: #009dd9;
+        }
 
         &--add {
             border: 1px solid #fff;
             line-height 23px;
             font-size: 23px;
+
+            &.active {
+                background-color: #fff;
+                color: #00AEEC;
+            }
         }
 
         &--toright {
             float: right;
             margin-right: 0;
             margin-left: 10px;
-        }
-
-        &.active, &:hover {
-            background-color: #009dd9;
         }
     }
 }

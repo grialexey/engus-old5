@@ -42,10 +42,9 @@ class Card(models.Model):
     icon = models.ImageField(upload_to='card_icon/%Y_%m_%d', blank=True, verbose_name=u'Иконка')
     example = models.TextField(blank=True, verbose_name=u'Пример употребления')
 
-    user = models.ForeignKey(User, related_name='learning_card_set', null=True, blank=True)
+    learner = models.ForeignKey(User, null=True, blank=True)
     level = models.IntegerField(choices=LEVEL_CHOICES, default=NEW)
 
-    author = models.ForeignKey(User, related_name='authorship_card_set')
     is_public = models.BooleanField(default=False)
     parent = models.ForeignKey('self', null=True, blank=True)
     popularity = models.IntegerField(default=0)

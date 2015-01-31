@@ -1,0 +1,12 @@
+<form action="{% url 'cards:card-create-ajax' %}" method="post" class="card card--form" style="display: none;">
+    {% csrf_token %}
+    <div class="card__top">
+        <span class="card__front">
+            <input placeholder="Слово" maxlength="255" name="front" type="text" autocomplete="off">
+        </span><!--
+     --><span class="card__back">
+            <input placeholder="Перевод" maxlength="255" name="back" type="text" autocomplete="off">
+        </span>
+    </div>
+    <input type="submit" value="Добавить">
+</form>

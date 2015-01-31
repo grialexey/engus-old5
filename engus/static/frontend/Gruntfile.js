@@ -9,6 +9,7 @@ module.exports = function(grunt) {
             dist: {
                 files: {
                     '../js/global.min.js': [
+                        'bower_components/jquery/dist/jquery.min.js'
                     ]
                 }
             }
@@ -33,7 +34,7 @@ module.exports = function(grunt) {
             }
         },
         watch: {
-            files: ['stylus/**'],
+            files: ['stylus/**', 'scripts/**'],
             tasks: ['stylus', 'csso']
         }
     });
