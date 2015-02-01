@@ -28,7 +28,7 @@
             <a href="/" class="header__logo">Ингус</a>
             {% if user.is_authenticated %}
                 {% url "cards:my-card-list" as my_cards_url %}
-                <a href="{{ my_cards_url }}" class="header__item {% if request.get_full_path == my_cards_url %}active{% endif %}">Мои карточки</a>
+                <a href="{{ my_cards_url }}" class="header__item {% if request.get_full_path == my_cards_url %}active{% endif %}">Мой словарь</a>
                 <span href="/" class="header__item header__item--add">+</span>
                 {% include "cards/new_card_form.html" %}
                 <a href="/" class="header__item header__item--toright">Выйти</a>

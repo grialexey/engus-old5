@@ -364,9 +364,9 @@ button {
 }
 .header__item--add {
   border: 1px solid #fff;
-  line-height: 23px;
   font-size: 23px;
   position: relative;
+  padding: 6px 14px;
 }
 .header__item--add.active {
   background-color: #fff;
