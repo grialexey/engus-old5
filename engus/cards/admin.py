@@ -4,7 +4,8 @@ from .models import CardFront, Card, Deck
 
 
 class CardFrontAdmin(admin.ModelAdmin):
-    list_display = ('text', 'pronunciation', 'audio', )
+    list_display = ('text', 'is_public', 'pronunciation', 'audio', 'author', 'created', )
+    list_filter = ('is_public', )
 
 
 class CardAdmin(admin.ModelAdmin):
