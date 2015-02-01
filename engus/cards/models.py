@@ -9,9 +9,8 @@ class CardFront(models.Model):
     text = models.CharField(max_length=255)
     pronunciation = models.CharField(blank=True, max_length=255)
     audio = models.FileField(blank=True, upload_to='cards_audio/%Y_%m_%d')
-    is_public = models.BooleanField(default=False)
-    created = models.DateTimeField(auto_now_add=True, verbose_name=u'Создана')
-    author = models.ForeignKey(User)
+    # is_public = models.BooleanField(default=False)
+    # created = models.DateTimeField(auto_now_add=True, verbose_name=u'Создана')
 
     class Meta:
         verbose_name = u'Верх карточки'
