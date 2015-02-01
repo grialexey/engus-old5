@@ -154,6 +154,7 @@ button {
 .card__front-pron {
   color: #999;
   font-size: 18px;
+  white-space: nowrap;
 }
 .card__back {
   font-size: 18px;

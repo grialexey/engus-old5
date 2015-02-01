@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
 from braces.views import LoginRequiredMixin
 from .models import Deck, Card, CardFront
@@ -36,5 +36,7 @@ def create_new_card_ajax_view(request):
                 card_front_obj.save()
             Card.objects.create(front=card_front_obj, back=card_back, learner=request.user)
             return HttpResponse(status=201)
+        else:
+            return HttpResponseBadRequest()
     else:
         raise Http404

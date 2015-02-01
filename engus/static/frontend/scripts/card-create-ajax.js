@@ -1,49 +1,49 @@
 $(document).ready(function() {
-    var $newCardForm = $('.card--form'),
+    var $newCardFormTmpl = $('.card--form'),
         $showFormButton = $('.header__item--add'),
         $overlay = $('<div class="card__overlay"></div>');
 
     $showFormButton.on('click', function() {
-        $newCardForm.toggle();
-        if ($newCardForm.is(':visible')) {
-            $showFormButton.addClass('active');
-            $newCardForm.find('input[type=text]').first().focus();
-        } else {
+        if ($showFormButton.is('.active')) {
             $showFormButton.removeClass('active');
+            $('.card--form').remove();
+        } else {
+            $showFormButton.addClass('active');
+            var $newCardForm = $newCardFormTmpl.clone().appendTo('.header__wrapper');
+            $newCardForm.show().find('input[type=text]').first().focus();
+            $newCardForm.on('submit', newCardSubmit);
         }
+
     });
 
     $(document).on('click', function(event) {
-        var $target = $(event.target);
-        if (!$newCardForm.is($target) && !$newCardForm.has($target).length && !$target.is($showFormButton)) {
-            $newCardForm.hide();
+        var $target = $(event.target),
+            $cardForms = $('.card--form');
+        if (!$cardForms.is($target) && !$cardForms.has($target).length && !$target.is($showFormButton)) {
+            $('.card--form').remove();
             $showFormButton.removeClass('active');
         }
     });
 
-    $newCardForm.on('submit', function(event) {
+
+    function newCardSubmit(event) {
         event.preventDefault();
-        $newCardForm.css('opacity', '0.5');
+        var $form = $(this);
+        $form.hide();
+        $showFormButton.removeClass('active');
         $.ajax({
-            url: $newCardForm.attr('action'),
+            url: $form.attr('action'),
             method: 'post',
-            data: $newCardForm.serialize()
-        }).done(function () {
-            $newCardForm.css('opacity', '1');
-            $overlay.css('color', '#008000').text('Добавлено').appendTo($newCardForm);
-            setTimeout(function() {
-                $overlay.remove();
-                $newCardForm.hide();
-                $showFormButton.removeClass('active');
-                $newCardForm.find('input[name=front]').val('');
-                $newCardForm.find('input[name=back]').val('');
-            }, 1000);
+            data: $form.serialize()
+        }).done(function() {
+            $form.remove();
         }).error(function() {
-            $newCardForm.css('opacity', '1');
-            $overlay.css('color', '#ff0000').text('Ошибка').appendTo($newCardForm);
+            $form.show();
+            $showFormButton.addClass('active');
+            $overlay.css('color', '#ff0000').text('Ошибка').appendTo($form);
             setTimeout(function() {
                 $overlay.remove();
             }, 1000);
         });
-    });
+    }
 });

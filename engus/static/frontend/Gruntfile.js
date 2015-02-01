@@ -36,7 +36,7 @@ module.exports = function(grunt) {
         },
         watch: {
             files: ['stylus/**', 'scripts/**'],
-            tasks: ['stylus', 'csso']
+            tasks: ['stylus', 'csso', 'uglify']
         }
     });
 
