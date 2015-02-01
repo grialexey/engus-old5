@@ -30,7 +30,7 @@ def create_new_card_ajax_view(request):
             card_front = form.cleaned_data.get('front').strip()
             card_back = form.cleaned_data.get('back', '').strip()
             try:
-                card_front_obj = CardFront.objects.get(text=card_front, is_public=True)
+                card_front_obj = CardFront.objects.get(text__iexact=card_front, is_public=True)
             except CardFront.DoesNotExist:
                 card_front_obj = CardFront(text=card_front, author=request.user)
                 card_front_obj.save()
