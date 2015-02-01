@@ -28,10 +28,10 @@
         text-decoration: none;
         color: #fff;
         padding: 7px 14px;
-        transition: background-color 0.1s;
+        transition: background-color 0.1s, opacity 0.1s;
         cursor: pointer;
 
-        &:hover:not(.active) {
+        &:hover:not(.active):not(.loading) {
             background-color: #009dd9;
         }
 
@@ -44,10 +44,16 @@
             border: 1px solid #fff;
             line-height 23px;
             font-size: 23px;
+            position: relative;
 
             &.active {
                 background-color: #fff;
                 color: #00AEEC;
+            }
+
+            &.loading {
+                opacity: 0.7;
+                pointer: default;
             }
         }
 

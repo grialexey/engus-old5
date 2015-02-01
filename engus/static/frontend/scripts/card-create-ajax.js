@@ -3,7 +3,7 @@ $(document).ready(function() {
         $showFormButton = $('.header__item--add'),
         $overlay = $('<div class="card__overlay"></div>');
 
-    $showFormButton.on('click', function() {
+    $showFormButton.not('.loading').on('click', function() {
         if ($showFormButton.is('.active')) {
             $showFormButton.removeClass('active');
             $('.card--form').remove();
@@ -31,14 +31,17 @@ $(document).ready(function() {
         var $form = $(this);
         $form.hide();
         $showFormButton.removeClass('active');
+        $showFormButton.addClass('loading');
         $.ajax({
             url: $form.attr('action'),
             method: 'post',
             data: $form.serialize()
         }).done(function() {
+            $showFormButton.removeClass('loading');
             $form.remove();
         }).error(function() {
             $form.show();
+            $showFormButton.removeClass('loading');
             $showFormButton.addClass('active');
             $overlay.css('color', '#ff0000').text('Ошибка').appendTo($form);
             setTimeout(function() {

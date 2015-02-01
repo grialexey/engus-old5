@@ -348,14 +348,14 @@ button {
   text-decoration: none;
   color: #fff;
   padding: 7px 14px;
-  -webkit-transition: background-color 0.1s;
-  -moz-transition: background-color 0.1s;
-  -o-transition: background-color 0.1s;
-  -ms-transition: background-color 0.1s;
-  transition: background-color 0.1s;
+  -webkit-transition: background-color 0.1s, opacity 0.1s;
+  -moz-transition: background-color 0.1s, opacity 0.1s;
+  -o-transition: background-color 0.1s, opacity 0.1s;
+  -ms-transition: background-color 0.1s, opacity 0.1s;
+  transition: background-color 0.1s, opacity 0.1s;
   cursor: pointer;
 }
-.header__item:hover:not(.active) {
+.header__item:hover:not(.active):not(.loading) {
   background-color: #009dd9;
 }
 .header__item.active {
@@ -366,10 +366,17 @@ button {
   border: 1px solid #fff;
   line-height: 23px;
   font-size: 23px;
+  position: relative;
 }
 .header__item--add.active {
   background-color: #fff;
   color: #00aeec;
+}
+.header__item--add.loading {
+  opacity: 0.7;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+  filter: alpha(opacity=70);
+  pointer: default;
 }
 .header__item--toright {
   float: right;
