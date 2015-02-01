@@ -11,8 +11,13 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}css/global.min.css"/>
     {% block extrastyles %}{% endblock %}
 
-    <script type="text/javascript" src="{{ STATIC_URL }}js/global.min.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}frontend/scripts/card-create-ajax.js"></script>
+    {% if debug %}
+        <script type="text/javascript" src="{{ STATIC_URL }}frontend/bower_components/jquery/dist/jquery.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}frontend/scripts/card-create-ajax.js"></script>
+    {% else %}
+        <script type="text/javascript" src="{{ STATIC_URL }}js/global.min.js"></script>
+    {% endif %}
+
     {% block extrascripts %}{% endblock %}
 
     {% block extrahead %}{% endblock %}

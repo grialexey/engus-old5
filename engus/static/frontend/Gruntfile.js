@@ -9,7 +9,8 @@ module.exports = function(grunt) {
             dist: {
                 files: {
                     '../js/global.min.js': [
-                        'bower_components/jquery/dist/jquery.min.js'
+                        'bower_components/jquery/dist/jquery.min.js',
+                        'scripts/card-create-ajax.js'
                     ]
                 }
             }
