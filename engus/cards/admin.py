@@ -6,6 +6,7 @@ from .models import CardFront, Card, Deck
 class CardFrontAdmin(admin.ModelAdmin):
     list_display = ('text', 'is_public', 'pronunciation', 'audio', 'author', 'created', )
     list_filter = ('is_public', )
+    search_fields = ('text', )
 
 
 class CardAdmin(admin.ModelAdmin):
