@@ -137,7 +137,7 @@ button {
 }
 .card__front,
 .card__back {
-  line-height: 24px;
+  line-height: 22px;
   display: inline-block;
   width: 50%;
   vertical-align: top;
@@ -149,10 +149,11 @@ button {
 }
 .card__front-word {
   font-weight: bold;
-  margin-right: 5px;
+  margin-right: 7px;
 }
 .card__front-pron {
-  color: #777;
+  color: #999;
+  font-size: 18px;
 }
 .card__back {
   font-size: 18px;
@@ -167,7 +168,7 @@ button {
   max-width: 100%;
   height: auto;
   display: block;
-  margin: 15px auto 15px;
+  margin: 15px auto 20px;
 }
 .card__modeswitch {
   display: block;
@@ -289,7 +290,7 @@ button {
 }
 .content {
   display: block;
-  max-width: 500px;
+  max-width: 550px;
   margin: 0 auto;
   padding: 0 15px;
   margin-top: 25px;
@@ -321,7 +322,7 @@ button {
 }
 .header__wrapper {
   display: block;
-  max-width: 500px;
+  max-width: 550px;
   margin: 0 auto;
   padding: 0 15px;
   position: relative;
@@ -353,9 +354,12 @@ button {
   transition: background-color 0.1s;
   cursor: pointer;
 }
-.header__item.active,
-.header__item:hover {
+.header__item:hover:not(.active) {
   background-color: #009dd9;
+}
+.header__item.active {
+  background-color: #fff;
+  color: #00aeec;
 }
 .header__item--add {
   border: 1px solid #fff;

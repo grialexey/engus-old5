@@ -22,13 +22,14 @@
         <div class="header__wrapper">
             <a href="/" class="header__logo">Ингус</a>
             {% if user.is_authenticated %}
-            <span href="/" class="header__item header__item--add">+</span>
-            <a href="{% url "cards:my-card-list" %}" class="header__item">Мои карточки</a>
-            <a href="/" class="header__item header__item--toright">Выйти</a>
-            {% include "cards/new_card_form.html" %}
+                {% url "cards:my-card-list" as my_cards_url %}
+                <a href="{{ my_cards_url }}" class="header__item {% if request.get_full_path == my_cards_url %}active{% endif %}">Мои карточки</a>
+                <span href="/" class="header__item header__item--add">+</span>
+                {% include "cards/new_card_form.html" %}
+                <a href="/" class="header__item header__item--toright">Выйти</a>
             {% else %}
-            <a href="/" class="header__item header__item--toright">Войти</a>
-            <a href="/" class="header__item header__item--toright">О сайте</a>
+                <a href="/" class="header__item header__item--toright">Войти</a>
+                <a href="/" class="header__item header__item--toright">О сайте</a>
             {% endif %}
         </div>
     </header>

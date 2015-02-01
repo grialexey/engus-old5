@@ -5,7 +5,7 @@
 	<article class="deck">
         {% if deck.image %}
             {% load thumbnail %}
-            {% thumbnail deck.image 500x0  quality=80 as thumb %}
+            {% thumbnail deck.image 550x0  quality=80 as thumb %}
             <img class="deck__image" src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}">
         {% endif %}
         <h1 class="deck__title">{{ deck.name }}</h1>

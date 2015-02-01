@@ -31,8 +31,13 @@
         transition: background-color 0.1s;
         cursor: pointer;
 
-        &.active, &:hover {
+        &:hover:not(.active) {
             background-color: #009dd9;
+        }
+
+        &.active {
+            background-color: #fff;
+            color: #00AEEC;
         }
 
         &--add {

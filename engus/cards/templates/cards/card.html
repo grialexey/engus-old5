@@ -9,7 +9,7 @@
     <div class="card__example">{{ card.example|linebreaksbr }}</div>
     {% if card.image %}
         {% load thumbnail %}
-        {% thumbnail card.image 450x0  quality=80 as thumb %}
+        {% thumbnail card.image 500x0  quality=80 as thumb %}
         <img class="card__image" src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}">
     {% endif %}
 </div>
