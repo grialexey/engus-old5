@@ -44,7 +44,7 @@
     {% endblock %}
     </section>
 
-    {% if not debug %}
+    {% if not debug and not user.is_superuser %}
         {% comment %} Analytics {% endcomment %}
         <!-- Yandex.Metrika counter -->
         <script type="text/javascript">
