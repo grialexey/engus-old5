@@ -52,8 +52,10 @@
 
     &__example {
         font-size: 15px;
+        line-height: 17px;
         color: #777;
-        margin: 10px 0;
+        padding: 0;
+        margin: 3px 22px 10px;
     }
 
     &__image {
@@ -76,7 +78,7 @@
         font-size: 20px;
         display: none;
 
-        &--left, &--right {
+        &.left, &.right {
             cursor: pointer
             font-size: 16px;
             color: #ddd;
@@ -88,11 +90,11 @@
             }
         }
 
-        &--left {
+        &.left {
             right: 50%;
         }
 
-        &--right {
+        &.right {
             left: 50%;
         }
     }
@@ -208,64 +210,67 @@
         }
     }
 
-    &--form {
-        position: absolute;
-        top: 80px;
-        left: 15px;
-        right: 15px;
-        margin: 0;
-        z-index: 10;
+    &__form {
+
+        &--create {
+            position: absolute;
+            top: 80px;
+            left: 15px;
+            right: 15px;
+            margin: 0;
+            z-index: 10;
+        }
+
+
+        &-input {
+            display: block;
+            width: 100%;
+            line-height 24px;
+            height: 24px;
+            padding: 0;
+            outline: none;
+            border: none;
+            background-color: transparent;
+            border-bottom: 1px solid rgba(0,195,255,0.5);
+
+            &[name=front] {
+                font-weight: bold;
+            }
+
+            &[name=example] {
+                line-height: 16px;
+                height: 23px;
+                resize: vertical;
+            }
+        }
+
 
         ::-webkit-input-placeholder {
             font-weight: normal;
-            font-size: 18px;
+            font-size: 16px;
             opacity: 1;
             color: #aaa;
         }
 
         :-moz-placeholder { /* Firefox 18- */
             font-weight: normal;
-            font-size: 18px;
+            font-size: 16px;
             opacity: 1;
             color: #aaa;
         }
 
         ::-moz-placeholder {  /* Firefox 19+ */
             font-weight: normal;
-            font-size: 18px;
+            font-size: 16px;
             opacity: 1;
             color: #aaa;
         }
 
         :-ms-input-placeholder {
             font-weight: normal;
-            font-size: 18px;
+            font-size: 16px;
             opacity: 1;
             color: #aaa;
-        }
-    }
-
-    &__form {
-
-        &-input {
-            display: block;
-            height: 100%;
-            width: 100%;
-            line-height 24px;
-            padding: 0;
-            outline: none;
-            border: none;
-            background-color: transparent;
-
-            &[name=front] {
-                font-size: 20px;
-                font-weight: bold;
-            }
-
-            &[name=back] {
-                font-size: 18px;
-                color: #333;
-            }
         }
     }
 

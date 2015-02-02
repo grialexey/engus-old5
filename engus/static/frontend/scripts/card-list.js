@@ -57,23 +57,23 @@ $(document).ready(function() {
 
     function learnCards($cards) {
         $cards.find('.card__overlay').hide();
-        $cards.find('.card__back, .card__front, .card__image').show();
-        $cards.find('.card__content').addClass('editable');
+        $cards.children('.card__back, .card__front, .card__image').show();
+        $cards.children('.card__content').addClass('editable');
     }
 
     function repeatCards($cards) {
-        $cards.find('.card__back, .card__image, .card__infoline, .card__controls').hide();
-        $cards.find('.card__content').removeClass('editable');
+        $cards.children('.card__back, .card__image, .card__infoline, .card__controls').hide();
+        $cards.children('.card__content').removeClass('editable');
         $cards.randomize();
         cardsToReapeat = $cards.length;
         $cards.each(function() {
             var $card = $(this),
-                $overlay = $card.find('.card__overlay--right');
+                $overlay = $card.find('.card__overlay').addClass('right');
             $overlay.show();
             $overlay.one('click', function() {
                 cardsToReapeat -= 1;
                 $card.find('.card__back, .card__front, .card__image').show();
-                $overlay.hide();
+                $overlay.hide().removeClass('right');
                 if (cardsToReapeat == 0) {
                     //switchMode(LEARN_MODE);
                 }

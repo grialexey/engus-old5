@@ -11,7 +11,6 @@ module.exports = function(grunt) {
                     '../js/global.min.js': [
                         'bower_components/jquery/dist/jquery.min.js',
                         'scripts/jquery-randomize.js',
-                        'scripts/card-create-ajax.js',
                         'scripts/card-list.js',
                         'scripts/card.js'
                     ]

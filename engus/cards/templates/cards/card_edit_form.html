@@ -1,0 +1,13 @@
+<div class="card__content">
+    <div class="card__top">
+        <span class="card__front">
+            <input class="card__form-input" placeholder="Слово" maxlength="255" name="front" type="text" autocomplete="off" required value="{{ card.front.text }}">
+        </span><!--
+     --><span class="card__back">
+            <input class="card__form-input" placeholder="Перевод" maxlength="255" name="back" type="text" autocomplete="off" value="{{ card.back }}">
+        </span>
+    </div>
+    <div class="card__example">
+        <textarea class="card__form-input" placeholder="Пример" name="example">{{ card.example }}</textarea>
+    </div>
+</div>

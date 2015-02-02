@@ -17,7 +17,7 @@
         {% endif %}
     </div>
 
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated and card.learner == user %}
         <ul class="card__infoline" style="display: none;">
             <li class="card__infoline-item">Уровень: {{ card.get_level_display }}</li>
             {% if card.last_repeat %}<li class="card__infoline-item">Повторена: {{ card.last_repeat|date:"d.m.Y" }}</li>{% endif %}
@@ -41,9 +41,22 @@
             <li class="card__controls-item"><span class="card__button card__button--learned">Вспомнил</span></li>
             <li class="card__controls-item"><span class="card__button card__button--forget">Не вспомнил</span></li>
         </ul>
+
+
+        <form action="{% url 'cards:card-update' %}" method="post" class="card__form card__form--update" style="display: none;">
+            {% csrf_token %}
+            {% include 'cards/card_edit_form.html' %}
+            <input type="hidden" name="id" value="{{ card.pk }}">
+
+            <ul class="card__controls">
+                <li class="card__controls-item card__controls-item--single"><input type="submit" value="Сохранить" class="card__button card__button--add"></li>
+            </ul>
+
+            <div class="card__overlay"></div>
+        </form>
+
+
     {% endif %}
 {% endif %}
 
 <div class="card__overlay"></div>
-<div class="card__overlay card__overlay--left">Показать</div>
-<div class="card__overlay card__overlay--right">Показать</div>

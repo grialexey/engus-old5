@@ -100,10 +100,13 @@ html {
 }
 input,
 select,
-button {
+button,
+textarea {
   font-family: inherit;
   font-size: inherit;
+  font-weight: inherit;
   color: inherit;
+  line-height: inherit;
 }
 .clearfix:before,
 .clearfix:after {
@@ -261,8 +264,10 @@ button {
 }
 .card__example {
   font-size: 15px;
+  line-height: 17px;
   color: #777;
-  margin: 10px 0;
+  padding: 0;
+  margin: 3px 22px 10px;
 }
 .card__image {
   max-width: 100%;
@@ -283,8 +288,8 @@ button {
   font-size: 20px;
   display: none;
 }
-.card__overlay--left,
-.card__overlay--right {
+.card__overlay.left,
+.card__overlay.right {
   cursor: pointer;
   font-size: 16px;
   color: #ddd;
@@ -295,14 +300,14 @@ button {
   transition: color 0.2s;
   text-align: left;
 }
-.card__overlay--left:hover,
-.card__overlay--right:hover {
+.card__overlay.left:hover,
+.card__overlay.right:hover {
   color: #555;
 }
-.card__overlay--left {
+.card__overlay.left {
   right: 50%;
 }
-.card__overlay--right {
+.card__overlay.right {
   left: 50%;
 }
 .card__infoline {
@@ -465,7 +470,7 @@ button {
   color: #fff;
   background-color: #64c864;
 }
-.card--form {
+.card__form--create {
   position: absolute;
   top: 80px;
   left: 15px;
@@ -473,57 +478,58 @@ button {
   margin: 0;
   z-index: 10;
 }
-.card--form ::-webkit-input-placeholder {
-  font-weight: normal;
-  font-size: 18px;
-  opacity: 1;
-  -ms-filter: none;
-  filter: none;
-  color: #aaa;
-}
-.card--form :-moz-placeholder {
-/* Firefox 18- */
-  font-weight: normal;
-  font-size: 18px;
-  opacity: 1;
-  -ms-filter: none;
-  filter: none;
-  color: #aaa;
-}
-.card--form ::-moz-placeholder {
-/* Firefox 19+ */
-  font-weight: normal;
-  font-size: 18px;
-  opacity: 1;
-  -ms-filter: none;
-  filter: none;
-  color: #aaa;
-}
-.card--form :-ms-input-placeholder {
-  font-weight: normal;
-  font-size: 18px;
-  opacity: 1;
-  -ms-filter: none;
-  filter: none;
-  color: #aaa;
-}
 .card__form-input {
   display: block;
-  height: 100%;
   width: 100%;
   line-height: 24px;
+  height: 24px;
   padding: 0;
   outline: none;
   border: none;
   background-color: transparent;
+  border-bottom: 1px solid rgba(0,195,255,0.5);
 }
 .card__form-input[name=front] {
-  font-size: 20px;
   font-weight: bold;
 }
-.card__form-input[name=back] {
-  font-size: 18px;
-  color: #333;
+.card__form-input[name=example] {
+  line-height: 16px;
+  height: 23px;
+  resize: vertical;
+}
+.card__form ::-webkit-input-placeholder {
+  font-weight: normal;
+  font-size: 16px;
+  opacity: 1;
+  -ms-filter: none;
+  filter: none;
+  color: #aaa;
+}
+.card__form :-moz-placeholder {
+/* Firefox 18- */
+  font-weight: normal;
+  font-size: 16px;
+  opacity: 1;
+  -ms-filter: none;
+  filter: none;
+  color: #aaa;
+}
+.card__form ::-moz-placeholder {
+/* Firefox 19+ */
+  font-weight: normal;
+  font-size: 16px;
+  opacity: 1;
+  -ms-filter: none;
+  filter: none;
+  color: #aaa;
+}
+.card__form :-ms-input-placeholder {
+  font-weight: normal;
+  font-size: 16px;
+  opacity: 1;
+  -ms-filter: none;
+  filter: none;
+  color: #aaa;
 }
 .content {
   display: block;

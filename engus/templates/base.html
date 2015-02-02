@@ -24,7 +24,17 @@
                 {% url "cards:card-list-my" as my_cards_url %}
                 <li class="header__menu-item"><a href="{{ my_cards_url }}" class="header__menu-link {% if my_cards_url in request.get_full_path %}active{% endif %}">Мои карточки</a></li>
                 <li class="header__menu-item"><span href="/" class="header__menu-link header__menu-link--add">+</span></li>
-                {% include "cards/new_card_form.html" %}
+
+                <form action="{% url 'cards:card-create' %}" method="post" class="card card__form--create card__form" style="display: none;">
+                    {% csrf_token %}
+                    {% include "cards/card_edit_form.html" %}
+                    <ul class="card__controls">
+                        <li class="card__controls-item card__controls-item--single"><input type="submit" value="Добавить" class="card__button card__button--add"></li>
+                    </ul>
+
+                    <div class="card__overlay"></div>
+                </form>
+
                 <li class="header__menu-item header__menu-item--fill"></li>
                 <li class="header__menu-item"><a href="/" class="header__menu-link">Помощь</a>
                 <li class="header__menu-item"><a href="/" class="header__menu-link">Выйти</a>
@@ -52,7 +62,6 @@
     {% if debug %}
         <script type="text/javascript" src="{{ STATIC_URL }}frontend/bower_components/jquery/dist/jquery.js"></script>
         <script type="text/javascript" src="{{ STATIC_URL }}frontend/scripts/jquery-randomize.js"></script>
-        <script type="text/javascript" src="{{ STATIC_URL }}frontend/scripts/card-create-ajax.js"></script>
         <script type="text/javascript" src="{{ STATIC_URL }}frontend/scripts/card-list.js"></script>
         <script type="text/javascript" src="{{ STATIC_URL }}frontend/scripts/card.js"></script>
     {% else %}
