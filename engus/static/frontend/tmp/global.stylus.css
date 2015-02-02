@@ -286,9 +286,9 @@ textarea {
   line-height: 49px;
   text-align: center;
   font-size: 20px;
-  opacity: 0.8;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
-  filter: alpha(opacity=80);
+  opacity: 0.5;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+  filter: alpha(opacity=50);
   display: none;
 }
 .card__overlay.left,

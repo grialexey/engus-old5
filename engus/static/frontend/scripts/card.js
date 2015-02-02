@@ -158,9 +158,10 @@ $(document).ready(function() {
             $card.html(data);
         }).error(function() {
             $form.show();
-            $overlay.css('color', '#ff0000').text('Ошибка при сохранении').appendTo($form);
+            $overlay.css('opacity', '1').css('color', '#ff0000').text('Ошибка при сохранении').appendTo($form);
             setTimeout(function() {
                 $overlay.hide();
+                $overlay.css('opacity', '0.5');
             }, 1500);
         });
     }
