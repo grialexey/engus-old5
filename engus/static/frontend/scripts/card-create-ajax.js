@@ -1,14 +1,17 @@
 $(document).ready(function() {
     var $newCardFormTmpl = $('.card--form'),
-        $showFormButton = $('.header__item--add'),
-        $overlay = $('<div class="card__overlay"></div>');
+        $showFormButton = $('.header__menu-link--add'),
+        $content = $('.content'),
+        $contentOverlay = $('.content__overlay');
 
     $showFormButton.not('.loading').on('click', function() {
         if ($showFormButton.is('.active')) {
             $showFormButton.removeClass('active');
+            $contentOverlay.hide();
             $('.card--form').remove();
         } else {
             $showFormButton.addClass('active');
+            $contentOverlay.show();
             var $newCardForm = $newCardFormTmpl.clone().appendTo('.header__wrapper');
             $newCardForm.show().find('input[type=text]').first().focus();
             $newCardForm.on('submit', newCardSubmit);
@@ -22,15 +25,18 @@ $(document).ready(function() {
         if (!$cardForms.is($target) && !$cardForms.has($target).length && !$target.is($showFormButton)) {
             $('.card--form').remove();
             $showFormButton.removeClass('active');
+            $contentOverlay.hide();
         }
     });
 
 
     function newCardSubmit(event) {
         event.preventDefault();
-        var $form = $(this);
+        var $form = $(this),
+            $overlay = $form.find('.card__overlay');
         $form.hide();
         $showFormButton.removeClass('active');
+        $contentOverlay.hide();
         $showFormButton.addClass('loading');
         $.ajax({
             url: $form.attr('action'),
@@ -43,10 +49,12 @@ $(document).ready(function() {
             $form.show();
             $showFormButton.removeClass('loading');
             $showFormButton.addClass('active');
-            $overlay.css('color', '#ff0000').text('Ошибка').appendTo($form);
+            $contentOverlay.show();
+            $overlay.css('color', '#ff0000').text('Ошибка при добавлении').appendTo($form);
+            $overlay.show();
             setTimeout(function() {
-                $overlay.remove();
-            }, 1000);
+                $overlay.hide();
+            }, 1500);
         });
     }
 });
