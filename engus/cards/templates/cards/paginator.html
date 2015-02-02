@@ -1,19 +1,16 @@
 <ul class="pages">
-
     <li class="pages__item pages__item--fastnav">
-    {% if page_obj.has_next %}
-        <a class="pages__link" href="{% if query_string|escape %}?{{ query_string|escape }}&amp;page={{ page_obj.next_page_number }}{% else %}?page={{ page_obj.next_page_number }}{% endif %}">< Назад</a>
+    {% if page_obj.has_previous %}
+        <a class="pages__link" href="{% if query_string|escape %}?{{ query_string|escape }}&amp;page={{ page_obj.previous_page_number }}{% else %}?page={{ page_obj.previous_page_number }}{% endif %}">< Назад</a>
     {% else %}
         <span class="pages__inactivelink">< Назад</span>
     {% endif %}
     </li>
 
-    {% if show_last %}
-        <li class="pages__item"><a class="pages__link" href="{% if query_string|escape %}?{{ query_string|escape }}&amp;page=last{% else %}?page=last{% endif %}">{{ pages }}</a></li>
+    {% if show_first %}
+        <li class="pages__item"><a class="pages__link" href="{% if query_string|escape %}?{{ query_string|escape }}&amp;page=1{% else %}?page=1{% endif %}">1</a></li>
         <li class="pages__item">...</li>
     {% endif %}
-
-
     {% for linkpage in page_numbers %}
         {% ifequal linkpage page %}
             <li class="pages__item"><a class="pages__link active" href="{% if query_string|escape %}?{{ query_string|escape }}&amp;page={{ linkpage }}{% else %}?page={{ linkpage }}{% endif %}">{{ page }}</a></li>
@@ -21,18 +18,17 @@
             <li class="pages__item"><a class="pages__link" href="{% if query_string|escape %}?{{ query_string|escape }}&amp;page={{ linkpage }}{% else %}?page={{ linkpage }}{% endif %}">{{ linkpage }}</a></li>
         {% endifequal %}
     {% endfor %}
-
-    {% if show_first %}
+    {% if show_last %}
         <li class="pages__item">...</li>
-        <li class="pages__item"><a class="pages__link" href="{% if query_string|escape %}?{{ query_string|escape }}&amp;page=1{% else %}?page=1{% endif %}">1</a></li>
+        <li class="pages__item"><a class="pages__link" href="{% if query_string|escape %}?{{ query_string|escape }}&amp;page=last{% else %}?page=last{% endif %}">{{ pages }}</a></li>
     {% endif %}
 
+
     <li class="pages__item pages__item--fastnav">
-    {% if page_obj.has_previous %}
-        <a class="pages__link" href="{% if query_string|escape %}?{{ query_string|escape }}&amp;page={{ page_obj.previous_page_number }}{% else %}?page={{ page_obj.previous_page_number }}{% endif %}">Вперед ></a>
+    {% if page_obj.has_next %}
+        <a class="pages__link" href="{% if query_string|escape %}?{{ query_string|escape }}&amp;page={{ page_obj.next_page_number }}{% else %}?page={{ page_obj.next_page_number }}{% endif %}">Вперед ></a>
     {% else %}
         <span class="pages__inactivelink">Вперед ></span>
     {% endif %}
     </li>
-
 </ul>
