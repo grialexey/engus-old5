@@ -16,10 +16,16 @@ class DeckDetailView(DetailView):
 
 class MyCardListView(LoginRequiredMixin, ListView):
 
-    template_name = 'cards/my_card_list.html'
+    paginate_by = 12
 
     def get_queryset(self):
         return Card.objects.filter(learner=self.request.user)
+
+    def get_template_names(self):
+        if self.request.is_ajax():
+            return 'cards/card_list_my_ajax.html'
+        else:
+            return 'cards/card_list_my.html'
 
 
 @login_required

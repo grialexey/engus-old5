@@ -11,16 +11,6 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}css/global.min.css"/>
     {% block extrastyles %}{% endblock %}
 
-    {% if debug %}
-        <script type="text/javascript" src="{{ STATIC_URL }}frontend/bower_components/jquery/dist/jquery.js"></script>
-        <script type="text/javascript" src="{{ STATIC_URL }}frontend/scripts/card-create-ajax.js"></script>
-        <script type="text/javascript" src="{{ STATIC_URL }}frontend/scripts/card.js"></script>
-    {% else %}
-        <script type="text/javascript" src="{{ STATIC_URL }}js/global.min.js"></script>
-    {% endif %}
-
-    {% block extrascripts %}{% endblock %}
-
     {% block extrahead %}{% endblock %}
 </head>
 <body class="page">
@@ -32,10 +22,11 @@
                 {% if user.is_authenticated %}
 
                 {% url "cards:card-list-my" as my_cards_url %}
-                <li class="header__menu-item"><a href="{{ my_cards_url }}" class="header__menu-link {% if request.get_full_path == my_cards_url %}active{% endif %}">Мой словарь</a></li>
+                <li class="header__menu-item"><a href="{{ my_cards_url }}" class="header__menu-link {% if my_cards_url in request.get_full_path %}active{% endif %}">Мои карточки</a></li>
                 <li class="header__menu-item"><span href="/" class="header__menu-link header__menu-link--add">+</span></li>
                 {% include "cards/new_card_form.html" %}
                 <li class="header__menu-item header__menu-item--fill"></li>
+                <li class="header__menu-item"><a href="/" class="header__menu-link">?</a>
                 <li class="header__menu-item"><a href="/" class="header__menu-link">Выйти</a>
 
                 {% else %}
@@ -54,6 +45,22 @@
         {% endblock %}
         <div class="content__overlay"></div>
     </section>
+
+    <footer></footer>
+
+
+    {% if debug %}
+        <script type="text/javascript" src="{{ STATIC_URL }}frontend/bower_components/jquery/dist/jquery.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}frontend/scripts/card-create-ajax.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}frontend/scripts/card-list.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}frontend/scripts/card.js"></script>
+    {% else %}
+        <script type="text/javascript" src="{{ STATIC_URL }}js/global.min.js"></script>
+    {% endif %}
+
+    {% block extrascripts %}{% endblock %}
+
+
 
     {% if not debug and not user.is_superuser %}
         {% comment %} Analytics {% endcomment %}
