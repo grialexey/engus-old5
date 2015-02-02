@@ -1,35 +1,43 @@
 <div class="card">
-    <div class="card__content">
-        <div class="card__top">
-            <span class="card__front">
-                <span class="card__front-word">{{ card.front.text }}</span>
-                <span class="card__front-pron">{{ card.front.pronunciation }}</span>
-            </span><!--
-         --><span class="card__back">{{ card.back }}</span>
+    {% if card %}
+        <div class="card__content">
+            <div class="card__top">
+                <span class="card__front">
+                    <span class="card__front-word">{{ card.front.text }}</span>
+                    <span class="card__front-pron">{{ card.front.pronunciation }}</span>
+                </span><!--
+             --><span class="card__back">{{ card.back }}</span>
+            </div>
+            {% if card.example %}
+                <div class="card__example">{{ card.example|linebreaksbr }}</div>
+            {% endif %}
+            {% if card.image %}
+                {% load thumbnail %}
+                {% thumbnail card.image 506x0  quality=80 as thumb %}
+                <img class="card__image" src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}">
+            {% endif %}
         </div>
-        {% if card.example %}
-            <div class="card__example">{{ card.example|linebreaksbr }}</div>
-        {% endif %}
-        {% if card.image %}
-            {% load thumbnail %}
-            {% thumbnail card.image 506x0  quality=80 as thumb %}
-            <img class="card__image" src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}">
-        {% endif %}
-    </div>
 
-    {% if user.is_authenticated %}
-    <ul class="card__controls" style="display: none;">
-        <li class="card__controls-item"><span class="card__button card__button--forget">Забыл</span></li>
-        <li class="card__controls-item"><span class="card__button card__button--learned">Запомнил</span></li>
-        <li class="card__controls-item"><span class="card__button card__button--edit">Редактировать</span></li>
-        <li class="card__controls-item">
-            <form class="card__form--delete" action="{% url 'cards:card-delete' %}" method="post">
-                {% csrf_token %}
-                <input type="hidden" name="id" value="{{ card.pk }}">
-                <button class="card__button card__button--remove">Удалить</button>
-            </form>
-        </li>
-    </ul>
+        {% if user.is_authenticated %}
+            <ul class="card__infoline" style="display: none;">
+                <li class="card__infoline-item">Уровень: {{ card.get_level_display }}</li>
+                {% if card.last_repeat %}<li class="card__infoline-item">Повторена: {{ card.last_repeat|date:"d.m.Y" }}</li>{% endif %}
+                <li class="card__infoline-item">Добавлена: {{ card.created|date:"d.m.Y" }}</li>
+            </ul>
+
+            <ul class="card__controls" style="display: none;">
+                <li class="card__controls-item"><span class="card__button card__button--learned">Запомнил</span></li>
+                <li class="card__controls-item"><span class="card__button card__button--forget">Забыл</span></li>
+                <li class="card__controls-item"><span class="card__button card__button--edit">Редактировать</span></li>
+                <li class="card__controls-item">
+                    <form class="card__form--delete" action="{% url 'cards:card-delete' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="id" value="{{ card.pk }}">
+                        <button class="card__button card__button--remove">Удалить</button>
+                    </form>
+                </li>
+            </ul>
+        {% endif %}
     {% endif %}
 
     <div class="card__overlay"></div>

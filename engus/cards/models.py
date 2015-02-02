@@ -28,20 +28,22 @@ class CardManager(models.Manager):
 
 
 class Card(models.Model):
-    VERY_BAD = -2
-    BAD = -1
+    FORGET = -2
+    REPEAT = -1
     NEW = 0
     GOOD = 1
-    VERY_GOOD = 2
+    GREAT = 2
+    FINISH = 3
 
     LEVEL_CHOICES = (
-        (VERY_BAD, u'Очень плохо'),
-        (BAD, u'Плохо'),
+        (FORGET, u'Забыл'),
+        (REPEAT, u'К повторению'),
         (NEW, u'Новая'),
-        (GOOD, u'Запомнил'),
-        (VERY_GOOD, u'Хорошо запомнил'),
-    )
+        (GOOD, u'Хорошо'),
+        (GREAT, u'Отлично'),
+        (FINISH, u'Запомнил'),
 
+    )
     front = models.ForeignKey(CardFront, verbose_name=u'Верх')
     back = models.CharField(blank=True, max_length=255, verbose_name=u'Перевод')
     image = models.ImageField(upload_to='card_image/%Y_%m_%d', blank=True, verbose_name=u'Изображение')
@@ -49,7 +51,9 @@ class Card(models.Model):
     example = models.TextField(blank=True, verbose_name=u'Пример употребления')
 
     learner = models.ForeignKey(User, null=True, blank=True)
-    level = models.IntegerField(choices=LEVEL_CHOICES, default=NEW)
+    level = models.IntegerField(choices=LEVEL_CHOICES, default=0)
+    last_repeat = models.DateTimeField(null=True, blank=True)
+    repeat_count = models.PositiveIntegerField(default=0)
 
     is_public = models.BooleanField(default=False)
     parent = models.ForeignKey('self', null=True, blank=True)
