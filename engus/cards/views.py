@@ -65,6 +65,8 @@ def update_card_view(request):
             except Card.DoesNotExist:
                 return HttpResponseBadRequest()
             if front != card_obj.front.text:
+                # if not card_obj.front.is_public:
+                #     card_obj.delete()
                 try:
                     card_front_obj = CardFront.objects.get(text__iexact=front, is_public=True)
                 except CardFront.DoesNotExist:
@@ -92,9 +94,9 @@ def delete_card_view(request):
                 card.learner = None
                 card.save()
             else:
-                card_front = card.front
-                if not card_front.is_public:
-                    card_front.delete()
+                # card_front = card.front
+                # if not card_front.is_public:
+                #     card_front.delete()
                 card.delete()
             return HttpResponse(status=200)
         else:

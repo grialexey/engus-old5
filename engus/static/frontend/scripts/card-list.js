@@ -69,11 +69,11 @@ $(document).ready(function() {
         $cards.each(function() {
             var $card = $(this),
                 $overlay = $card.find('.card__overlay').addClass('right');
-            $overlay.show();
+            $overlay.show().text('Показать');
             $overlay.one('click', function() {
                 cardsToReapeat -= 1;
                 $card.find('.card__back, .card__front, .card__image').show();
-                $overlay.hide().removeClass('right');
+                $overlay.hide().removeClass('right').text('');
                 if (cardsToReapeat == 0) {
                     //switchMode(LEARN_MODE);
                 }
