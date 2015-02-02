@@ -137,6 +137,9 @@ button {
   z-index: 5;
   display: none;
 }
+.card-list__content {
+  margin: 25px 0;
+}
 .card {
   overflow: hidden;
   background-color: #fff;
@@ -640,7 +643,7 @@ button {
   border: 1px solid #62b69b;
   border-bottom-width: 2px;
   border-right-width: 2px;
-  margin: 15px 0 30px 0;
+  margin: 15px 0 15px 0;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
