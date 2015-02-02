@@ -22,7 +22,7 @@
                 {% if user.is_authenticated %}
 
                 {% url "cards:card-list-my" as my_cards_url %}
-                <li class="header__menu-item"><a href="{{ my_cards_url }}" class="header__menu-link {% if my_cards_url in request.get_full_path %}active{% endif %}">Мои карточки</a></li>
+                <li class="header__menu-item"><a href="{{ my_cards_url }}?page=last" class="header__menu-link {% if my_cards_url in request.get_full_path %}active{% endif %}">Мои карточки</a></li>
                 <li class="header__menu-item"><span href="/" class="header__menu-link header__menu-link--add">+</span></li>
                 {% include "cards/new_card_form.html" %}
                 <li class="header__menu-item header__menu-item--fill"></li>

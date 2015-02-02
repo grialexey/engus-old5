@@ -28,7 +28,7 @@ def paginator(context, adjacent_pages=2):
         'paginator': paginator_obj,
         'page': page,
         'pages': num_pages,
-        'page_numbers': page_numbers,
+        'page_numbers': reversed(page_numbers),
         'show_first': 1 not in page_numbers,
         'show_last': num_pages not in page_numbers,
     }
