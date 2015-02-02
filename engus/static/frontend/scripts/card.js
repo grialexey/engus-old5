@@ -154,6 +154,7 @@ $(document).ready(function() {
             method: 'post',
             data: $form.serialize()
         }).done(function(data) {
+            $overlay.hide();
             $card.html(data);
         }).error(function() {
             $form.show();
