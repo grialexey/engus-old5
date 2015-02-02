@@ -8,10 +8,12 @@
     {% endif %}
     </li>
 
-    {% if show_first %}
-        <li class="pages__item"><a class="pages__link" href="{% if query_string|escape %}?{{ query_string|escape }}&amp;page=1{% else %}?page=1{% endif %}">1</a></li>
+    {% if show_last %}
+        <li class="pages__item"><a class="pages__link" href="{% if query_string|escape %}?{{ query_string|escape }}&amp;page=last{% else %}?page=last{% endif %}">{{ pages }}</a></li>
         <li class="pages__item">...</li>
     {% endif %}
+
+
     {% for linkpage in page_numbers %}
         {% ifequal linkpage page %}
             <li class="pages__item"><a class="pages__link active" href="{% if query_string|escape %}?{{ query_string|escape }}&amp;page={{ linkpage }}{% else %}?page={{ linkpage }}{% endif %}">{{ page }}</a></li>
@@ -19,9 +21,10 @@
             <li class="pages__item"><a class="pages__link" href="{% if query_string|escape %}?{{ query_string|escape }}&amp;page={{ linkpage }}{% else %}?page={{ linkpage }}{% endif %}">{{ linkpage }}</a></li>
         {% endifequal %}
     {% endfor %}
-    {% if show_last %}
+
+    {% if show_first %}
         <li class="pages__item">...</li>
-        <li class="pages__item"><a class="pages__link" href="{% if query_string|escape %}?{{ query_string|escape }}&amp;page=last{% else %}?page=last{% endif %}">{{ pages }}</a></li>
+        <li class="pages__item"><a class="pages__link" href="{% if query_string|escape %}?{{ query_string|escape }}&amp;page=1{% else %}?page=1{% endif %}">1</a></li>
     {% endif %}
 
     <li class="pages__item pages__item--fastnav">
