@@ -1,5 +1,11 @@
-{% for card in cards %}
-    {% include "cards/card.html" %}
-{% endfor %}
+{% if is_paginated %}{% load paginator %}{% paginator 2 %}{% endif %}
+
+<ul class="card-list__list">
+    {% for card in cards %}
+        <li class="card">
+            {% include "cards/card.html" %}
+        </li>
+    {% endfor %}
+</ul>
 
 {% if is_paginated %}{% load paginator %}{% paginator 2 %}{% endif %}

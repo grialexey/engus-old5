@@ -1,10 +1,10 @@
 $(document).ready(function() {
 
     // Open controls and infoline when click on card
-    $(document).on('click', '.card:not(.card--form) .card__content', function () {
+    $(document).on('click', '.card:not(.card--form) .card__content.editable', function () {
         var $card = $(this).parents('.card'),
             $otherCards = $('.card:not(.card--form)').not($card);
-        $card.find('.card__infoline, .card__controls').toggle();
+        $card.find('.card__infoline, .card__controls--edit').toggle();
         $otherCards.not($card)
             .find('.card__infoline, .card__controls').hide();
     });
@@ -18,8 +18,8 @@ $(document).ready(function() {
         }
     });
 
-    // Delete card
 
+    // Delete card
     $(document).on('submit', '.card__form--delete', deleteCard);
 
     function deleteCard(event) {

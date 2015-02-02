@@ -7,13 +7,13 @@ $(document).ready(function() {
     $showFormButton.not('.loading').on('click', function() {
         if ($showFormButton.is('.active')) {
             $showFormButton.removeClass('active');
-            $contentOverlay.hide();
+            $contentOverlay.fadeOut(150);
             $('.card--form').remove();
         } else {
             $showFormButton.addClass('active');
-            $contentOverlay.show();
+            $contentOverlay.fadeIn(150);
             var $newCardForm = $newCardFormTmpl.clone().appendTo('.header__wrapper');
-            $newCardForm.show().find('input[type=text]').first().focus();
+            $newCardForm.fadeIn(150).find('input[type=text]').first().focus();
             $newCardForm.on('submit', newCardSubmit);
         }
 
@@ -25,7 +25,7 @@ $(document).ready(function() {
         if (!$cardForms.is($target) && !$cardForms.has($target).length && !$target.is($showFormButton)) {
             $('.card--form').remove();
             $showFormButton.removeClass('active');
-            $contentOverlay.hide();
+            $contentOverlay.fadeOut(150);
         }
     });
 
@@ -36,7 +36,7 @@ $(document).ready(function() {
             $overlay = $form.find('.card__overlay');
         $form.hide();
         $showFormButton.removeClass('active');
-        $contentOverlay.hide();
+        $contentOverlay.fadeOut(150);
         $showFormButton.addClass('loading');
         $.ajax({
             url: $form.attr('action'),
@@ -49,7 +49,7 @@ $(document).ready(function() {
             $form.show();
             $showFormButton.removeClass('loading');
             $showFormButton.addClass('active');
-            $contentOverlay.show();
+            $contentOverlay.fadeIn(150);
             $overlay.css('color', '#ff0000').text('Ошибка при добавлении').appendTo($form);
             $overlay.show();
             setTimeout(function() {

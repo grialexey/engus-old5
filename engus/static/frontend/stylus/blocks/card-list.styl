@@ -1,6 +1,11 @@
 .card-list {
     position: relative;
 
+    &__content {
+        margin: 25px 0;
+        position: relative;
+    }
+
     &__overlay {
         position: absolute;
         top: 0;
@@ -13,7 +18,49 @@
         display: none;
     }
 
-    &__content {
-        margin: 25px 0;
+    &__modeswitch {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        box-sizing: border-box;
+        width: 100%;
+        border: 1px solid #000;
+        border-bottom-width: 2px;
+        border-right-width: 2px;
+        margin: 25px 0 15px;
+
+        &.learn {
+            border-color: orange;
+        }
+
+        &.repeat {
+            border-color: green;
+        }
+
+        &-item {
+            flex: 1 0 50%;
+            text-align: center;
+            padding: 10px 0;
+            /*font-weight: bold;*/
+            font-size: 18px;
+            transition: background-color 0.2s;
+            cursor: pointer;
+            color: #555;
+
+            &:hover {
+                background-color: #f7f7f7;
+            }
+
+            &.learn.active {
+                background-color: orange;
+                color: #fff;
+            }
+
+            &.repeat.active {
+                background-color: green;
+                color: #fff;
+            }
+        }
     }
 }

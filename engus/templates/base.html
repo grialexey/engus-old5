@@ -26,7 +26,7 @@
                 <li class="header__menu-item"><span href="/" class="header__menu-link header__menu-link--add">+</span></li>
                 {% include "cards/new_card_form.html" %}
                 <li class="header__menu-item header__menu-item--fill"></li>
-                <li class="header__menu-item"><a href="/" class="header__menu-link">?</a>
+                <li class="header__menu-item"><a href="/" class="header__menu-link">Помощь</a>
                 <li class="header__menu-item"><a href="/" class="header__menu-link">Выйти</a>
 
                 {% else %}
@@ -51,6 +51,7 @@
 
     {% if debug %}
         <script type="text/javascript" src="{{ STATIC_URL }}frontend/bower_components/jquery/dist/jquery.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}frontend/scripts/jquery-randomize.js"></script>
         <script type="text/javascript" src="{{ STATIC_URL }}frontend/scripts/card-create-ajax.js"></script>
         <script type="text/javascript" src="{{ STATIC_URL }}frontend/scripts/card-list.js"></script>
         <script type="text/javascript" src="{{ STATIC_URL }}frontend/scripts/card.js"></script>
