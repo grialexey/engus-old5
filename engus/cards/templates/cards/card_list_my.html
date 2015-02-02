@@ -2,19 +2,5 @@
 
 
 {% block content %}
-    <section class="card-list">
-        <ul class="card-list__modeswitch learn">
-            <li class="card-list__modeswitch-item learn active" data-mode="learn">Изучение</li>
-            <li class="card-list__modeswitch-item repeat" data-mode="repeat">Повторение</li>
-        </ul>
-
-        <div class="card-list__content">
-            {% with cards=card_list %}
-                {% if cards %}
-                    {% include "cards/cards.html" %}
-                {% endif %}
-            {% endwith %}
-        </div>
-        <div class="card-list__overlay"></div>
-    </section>
+{% include "cards/card_list.html" %}
 {% endblock %}

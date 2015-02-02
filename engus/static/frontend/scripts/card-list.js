@@ -1,25 +1,7 @@
 $(document).ready(function() {
     var $cardListWrapper = $('.card-list'),
         $overlay = $cardListWrapper.find('.card-list__overlay'),
-        $content = $cardListWrapper.find('.card-list__content');
-
-    // Load pages ajax
-    $cardListWrapper.on('click', '.pages__link', function(event) {
-        event.preventDefault();
-        var $link = $(this),
-            url = $link.attr('href');
-        $overlay.show();
-        $.ajax({
-            url: url,
-            method: 'get'
-        }).done(function(data) {
-            $overlay.hide();
-            $content.html(data);
-            if(url != window.location){
-                window.history.pushState({ path:url }, '', url);
-            }
-        });
-    });
+        $cardListAndPages = $cardListWrapper.find('.card-list__content');
 
 
     var LEARN_MODE = 'learn',
@@ -29,50 +11,74 @@ $(document).ready(function() {
         $switcher = $('.card-list__modeswitch'),
         $switchItems = $('.card-list__modeswitch-item');
 
+    // Switch mode (learning and repeating)
     $switchItems.on('click', function() {
         var mode = $(this).data('mode');
         switchMode(mode);
     });
+
+
+    // Load pages ajax
+    $cardListWrapper.on('click', '.pages__link', function(event) {
+        event.preventDefault();
+        var $link = $(this),
+            url = $link.attr('href');
+        $overlay.appendTo($cardListAndPages).show();
+        $.ajax({
+            url: url,
+            method: 'get'
+        }).done(function(data) {
+            $cardListAndPages.html(data);
+            if(url != window.location){
+                window.history.pushState({ path:url }, '', url);
+            }
+            var mode = $switchItems.filter('.active').data('mode');
+            switchMode(mode);
+        });
+    });
+
 
     function switchMode(mode) {
         $switcher.removeClass(MODES.join(' '));
         $switcher.addClass(mode);
         $switchItems.removeClass('active');
         $switchItems.filter('.' + mode).addClass('active');
-        repeatCards(mode);
-
-    }
-
-    function repeatCards(mode) {
-        var $cardList = $cardListWrapper.find('.card-list__list'),
-            $cards = $cardList.find('.card'),
-            $cardsContents = $cards.find('.card__content'),
+        var $cards = $cardListWrapper.find('.card'),
             $overlays = $cards.find('.card__overlay');
         switch(mode) {
             case 'learn':
-                $cards.find('.card__back, .card__front, .card__image').show();
-                $cardsContents.addClass('editable');
-                $overlays.hide();
+                learnCards($cards);
                 break;
             case 'repeat':
-                $cards.find('.card__back, .card__image, .card__infoline, .card__controls').hide();
-                $cardsContents.removeClass('editable');
-                cardsToReapeat = $cards.length;
-                $cards.randomize();
-                $cards.each(function() {
-                    var $card = $(this),
-                        $overlay = $card.find('.card__overlay--right');
-                    $overlay.show();
-                    $overlay.one('click', function() {
-                        cardsToReapeat -= 1;
-                        $card.find('.card__back, .card__front, .card__image').show();
-                        $overlay.hide();
-                        if (cardsToReapeat == 0) {
-                            switchMode(LEARN_MODE);
-                        }
-                    });
-                });
+                repeatCards($cards);
                 break;
         }
     }
+
+    function learnCards($cards) {
+        $cards.find('.card__overlay').hide();
+        $cards.find('.card__back, .card__front, .card__image').show();
+        $cards.find('.card__content').addClass('editable');
+    }
+
+    function repeatCards($cards) {
+        $cards.find('.card__back, .card__image, .card__infoline, .card__controls').hide();
+        $cards.find('.card__content').removeClass('editable');
+        $cards.randomize();
+        cardsToReapeat = $cards.length;
+        $cards.each(function() {
+            var $card = $(this),
+                $overlay = $card.find('.card__overlay--right');
+            $overlay.show();
+            $overlay.one('click', function() {
+                cardsToReapeat -= 1;
+                $card.find('.card__back, .card__front, .card__image').show();
+                $overlay.hide();
+                if (cardsToReapeat == 0) {
+                    //switchMode(LEARN_MODE);
+                }
+            });
+        });
+    }
+
 });

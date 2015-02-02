@@ -13,9 +13,9 @@
     </article>
 
 
-    {% with cards=deck.cards.all %}
-        {% if cards %}
-            {% include "cards/cards.html" %}
+    {% with card_list=deck.cards.all %}
+        {% if card_list %}
+            {% include "cards/card_list.html" %}
         {% endif %}
     {% endwith %}
 {% endblock %}
