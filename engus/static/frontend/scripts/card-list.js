@@ -57,13 +57,12 @@ $(document).ready(function() {
 
     function learnCards($cards) {
         $cards.find('.card__overlay').hide();
-        $cards.children('.card__back, .card__front, .card__image').show();
+        $cards.children('.card__content').find('.card__back, .card__image, .card__example').show();
         $cards.children('.card__content').addClass('editable');
     }
 
     function repeatCards($cards) {
-        $cards.children('.card__content').find('.card__back').hide();
-        $cards.children('.card__image, .card__infoline, .card__controls').hide();
+        $cards.children('.card__content').find('.card__back, .card__image, .card__example').hide();
         $cards.children('.card__content').removeClass('editable');
         $cards.randomize();
         cardsToReapeat = $cards.length;
@@ -73,8 +72,7 @@ $(document).ready(function() {
             $overlay.show().text('Показать');
             $overlay.one('click', function() {
                 cardsToReapeat -= 1;
-                $card.children('.card__content').find('.card__back').hide();
-                $card.children('.card__back, .card__front, .card__image').show();
+                $card.children('.card__content').find('.card__back, .card__image, .card__example').show();
                 $overlay.hide().removeClass('right').text('');
                 if (cardsToReapeat == 0) {
                     //switchMode(LEARN_MODE);
