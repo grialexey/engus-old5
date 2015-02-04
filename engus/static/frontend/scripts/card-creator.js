@@ -1,9 +1,10 @@
-var CardCreator = function ($template, $button, $pageOverlay) {
+var CardCreator = function ($template, $button, $pageOverlay, cardList) {
     this.loading = false;
     this.$template = $template;
     this.$button = $button;
     this.$pageOverlay = $pageOverlay;
     this.$form = this.createForm();
+    this.cardList = cardList;
     this.bindEvents();
 };
 
@@ -48,7 +49,6 @@ CardCreator.prototype.open = function() {
 
 CardCreator.prototype.close = function() {
     this.$form.remove();
-    delete this.$form;
     this.$button.removeClass('active');
     this.$pageOverlay.fadeOut(150);
 };
@@ -68,6 +68,9 @@ CardCreator.prototype.createEvent = function(event) {
         self.loading = false;
         self.$button.removeClass('loading');
         self.close();
+        if (self.cardList) {
+            self.cardList.reloadPage();
+        }
     }).error(function() {
         self.loading = false;
         self.$button.removeClass('loading');

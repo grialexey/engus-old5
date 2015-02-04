@@ -73,6 +73,20 @@ CardList.prototype.getMode = function() {
     return this.$modeSwitcher.$items.filter('.active').data('mode');
 };
 
+CardList.prototype.reloadPage = function() {
+    this.$overlay.appendTo(this.$content).show();
+    var self = this,
+        url = window.location.href;
+    $.ajax({
+        url: url,
+        method: 'get'
+    }).done(function(data) {
+        self.$content.html(data);
+        self.cards = self.getCards();
+        self.switchMode(self.getMode());
+    });
+};
+
 CardList.prototype.changePageEvent = function(event) {
     event.preventDefault();
     var self = event.data.self,
