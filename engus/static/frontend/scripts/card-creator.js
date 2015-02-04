@@ -13,10 +13,11 @@ CardCreator.prototype.bindEvents = function() {
 };
 
 CardCreator.prototype.createForm = function() {
-    var form = this.$template.clone();
-    form.$overlay = form.find('.card__overlay');
-    form.on('submit', this.createEvent.bind(this));
-    return form;
+    var $form = this.$template.clone();
+    $form.$overlay = $form.find('.card__overlay');
+    $form.appendTo('.header__wrapper');
+    $form.on('submit', this.createEvent.bind(this));
+    return $form;
 };
 
 CardCreator.prototype.clickOutsideEvent = function(event) {
@@ -41,12 +42,13 @@ CardCreator.prototype.clickButtonEvent = function(event) {
 CardCreator.prototype.open = function() {
     this.$button.addClass('active');
     this.$pageOverlay.fadeIn(150);
-    this.$form = this.createForm().appendTo('.header__wrapper');
+    this.$form = this.createForm();
     this.$form.fadeIn(150).find('input[type=text]').first().focus();
 };
 
 CardCreator.prototype.close = function() {
     this.$form.remove();
+    delete this.$form;
     this.$button.removeClass('active');
     this.$pageOverlay.fadeOut(150);
 };
@@ -64,17 +66,18 @@ CardCreator.prototype.createEvent = function(event) {
         data: self.$form.serialize()
     }).done(function() {
         self.loading = false;
+        self.$button.removeClass('loading');
         self.close();
     }).error(function() {
         self.loading = false;
-        self.$form.show();
         self.$button.removeClass('loading');
         self.$button.addClass('active');
+        self.$form.show();
         self.$pageOverlay.fadeIn(150);
-        self.$form.$overlay.css('color', '#ff0000').text('Ошибка при добавлении');
+        self.$form.$overlay.css('opacity', '1').css('color', '#ff0000').text('Ошибка при добавлении').show();
         self.$form.$overlay.show();
         setTimeout(function() {
-            self.$form.$overlay.hide();
+            self.$form.$overlay.css('opacity', '0.5').css('color', '#000').text('').hide();
         }, 1500);
     });
 };

@@ -1,9 +1,18 @@
 var Card = function($element) {
     this.$el = $element;
+    this.init();
+};
+
+Card.prototype.init = function() {
+    this.cacheElements();
+    this.bindEvents();
+};
+
+Card.prototype.cacheElements = function() {
     this.$infoline = this.$el.find('.card__infoline');
     this.$editControls = this.$el.find('.card__controls--edit');
     this.$overlay = this.$el.find('.card__overlay');
-    this.$content = this.$el.find('.card__content');
+    this.$content = this.$el.find('> .card__content');
     this.$back = this.$content.find('.card__back');
     this.$front = this.$content.find('.card__front');
     this.$image = this.$content.find('.card__image');
@@ -11,24 +20,24 @@ var Card = function($element) {
     this.$deleteForm = this.$el.find('.card__form--delete');
     this.$editForm = this.$el.find('.card__form--update');
     this.$editButton = this.$el.find('.card__button--edit');
-    this.bindEvents();
 };
 
 Card.prototype.bindEvents = function() {
-    this.$deleteForm.on('submit', this.deleteCardEvent.bind(this));
-    this.$editForm.on('submit', this.updateCardEvent.bind(this));
-    this.$content.on('click', this.clickOnContentEvent.bind(this));
-    this.$editButton.on('click', this.clickOnEditButtonEvent.bind(this));
-    $(document).on('click', this.clickOutsideEvent.bind(this));
+    this.$deleteForm.on('submit', { self: this }, this.deleteCardEvent);
+    this.$editForm.on('submit', { self: this }, this.updateCardEvent);
+    this.$content.on('click', { self: this }, this.clickOnContentEvent);
+    this.$editButton.on('click', { self: this }, this.clickOnEditButtonEvent);
+    $(document).on('click', { self: this }, this.clickOutsideEvent);
 };
 
 Card.prototype.isEditable = function() {
     return this.$content.is('.editable')
 };
 
-Card.prototype.clickOnContentEvent = function() {
-    if (this.isEditable()) {
-        this.toggleControls();
+Card.prototype.clickOnContentEvent = function(event) {
+    var self = event.data.self;
+    if (self.isEditable()) {
+        self.toggleControls();
     }
 };
 
@@ -47,14 +56,16 @@ Card.prototype.closeControls = function() {
 };
 
 Card.prototype.clickOutsideEvent = function(event) {
+    var self = event.data.self;
     var $target = $(event.target);
-    if (!this.$el.is($target) && !this.$el.has($target).length > 0) {
-        this.closeControls();
+    if (!self.$el.is($target) && !self.$el.has($target).length > 0) {
+        self.closeControls();
     }
 };
 
 Card.prototype.clickOnEditButtonEvent = function(event) {
-    this.openEditForm();
+    var self = event.data.self;
+    self.openEditForm();
 };
 
 Card.prototype.openEditForm = function() {
@@ -100,8 +111,8 @@ Card.prototype.repeat = function() {
 
 Card.prototype.deleteCardEvent = function(event) {
     event.preventDefault();
-    this.$el.hide();
-    var self = this;
+    var self = event.data.self;
+    self.$el.hide();
     $.ajax({
         url: self.$deleteForm.attr('action'),
         method: 'post',
@@ -110,17 +121,17 @@ Card.prototype.deleteCardEvent = function(event) {
         self.$el.remove();
     }).error(function() {
         self.$el.show();
-        self.$overlay.css('color', '#ff0000').text('Ошибка при удалении').show();
+        self.$overlay.css('opacity', '1').css('color', '#ff0000').text('Ошибка при удалении').show();
         setTimeout(function() {
-            self.$overlay.css('color', '#000').text('').hide();
+            self.$overlay.css('opacity', '0.5').css('color', '#000').text('').hide();
         }, 1500);
     });
 };
 
 Card.prototype.updateCardEvent = function(event) {
     event.preventDefault();
-    this.$overlay.show();
-    var self = this;
+    var self = event.data.self;
+    self.$overlay.show();
     $.ajax({
         url: self.$editForm.attr('action'),
         method: 'post',
@@ -128,12 +139,13 @@ Card.prototype.updateCardEvent = function(event) {
     }).done(function(data) {
         self.$overlay.hide();
         self.$el.html(data);
+        self.init();
     }).error(function() {
         self.$editForm.show();
         self.$overlay.css('opacity', '1').css('color', '#ff0000').text('Ошибка при сохранении');
         setTimeout(function() {
             self.$overlay.hide();
-            self.$overlay.css('opacity', '0.5');
+            self.$overlay.css('opacity', '0.5').css('color', '#000').text('');
         }, 1500);
     });
 };
