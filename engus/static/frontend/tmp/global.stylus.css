@@ -516,8 +516,6 @@ textarea {
   font-weight: bold;
 }
 .card__form-input[name=example] {
-  line-height: 16px;
-  height: 23px;
   resize: vertical;
 }
 .card__form ::-webkit-input-placeholder {
