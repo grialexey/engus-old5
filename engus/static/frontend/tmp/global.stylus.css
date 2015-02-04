@@ -318,6 +318,7 @@ textarea {
   -o-transition: color 0.2s;
   -ms-transition: color 0.2s;
   transition: color 0.2s;
+  text-align: left;
   -webkit-box-pack: start;
   -moz-box-pack: start;
   -o-box-pack: start;
