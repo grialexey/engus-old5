@@ -61,9 +61,10 @@
 
     {% if debug %}
         <script type="text/javascript" src="{{ STATIC_URL }}frontend/bower_components/jquery/dist/jquery.js"></script>
-        <script type="text/javascript" src="{{ STATIC_URL }}frontend/scripts/jquery-randomize.js"></script>
-        <script type="text/javascript" src="{{ STATIC_URL }}frontend/scripts/card-list.js"></script>
         <script type="text/javascript" src="{{ STATIC_URL }}frontend/scripts/card.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}frontend/scripts/card-list.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}frontend/scripts/card-creator.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}frontend/scripts/app.js"></script>
     {% else %}
         <script type="text/javascript" src="{{ STATIC_URL }}js/global.min.js"></script>
     {% endif %}

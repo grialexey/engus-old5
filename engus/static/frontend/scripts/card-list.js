@@ -1,84 +1,93 @@
-$(document).ready(function() {
-    var $cardListWrapper = $('.card-list'),
-        $overlay = $cardListWrapper.find('.card-list__overlay'),
-        $cardListAndPages = $cardListWrapper.find('.card-list__content');
+var CardList = function($cardListWrapper) {
+    this.LEARN_MODE = 'learn';
+    this.REPEAT_MODE = 'repeat';
+    this.MODES = [this.LEARN_MODE, this.REPEAT_MODE];
+    this.cardsToRepeatCount = 0;
+    this.$wrapper = $cardListWrapper;
+    this.$overlay = this.$wrapper.find('.card-list__overlay');
+    this.$content = this.$wrapper.find('.card-list__content');
+    this.$modeSwitcher = $('.card-list__modeswitch');
+    this.$modeSwitcher.$items = this.$modeSwitcher.find('.card-list__modeswitch-item');
+    this.cards = this.getCards();
+    this.bindEvents();
+};
 
+CardList.prototype.bindEvents = function() {
+    this.$content.on('click', '.pages__link', { self: this }, this.changePageEvent);
+    this.$modeSwitcher.$items.on('click', { self: this }, this.switchModeEvent);
+};
 
-    var LEARN_MODE = 'learn',
-        REPEAT_MODE = 'repeat',
-        MODES = [LEARN_MODE, REPEAT_MODE],
-        cardsToRepeatCount = 0,
-        $switcher = $('.card-list__modeswitch'),
-        $switchItems = $('.card-list__modeswitch-item');
-
-    // Switch mode (learning and repeating)
-    $switchItems.on('click', function() {
-        var mode = $(this).data('mode');
-        switchMode(mode);
+CardList.prototype.getCards = function() {
+    var cards = [],
+        $cards = this.$content.find('.card');
+    $cards.each(function() {
+        cards.push(new Card($(this)));
     });
+    return cards;
+};
 
+CardList.prototype.switchModeEvent = function(event) {
+    var self = event.data.self;
+    var mode = $(this).data('mode');
+    self.switchMode(mode);
+};
 
-    // Load pages ajax
-    $cardListWrapper.on('click', '.pages__link', function(event) {
-        event.preventDefault();
-        var $link = $(this),
-            url = $link.attr('href');
-        $overlay.appendTo($cardListAndPages).show();
-        $.ajax({
-            url: url,
-            method: 'get'
-        }).done(function(data) {
-            $cardListAndPages.html(data);
-            if(url != window.location){
-                window.history.pushState({ path:url }, '', url);
-            }
-            var mode = $switchItems.filter('.active').data('mode');
-            switchMode(mode);
-        });
+CardList.prototype.switchMode = function(mode) {
+    this.$modeSwitcher.removeClass(this.MODES.join(' ')).addClass(mode);
+    this.$modeSwitcher.$items.removeClass('active').filter('.' + mode).addClass('active');
+    switch(mode) {
+        case 'learn':
+            this.setLearnMode(this.cards);
+            break;
+        case 'repeat':
+            this.setRepeatMode(this.cards);
+            break;
+    }
+};
+
+CardList.prototype.setLearnMode = function() {
+    this.cardsToRepeatCount = 0;
+    this.cards.forEach(function(card) {
+        card.learn();
     });
+};
 
+CardList.prototype.setRepeatMode = function() {
+    this.cardsToRepeatCount = this.cards.length;
+    this.randomize();
+    this.cards.forEach(function(card) {
+        card.repeat();
+    });
+};
 
-    function switchMode(mode) {
-        $switcher.removeClass(MODES.join(' '));
-        $switcher.addClass(mode);
-        $switchItems.removeClass('active');
-        $switchItems.filter('.' + mode).addClass('active');
-        var $cards = $cardListWrapper.find('.card'),
-            $overlays = $cards.find('.card__overlay');
-        switch(mode) {
-            case 'learn':
-                learnCards($cards);
-                break;
-            case 'repeat':
-                repeatCards($cards);
-                break;
+CardList.prototype.randomize = function() {
+    var self = this;
+    this.cards.sort(function(card) {
+        return Math.round(Math.random())-0.5;
+    }).forEach(function(card) {
+        card.$el.detach().appendTo(self.$content.find('.card-list__list'));
+    });
+};
+
+CardList.prototype.getMode = function() {
+    return this.$modeSwitcher.$items.filter('.active').data('mode');
+};
+
+CardList.prototype.changePageEvent = function(event) {
+    event.preventDefault();
+    var self = event.data.self,
+        $link = $(this),
+        url = $link.attr('href');
+    self.$overlay.appendTo(self.$content).show();
+    $.ajax({
+        url: url,
+        method: 'get'
+    }).done(function(data) {
+        self.$content.html(data);
+        if(url != window.location){
+            window.history.pushState({ path:url }, '', url);
         }
-    }
-
-    function learnCards($cards) {
-        $cards.find('.card__overlay').hide();
-        $cards.children('.card__content').find('.card__back, .card__image, .card__example').show();
-        $cards.children('.card__content').addClass('editable');
-    }
-
-    function repeatCards($cards) {
-        $cards.children('.card__content').find('.card__back, .card__image, .card__example').hide();
-        $cards.children('.card__content').removeClass('editable');
-        $cards.randomize();
-        cardsToRepeatCount = $cards.length;
-        $cards.each(function() {
-            var $card = $(this),
-                $overlay = $card.find('.card__overlay').addClass('right');
-            $overlay.show().text('Показать');
-            $overlay.one('click', function() {
-                cardsToRepeatCount -= 1;
-                $card.children('.card__content').find('.card__back, .card__image, .card__example').show();
-                $overlay.hide().removeClass('right').text('');
-                if (cardsToRepeatCount == 0) {
-                    //switchMode(LEARN_MODE);
-                }
-            });
-        });
-    }
-
-});
+        self.cards = self.getCards();
+        self.switchMode(self.getMode());
+    });
+};

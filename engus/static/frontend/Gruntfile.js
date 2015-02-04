@@ -10,9 +10,10 @@ module.exports = function(grunt) {
                 files: {
                     '../js/global.min.js': [
                         'bower_components/jquery/dist/jquery.min.js',
-                        'scripts/jquery-randomize.js',
+                        'scripts/card.js',
                         'scripts/card-list.js',
-                        'scripts/card.js'
+                        'scripts/card-creator.js',
+                        'scripts/app.js'
                     ]
                 }
             }

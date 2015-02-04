@@ -1,168 +1,139 @@
-$(document).ready(function() {
+var Card = function($element) {
+    this.$el = $element;
+    this.$infoline = this.$el.find('.card__infoline');
+    this.$editControls = this.$el.find('.card__controls--edit');
+    this.$overlay = this.$el.find('.card__overlay');
+    this.$content = this.$el.find('.card__content');
+    this.$back = this.$content.find('.card__back');
+    this.$front = this.$content.find('.card__front');
+    this.$image = this.$content.find('.card__image');
+    this.$example = this.$content.find('.card__example');
+    this.$deleteForm = this.$el.find('.card__form--delete');
+    this.$editForm = this.$el.find('.card__form--update');
+    this.$editButton = this.$el.find('.card__button--edit');
+    this.bindEvents();
+};
 
-    // Open controls and infoline when click on card
-    $(document).on('click', '.card:not(.card--form) .card__content.editable', function () {
-        var $card = $(this).parents('.card'),
-            $otherCards = $('.card:not(.card__form)').not($card);
-        closeUpdateForm($otherCards);
-        $card.children('.card__infoline, .card__controls--edit').toggle();
-        $otherCards.children('.card__infoline, .card__controls').hide();
-    });
+Card.prototype.bindEvents = function() {
+    this.$deleteForm.on('submit', this.deleteCardEvent.bind(this));
+    this.$editForm.on('submit', this.updateCardEvent.bind(this));
+    this.$content.on('click', this.clickOnContentEvent.bind(this));
+    this.$editButton.on('click', this.clickOnEditButtonEvent.bind(this));
+    $(document).on('click', this.clickOutsideEvent.bind(this));
+};
 
-    // Close controls in all cards
-    $(document).on('click', function(event) {
-        var $target = $(event.target),
-            $cards = $('.card:not(.card__form)'),
-            $cardContent = $cards.children('.card__content');
-        if (!$cards.is($target) && !$cards.has($target).length > 0) {
-            closeUpdateForm($cards);
-            $cards.children('.card__infoline, .card__controls, .card__form').hide();
-            $cardContent.show();
-        }
-    });
+Card.prototype.isEditable = function() {
+    return this.$content.is('.editable')
+};
 
-
-    // Delete card
-    $(document).on('submit', '.card__form--delete', deleteCard);
-
-    function deleteCard(event) {
-        event.preventDefault();
-        var $form = $(this),
-            $card = $(this).parents('.card'),
-            $overlay = $card.find('.card__overlay');
-        $card.hide();
-        $.ajax({
-            url: $form.attr('action'),
-            method: 'post',
-            data: $form.serialize()
-        }).done(function() {
-            $card.remove();
-        }).error(function() {
-            $card.show();
-            $overlay.css('color', '#ff0000').text('Ошибка при удалении').appendTo($form);
-            $overlay.show();
-            setTimeout(function() {
-                $overlay.hide();
-            }, 1500);
-        });
+Card.prototype.clickOnContentEvent = function() {
+    if (this.isEditable()) {
+        this.toggleControls();
     }
+};
 
+Card.prototype.toggleControls = function() {
+    this.$editControls.toggle();
+    this.$infoline.toggle();
+    this.$content.show();
+    this.$editForm.hide();
+};
 
+Card.prototype.closeControls = function() {
+    this.$editControls.hide();
+    this.$infoline.hide();
+    this.$content.show();
+    this.$editForm.hide();
+};
 
-    /*
-    *  Create new card
-    */
+Card.prototype.clickOutsideEvent = function(event) {
+    var $target = $(event.target);
+    if (!this.$el.is($target) && !this.$el.has($target).length > 0) {
+        this.closeControls();
+    }
+};
 
-    var $newCardFormTmpl = $('.card__form--create'),
-        $showCreateCardFormButton = $('.header__menu-link--add'),
-        $content = $('.content'),
-        $contentOverlay = $('.content__overlay');
+Card.prototype.clickOnEditButtonEvent = function(event) {
+    this.openEditForm();
+};
 
-    $showCreateCardFormButton.not('.loading').on('click', function() {
-        if ($showCreateCardFormButton.is('.active')) {
-            $showCreateCardFormButton.removeClass('active');
-            $contentOverlay.fadeOut(150);
-            $('.card__form--create').remove();
-        } else {
-            $showCreateCardFormButton.addClass('active');
-            $contentOverlay.fadeIn(150);
-            var $newCardForm = $newCardFormTmpl.clone().appendTo('.header__wrapper');
-            $newCardForm.fadeIn(150).find('input[type=text]').first().focus();
-            $newCardForm.on('submit', cardCreate);
-        }
+Card.prototype.openEditForm = function() {
+    this.$content.hide();
+    this.$infoline.hide();
+    this.$editControls.hide();
+    this.$editForm.show();
+};
 
+Card.prototype.closeEditForm = function() {
+    this.$editForm.hide();
+    this.$content.show();
+    this.$infoline.hide();
+    this.$editControls.hide();
+};
+
+Card.prototype.learn = function() {
+    this.$overlay.hide();
+    this.$back.show();
+    this.$example.show();
+    this.$image.show();
+    this.$content.addClass('editable');
+};
+
+Card.prototype.repeat = function() {
+    this.$overlay.hide();
+    this.$back.hide();
+    this.$example.hide();
+    this.$image.hide();
+    this.$content.removeClass('editable');
+    this.$overlay.addClass('right');
+    this.$overlay.show().text('Показать');
+    var self = this;
+    this.$overlay.one('click', function() {
+        //self.cardsToRepeatCount -= 1;
+        self.learn();
+        self.$overlay.hide().removeClass('right').text('');
+        //if (self.cardsToRepeatCount == 0) {
+            //switchMode(LEARN_MODE);
+        //}
     });
+};
 
-    $(document).on('click', function(event) {
-        var $target = $(event.target),
-            $cardCreateForms = $('.card__form--create');
-        if (!$cardCreateForms.is($target) && !$cardCreateForms.has($target).length && !$target.is($showCreateCardFormButton)) {
-            $cardCreateForms.remove();
-            $showCreateCardFormButton.removeClass('active');
-            $contentOverlay.fadeOut(150);
-        }
+Card.prototype.deleteCardEvent = function(event) {
+    event.preventDefault();
+    this.$el.hide();
+    var self = this;
+    $.ajax({
+        url: self.$deleteForm.attr('action'),
+        method: 'post',
+        data: self.$deleteForm.serialize()
+    }).done(function() {
+        self.$el.remove();
+    }).error(function() {
+        self.$el.show();
+        self.$overlay.css('color', '#ff0000').text('Ошибка при удалении').show();
+        setTimeout(function() {
+            self.$overlay.css('color', '#000').text('').hide();
+        }, 1500);
     });
+};
 
-
-    function cardCreate(event) {
-        event.preventDefault();
-        var $form = $(this),
-            $overlay = $form.find('.card__overlay');
-        $form.hide();
-        $showCreateCardFormButton.removeClass('active');
-        $contentOverlay.fadeOut(150);
-        $showCreateCardFormButton.addClass('loading');
-        $.ajax({
-            url: $form.attr('action'),
-            method: 'post',
-            data: $form.serialize()
-        }).done(function() {
-            $showCreateCardFormButton.removeClass('loading');
-            $form.remove();
-        }).error(function() {
-            $form.show();
-            $showCreateCardFormButton.removeClass('loading');
-            $showCreateCardFormButton.addClass('active');
-            $contentOverlay.fadeIn(150);
-            $overlay.css('color', '#ff0000').text('Ошибка при добавлении').appendTo($form);
-            $overlay.show();
-            setTimeout(function() {
-                $overlay.hide();
-            }, 1500);
-        });
-    }
-
-
-
-
-
-    /*
-    *  Update card
-    */
-
-    $(document).on('click', '.card__button--edit', function() {
-        var $card = $(this).parents('.card');
-        openUpdateForm($card);
+Card.prototype.updateCardEvent = function(event) {
+    event.preventDefault();
+    this.$overlay.show();
+    var self = this;
+    $.ajax({
+        url: self.$editForm.attr('action'),
+        method: 'post',
+        data: self.$editForm.serialize()
+    }).done(function(data) {
+        self.$overlay.hide();
+        self.$el.html(data);
+    }).error(function() {
+        self.$editForm.show();
+        self.$overlay.css('opacity', '1').css('color', '#ff0000').text('Ошибка при сохранении');
+        setTimeout(function() {
+            self.$overlay.hide();
+            self.$overlay.css('opacity', '0.5');
+        }, 1500);
     });
-
-    $(document).on('submit', '.card__form--update', cardUpdate);
-
-
-    function openUpdateForm($cards) {
-        var $cardsContent = $cards.children('.card__content, .card__controls, .card__infoline'),
-            $updateForms = $cards.find('.card__form--update');
-        $cardsContent.hide();
-        $updateForms.show();
-    }
-
-    function closeUpdateForm($cards) {
-        var $cardsContent = $cards.children('.card__content, .card__controls, .card__infoline'),
-            $updateForms = $cards.find('.card__form--update');
-        $cardsContent.show();
-        $updateForms.hide();
-    }
-
-
-    function cardUpdate(event) {
-        event.preventDefault();
-        var $form = $(this),
-            $card = $form.parents('.card'),
-            $overlay = $card.find('.card__overlay');
-        $overlay.show();
-        $.ajax({
-            url: $form.attr('action'),
-            method: 'post',
-            data: $form.serialize()
-        }).done(function(data) {
-            $overlay.hide();
-            $card.html(data);
-        }).error(function() {
-            $form.show();
-            $overlay.css('opacity', '1').css('color', '#ff0000').text('Ошибка при сохранении').appendTo($form);
-            setTimeout(function() {
-                $overlay.hide();
-                $overlay.css('opacity', '0.5');
-            }, 1500);
-        });
-    }
-});
+};
