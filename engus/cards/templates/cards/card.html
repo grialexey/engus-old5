@@ -3,7 +3,10 @@
         <div class="card__top">
             <span class="card__front">
                 <span class="card__front-word">{{ card.front.text }}</span>
-                <span class="card__front-pron">{{ card.front.pronunciation }}</span>
+                <span class="card__front-pron {% if card.front.audio %}with-audio{% endif %}">{{ card.front.pronunciation }}</span>
+                {% if card.front.audio %}
+                    <audio class="card__audio" src="{{ card.front.audio.url }}" preload="auto"></audio>
+                {% endif %}
             </span><!--
          --><span class="card__back">{{ card.back }}</span>
         </div>
@@ -12,7 +15,7 @@
         {% endif %}
         {% if card.image %}
             {% load thumbnail %}
-            {% thumbnail card.image 506x0  quality=80 as thumb %}
+            {% thumbnail card.image 506x300  quality=80 as thumb %}
             <img class="card__image" src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}">
         {% endif %}
     </div>

@@ -41,6 +41,14 @@
             color: #999;
             font-size: 18px;
             white-space: nowrap;
+
+            &.with-audio {
+                cursor: pointer;
+
+                &:hover {
+                    color: #33d147;
+                }
+            }
         }
     }
 
@@ -56,6 +64,10 @@
         color: #777;
         padding: 0;
         margin: 3px 22px 10px;
+    }
+
+    &__audio {
+        display: none;
     }
 
     &__image {
@@ -244,6 +256,10 @@
 
             &[name=example] {
                 resize: vertical;
+                height: auto;
+                line-height: inherit;
+                padding: 4px 0;
+                margin-top: -4px;
             }
         }
 

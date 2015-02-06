@@ -20,6 +20,9 @@ Card.prototype.cacheElements = function() {
     this.$deleteForm = this.$el.find('.card__form--delete');
     this.$editForm = this.$el.find('.card__form--update');
     this.$editButton = this.$el.find('.card__button--edit');
+    this.$playAudioBtn = this.$el.find('.card__front-pron.with-audio');
+    this.$audio = this.$el.find('.card__audio');
+    this.$editForm.$exampleTextArea = this.$editForm.find('.card__form-input[name=example]');
 };
 
 Card.prototype.bindEvents = function() {
@@ -27,7 +30,20 @@ Card.prototype.bindEvents = function() {
     this.$editForm.on('submit', { self: this }, this.updateCardEvent);
     this.$content.on('click', { self: this }, this.clickOnContentEvent);
     this.$editButton.on('click', { self: this }, this.clickOnEditButtonEvent);
+    this.$playAudioBtn.on('click', { self: this }, this.playAudioEvent);
     $(document).on('click', { self: this }, this.clickOutsideEvent);
+};
+
+Card.prototype.playAudio = function() {
+    if (this.$audio.length) {
+        this.$audio[0].play();
+    }
+};
+
+Card.prototype.playAudioEvent = function(event) {
+    var self = event.data.self;
+    event.stopPropagation();
+    self.playAudio();
 };
 
 Card.prototype.isEditable = function() {

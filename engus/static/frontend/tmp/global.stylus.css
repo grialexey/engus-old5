@@ -257,6 +257,12 @@ textarea {
   font-size: 18px;
   white-space: nowrap;
 }
+.card__front-pron.with-audio {
+  cursor: pointer;
+}
+.card__front-pron.with-audio:hover {
+  color: #33d147;
+}
 .card__back {
   padding-right: 22px;
   font-size: 18px;
@@ -268,6 +274,9 @@ textarea {
   color: #777;
   padding: 0;
   margin: 3px 22px 10px;
+}
+.card__audio {
+  display: none;
 }
 .card__image {
   max-width: 100%;
@@ -523,6 +532,10 @@ textarea {
 }
 .card__form-input[name=example] {
   resize: vertical;
+  height: auto;
+  line-height: inherit;
+  padding: 4px 0;
+  margin-top: -4px;
 }
 .card__form ::-webkit-input-placeholder {
   font-weight: normal;
