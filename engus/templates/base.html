@@ -18,13 +18,20 @@
         <div class="header__wrapper">
             <ul class="header__menu">
                 <li class="header__menu-item"><a href="/" class="header__menu-link header__menu-link--logo">Ингус</a></li>
-
                 {% if user.is_authenticated %}
+                    <li class="header__menu-item"><a href="{% url "cards:card-list-my" %}" class="header__menu-link {% block header_menu_item_mycards_class %}{% endblock %}">Мои карточки</a></li>
+                    <li class="header__menu-item"><span href="/" class="header__menu-link header__menu-link--add">+</span></li>
+                    <li class="header__menu-item header__menu-item--fill"></li>
+                    <li class="header__menu-item"><a href="/" class="header__menu-link">Помощь</a>
+                    <li class="header__menu-item"><a href="{% url 'logout' %}" class="header__menu-link">Выйти</a>
+                {% else %}
+                    <li class="header__menu-item header__menu-item--fill"></li>
+                    <li class="header__menu-item"><a href="/" class="header__menu-link">О сайте</a></li>
+                    <li class="header__menu-item"><a href="{% url "login" %}" class="header__menu-link {% block header_menu_item_login_class %}{% endblock %}">Войти</a></li>
+                {% endif %}
+            </ul>
 
-                {% url "cards:card-list-my" as my_cards_url %}
-                <li class="header__menu-item"><a href="{{ my_cards_url }}" class="header__menu-link {% if my_cards_url in request.get_full_path %}active{% endif %}">Мои карточки</a></li>
-                <li class="header__menu-item"><span href="/" class="header__menu-link header__menu-link--add">+</span></li>
-
+            {% if user.is_authenticated %}
                 <form action="{% url 'cards:card-create' %}" method="post" class="card card__form--create card__form" style="display: none;">
                     {% csrf_token %}
                     {% include "cards/card_edit_form.html" %}
@@ -34,19 +41,7 @@
 
                     <div class="card__overlay" style="display: none;"></div>
                 </form>
-
-                <li class="header__menu-item header__menu-item--fill"></li>
-                <li class="header__menu-item"><a href="/" class="header__menu-link">Помощь</a>
-                <li class="header__menu-item"><a href="/" class="header__menu-link">Выйти</a>
-
-                {% else %}
-
-                <li class="header__menu-item header__menu-item--fill"></li>
-                <li class="header__menu-item"><a href="/" class="header__menu-link">О сайте</a></li>
-                <li class="header__menu-item"><a href="/" class="header__menu-link">Войти</a></li>
-
-                {% endif %}
-            </ul>
+            {% endif %}
         </div>
     </header>
 

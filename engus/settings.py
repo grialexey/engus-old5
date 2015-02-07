@@ -11,6 +11,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     # Third-party apps, patches, fixes
     'easy_thumbnails',
@@ -19,6 +20,7 @@ INSTALLED_APPS = (
     'pytils',
 
     # Application base, containing global templates.
+    'engus.accounts',
     'engus.cards',
 
     # Local apps, referenced via engus.appname
@@ -85,6 +87,10 @@ STATIC_URL = '/static/'
 #APPEND_SLASH = False
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
+
+LOGIN_REDIRECT_URL = '/'
+
+SITE_ID = 1
 
 
 # Third-party apps settings

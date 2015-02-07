@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     url(r'^$', TemplateView.as_view(template_name='home.html'), name='home'),
     url(r'^cards/', include('engus.cards.urls', namespace='cards')),
     url(r'^engusadmin/', include(admin.site.urls)),
+    url(r'^accounts/', include('engus.accounts.urls')),
 )
 
 
