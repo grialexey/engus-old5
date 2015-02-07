@@ -1,9 +1,11 @@
 {% if card %}
-    <div class="card__content {% if user.is_authenticated %}editable{% endif %}">
+    <div class="card__content {% if is_my_cards %}editable{% endif %}">
         <div class="card__top">
             <span class="card__front">
                 <span class="card__front-word">{{ card.front.text }}</span>
-                <span class="card__front-pron {% if card.front.audio %}with-audio{% endif %}">{{ card.front.pronunciation }}</span>
+                {% if card.front.pronunciation %}
+                    <span class="card__front-pron {% if card.front.audio %}with-audio{% endif %}">{{ card.front.pronunciation }}</span>
+                {% endif %}
                 {% if card.front.audio %}
                     <audio class="card__audio" src="{{ card.front.audio.url }}" preload="auto"></audio>
                 {% endif %}

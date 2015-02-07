@@ -15,6 +15,11 @@ class DeckDetailView(DetailView):
     context_object_name = 'deck'
     model = Deck
 
+    def get_context_data(self, **kwargs):
+        context = super(DeckDetailView, self).get_context_data(**kwargs)
+        context['is_my_cards'] = False
+        return context
+
 
 class MyCardListView(LoginRequiredMixin, ListView):
 
@@ -22,6 +27,11 @@ class MyCardListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Card.objects.filter(learner=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super(MyCardListView, self).get_context_data(**kwargs)
+        context['is_my_cards'] = True
+        return context
 
     def get_template_names(self):
         if self.request.is_ajax():

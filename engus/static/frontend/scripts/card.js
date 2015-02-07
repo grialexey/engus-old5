@@ -1,14 +1,15 @@
 var Card = function($element) {
-    this.$el = $element;
-    this.init();
+    this.init($element);
 };
 
-Card.prototype.init = function() {
-    this.cacheElements();
+Card.prototype.init = function($element) {
+    this.cacheElements($element);
     this.bindEvents();
+    this.isEditable = this.$content.is('.editable');
 };
 
-Card.prototype.cacheElements = function() {
+Card.prototype.cacheElements = function($element) {
+    this.$el = $element;
     this.$infoline = this.$el.find('.card__infoline');
     this.$editControls = this.$el.find('.card__controls--edit');
     this.$overlay = this.$el.find('.card__overlay');
@@ -23,6 +24,7 @@ Card.prototype.cacheElements = function() {
     this.$playAudioBtn = this.$el.find('.card__front-pron.with-audio');
     this.$audio = this.$el.find('.card__audio');
     this.$editForm.$exampleTextArea = this.$editForm.find('.card__form-input[name=example]');
+
 };
 
 Card.prototype.bindEvents = function() {
@@ -46,13 +48,9 @@ Card.prototype.playAudioEvent = function(event) {
     self.playAudio();
 };
 
-Card.prototype.isEditable = function() {
-    return this.$content.is('.editable')
-};
-
 Card.prototype.clickOnContentEvent = function(event) {
     var self = event.data.self;
-    if (self.isEditable()) {
+    if (self.isEditable) {
         self.toggleControls();
     }
 };
@@ -103,7 +101,9 @@ Card.prototype.learn = function() {
     this.$back.show();
     this.$example.show();
     this.$image.show();
-    this.$content.addClass('editable');
+    if (this.isEditable) {
+        this.$content.addClass('editable');
+    }
 };
 
 Card.prototype.repeat = function() {
