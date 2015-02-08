@@ -100,7 +100,7 @@ Card.prototype.clickOverlayEvent = function(event) {
         self.$overlay.hide().removeClass('right').text('').css('z-index', '10');
         setTimeout(function() {
             self.$levelChangeControls.slideDown(200);
-        }, 700);
+        }, 350);
 
         //self.cardsToRepeatCount -= 1;
         //if (self.cardsToRepeatCount == 0) {
