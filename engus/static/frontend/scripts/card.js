@@ -138,9 +138,7 @@ Card.prototype.learn = function() {
     this.$back.show();
     this.$example.show();
     this.$image.show();
-    if (this.isEditable()) {
-        this.$content.addClass('editable');
-    }
+    this.$content.addClass('editable');
 };
 
 Card.prototype.repeat = function() {
@@ -158,7 +156,7 @@ Card.prototype.repeat = function() {
         self.$overlay.hide().removeClass('right').text('').css('z-index', '10');
         setTimeout(function() {
             self.$levelChangeControls.slideDown(200);
-        }, 800);
+        }, 700);
 
         //if (self.cardsToRepeatCount == 0) {
             //switchMode(LEARN_MODE);
