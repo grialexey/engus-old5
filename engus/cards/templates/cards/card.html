@@ -12,10 +12,13 @@
             </span><!--
          --><span class="card__back">{{ card.back }}</span>
         </div>
-        <span class="card__level level{{ card.level }}" data-level="{{ card.level }}">{% if card.level %}{{ card.level }}{% endif %}</span>
+
+        <span class="card__level level{{ card.level }} {% if card.is_repeated_today %}m-repeated-today{% endif %}" data-level="{{ card.level }}">{% if card.level %}{{ card.level }}{% endif %}</span>
+
         {% if card.example %}
             <div class="card__example">{{ card.example|linebreaksbr }}</div>
         {% endif %}
+
         {% if card.image %}
             {% load thumbnail %}
             {% thumbnail card.image 506x300  quality=80 as thumb %}
@@ -29,7 +32,7 @@
                 {% csrf_token %}
                 <input type="hidden" name="pk" value="{{ card.pk }}">
                 <input type="hidden" name="level" value="up">
-                <button class="card__button card__button--learned">Вспомнил</button>
+                <button class="card__button card__button--learned" {% if card.is_repeated_today %}disabled{% endif %}>Вспомнил</button>
             </form>
         </li>
         <li class="card__controls-item">
@@ -37,7 +40,7 @@
                 {% csrf_token %}
                 <input type="hidden" name="pk" value="{{ card.pk }}">
                 <input type="hidden" name="level" value="down">
-                <button class="card__button card__button--forget">Не вспомнил</button>
+                <button class="card__button card__button--forget" {% if card.is_repeated_today %}disabled{% endif %}>Не вспомнил</button>
             </form>
         </li>
     </ul>
@@ -56,7 +59,7 @@
                         {% csrf_token %}
                         <input type="hidden" name="pk" value="{{ card.pk }}">
                         <input type="hidden" name="level" value="up">
-                        <button class="card__button card__button--learned">Запомнил</button>
+                        <button class="card__button card__button--learned" {% if card.is_repeated_today %}disabled{% endif %}>Запомнил</button>
                     </form>
                 </li>
                 <li class="card__controls-item">
@@ -64,7 +67,7 @@
                         {% csrf_token %}
                         <input type="hidden" name="pk" value="{{ card.pk }}">
                         <input type="hidden" name="level" value="down">
-                        <button class="card__button card__button--forget">Забыл</button>
+                        <button class="card__button card__button--forget" {% if card.is_repeated_today %}disabled{% endif %}>Забыл</button>
                     </form>
                 </li>
                 <li class="card__controls-item"><span class="card__button card__button--edit">Редактировать</span></li>

@@ -62,30 +62,33 @@
     &__level {
         position: absolute;
         font-weight: bold;
-        font-size: 18px;
+        font-size: 16px;
         top: 5px;
         right: 6px;
         z-index: 5;
 
+        &.m-repeated-today {
+            opacity: 0.5;
+        }
+
         &.level1 {
-            color: red;
+            color: #f00;
         }
 
         &.level2 {
-            color: green;
+            color: #080;
         }
 
         &.level3 {
-            color: green;
+            color: #080;
         }
 
         &.level4 {
-            color: green;
+            color: #080;
         }
 
         &.level5 {
-            font-weight: bold;
-            color: blue;
+            color: #00f;
         }
     }
 
@@ -255,6 +258,18 @@
             &:active, &.active {
                 color: #fff;
                 background-color: #64c864;
+            }
+        }
+
+        &:disabled {
+            background-color: #fff;
+            border-color: #aaa;
+            color: #ccc;
+            cursor: default;
+
+            &:active {
+                background-color: #fff;
+                color: #ccc;
             }
         }
     }

@@ -49,18 +49,23 @@ class Card(models.Model):
     def is_public(self):
         return self.deck is None
 
+    def is_repeated_today(self):
+        return self.last_repeat is not None and (self.last_repeat.date() == timezone.now().date())
+
     def level_up(self):
-        if self.level == 0:
-            self.level = 2
-        elif self.level < 5:
-            self.level += 1
-        self.last_repeat = timezone.now()
-        self.repeat_count += 1
+        if not self.is_repeated_today():
+            if self.level == 0:
+                self.level = 2
+            elif self.level < 5:
+                self.level += 1
+            self.last_repeat = timezone.now()
+            self.repeat_count += 1
 
     def level_down(self):
-        self.level = 1
-        self.last_repeat = timezone.now()
-        self.repeat_count += 1
+        if not self.is_repeated_today():
+            self.level = 1
+            self.last_repeat = timezone.now()
+            self.repeat_count += 1
 
     class Meta:
         verbose_name = u'Карточка'
