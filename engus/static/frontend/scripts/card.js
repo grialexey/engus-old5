@@ -61,7 +61,9 @@ Card.prototype.setLevel = function(level) {
 
 Card.prototype.levelUp = function() {
     var level = this.getLevel();
-    if (level < 5) {
+    if (level == 0) {
+        this.setLevel(2);
+    } else if (level < 5) {
         this.setLevel(level + 1);
     }
 };

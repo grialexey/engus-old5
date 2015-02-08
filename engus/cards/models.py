@@ -48,10 +48,12 @@ class Card(models.Model):
     objects = CardManager()
 
     def level_up(self):
+        if self.level == 0:
+            self.level = 2
         if self.level < 5:
-            self.last_repeat = timezone.now()
             self.level += 1
-            self.repeat_count += 1
+        self.last_repeat = timezone.now()
+        self.repeat_count += 1
 
     def level_down(self):
         self.level = 1
