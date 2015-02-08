@@ -50,7 +50,7 @@ class Card(models.Model):
     def level_up(self):
         if self.level == 0:
             self.level = 2
-        if self.level < 5:
+        elif self.level < 5:
             self.level += 1
         self.last_repeat = timezone.now()
         self.repeat_count += 1
