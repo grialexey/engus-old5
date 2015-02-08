@@ -103,6 +103,7 @@ Card.prototype.closeControlsMenu = function() {
     this.$infoline.hide();
     this.$content.show();
     this.$editForm.hide();
+    this.$levelChangeControls.hide();
 };
 
 Card.prototype.clickOutsideEvent = function(event) {
