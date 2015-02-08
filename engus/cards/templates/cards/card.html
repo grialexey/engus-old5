@@ -24,38 +24,40 @@
     </div>
 
     {% if user.is_authenticated and card.learner == user %}
-        <ul class="card__infoline" style="display: none;">
-            <li class="card__infoline-item">Добавлена: {{ card.created|date:"d.m.Y" }}</li>
-            {% if card.last_repeat %}<li class="card__infoline-item">Повторена: {{ card.last_repeat|date:"d.m.Y" }}</li>{% endif %}
-            <li class="card__infoline-item">Повторений: {{ card.repeat_count }}</li>
-        </ul>
+        <div class="card__infomenu" style="display: none;">
+            <ul class="card__infoline">
+                <li class="card__infoline-item">Добавлена: {{ card.created|date:"d.m.Y" }}</li>
+                {% if card.last_repeat %}<li class="card__infoline-item">Повторена: {{ card.last_repeat|date:"d.m.Y" }}</li>{% endif %}
+                <li class="card__infoline-item">Повторений: {{ card.repeat_count }}</li>
+            </ul>
 
-        <ul class="card__controls card__controls--edit" style="display: none;">
-            <li class="card__controls-item">
-                <form class="card__form--level" action="{% url 'cards:card-update-level' %}" method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="pk" value="{{ card.pk }}">
-                    <input type="hidden" name="level" value="up">
-                    <button class="card__button card__button--learned">Запомнил</button>
-                </form>
-            </li>
-            <li class="card__controls-item">
-                <form class="card__form--level" action="{% url 'cards:card-update-level' %}" method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="pk" value="{{ card.pk }}">
-                    <input type="hidden" name="level" value="down">
-                    <button class="card__button card__button--forget">Забыл</button>
-                </form>
-            </li>
-            <li class="card__controls-item"><span class="card__button card__button--edit">Редактировать</span></li>
-            <li class="card__controls-item">
-                <form class="card__form--delete" action="{% url 'cards:card-delete' %}" method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="id" value="{{ card.pk }}">
-                    <button class="card__button card__button--remove">Удалить</button>
-                </form>
-            </li>
-        </ul>
+            <ul class="card__controls card__controls--edit">
+                <li class="card__controls-item">
+                    <form class="card__form--level" action="{% url 'cards:card-update-level' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="pk" value="{{ card.pk }}">
+                        <input type="hidden" name="level" value="up">
+                        <button class="card__button card__button--learned">Запомнил</button>
+                    </form>
+                </li>
+                <li class="card__controls-item">
+                    <form class="card__form--level" action="{% url 'cards:card-update-level' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="pk" value="{{ card.pk }}">
+                        <input type="hidden" name="level" value="down">
+                        <button class="card__button card__button--forget">Забыл</button>
+                    </form>
+                </li>
+                <li class="card__controls-item"><span class="card__button card__button--edit">Редактировать</span></li>
+                <li class="card__controls-item">
+                    <form class="card__form--delete" action="{% url 'cards:card-delete' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="id" value="{{ card.pk }}">
+                        <button class="card__button card__button--remove">Удалить</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
 
         <ul class="card__controls card__controls--level-change" style="display: none;">
             <li class="card__controls-item">

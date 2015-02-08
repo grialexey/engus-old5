@@ -14,6 +14,7 @@ Card.prototype.init = function() {
 
 Card.prototype.cacheElements = function() {
     this.$infoline = this.$el.find('.card__infoline');
+    this.$infoMenu = this.$el.find('.card__infomenu');
     this.$editControls = this.$el.find('.card__controls--edit');
     this.$levelChangeControls = this.$el.find('.card__controls--level-change');
     this.$overlay = this.$el.find('.card__overlay');
@@ -92,15 +93,14 @@ Card.prototype.clickOnContentEvent = function(event) {
 };
 
 Card.prototype.toggleControlsMenu = function() {
-    this.$editControls.toggle();
-    this.$infoline.toggle();
+    this.$infoMenu.slideToggle(200);
     this.$content.show();
     this.$editForm.hide();
+    this.$levelChangeControls.hide();
 };
 
 Card.prototype.closeControlsMenu = function() {
-    this.$editControls.hide();
-    this.$infoline.hide();
+    this.$infoMenu.hide();
     this.$content.show();
     this.$editForm.hide();
     this.$levelChangeControls.hide();
@@ -156,7 +156,9 @@ Card.prototype.repeat = function() {
         //self.cardsToRepeatCount -= 1;
         self.learn();
         self.$overlay.hide().removeClass('right').text('').css('z-index', '10');
-        self.$levelChangeControls.show();
+        setTimeout(function() {
+            self.$levelChangeControls.slideDown(200);
+        }, 800);
 
         //if (self.cardsToRepeatCount == 0) {
             //switchMode(LEARN_MODE);
