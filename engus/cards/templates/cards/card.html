@@ -23,6 +23,25 @@
         {% endif %}
     </div>
 
+    <ul class="card__controls card__controls--level-change" style="display: none;">
+        <li class="card__controls-item">
+            <form class="card__form--level" action="{% url 'cards:card-update-level' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="pk" value="{{ card.pk }}">
+                <input type="hidden" name="level" value="up">
+                <button class="card__button card__button--learned">Вспомнил</button>
+            </form>
+        </li>
+        <li class="card__controls-item">
+            <form class="card__form--level" action="{% url 'cards:card-update-level' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="pk" value="{{ card.pk }}">
+                <input type="hidden" name="level" value="down">
+                <button class="card__button card__button--forget">Не вспомнил</button>
+            </form>
+        </li>
+    </ul>
+
     {% if user.is_authenticated and card.learner == user %}
         <div class="card__infomenu" style="display: none;">
             <ul class="card__infoline">
@@ -58,25 +77,6 @@
                 </li>
             </ul>
         </div>
-
-        <ul class="card__controls card__controls--level-change" style="display: none;">
-            <li class="card__controls-item">
-                <form class="card__form--level" action="{% url 'cards:card-update-level' %}" method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="pk" value="{{ card.pk }}">
-                    <input type="hidden" name="level" value="up">
-                    <button class="card__button card__button--learned">Вспомнил</button>
-                </form>
-            </li>
-            <li class="card__controls-item">
-                <form class="card__form--level" action="{% url 'cards:card-update-level' %}" method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="pk" value="{{ card.pk }}">
-                    <input type="hidden" name="level" value="down">
-                    <button class="card__button card__button--forget">Не вспомнил</button>
-                </form>
-            </li>
-        </ul>
 
 
         <form action="{% url 'cards:card-update' %}" method="post" class="card__form card__form--update" style="display: none;">

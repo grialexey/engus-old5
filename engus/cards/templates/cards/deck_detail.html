@@ -9,11 +9,11 @@
             <img class="deck__image" src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}">
         {% endif %}
         <h1 class="deck__title">{{ deck.name }}</h1>
-        {{ deck.description }}
+        {{ deck.description|safe }}
     </article>
 
 
-    {% with card_list=deck.cards.all %}
+    {% with card_list=deck.card_set.all %}
         {% if card_list %}
             {% include "cards/card_list.html" %}
         {% endif %}

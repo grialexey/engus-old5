@@ -32,7 +32,6 @@ class Card(models.Model):
     front = models.ForeignKey(CardFront, verbose_name=u'Верх')
     back = models.CharField(blank=True, max_length=255, verbose_name=u'Перевод')
     image = models.ImageField(upload_to='card_image/%Y_%m_%d', blank=True, verbose_name=u'Изображение')
-    icon = models.ImageField(upload_to='card_icon/%Y_%m_%d', blank=True, verbose_name=u'Иконка')
     example = models.TextField(blank=True, verbose_name=u'Пример употребления')
 
     learner = models.ForeignKey(User, null=True, blank=True)
@@ -40,12 +39,15 @@ class Card(models.Model):
     last_repeat = models.DateTimeField(null=True, blank=True)
     repeat_count = models.PositiveIntegerField(default=0)
 
-    is_public = models.BooleanField(default=False)
+    deck = models.ForeignKey('Deck', blank=True, null=True, verbose_name=u'Набор')
     parent = models.ForeignKey('self', null=True, blank=True)
     popularity = models.IntegerField(default=0)
     created = models.DateTimeField(auto_now_add=True, verbose_name=u'Создана')
 
     objects = CardManager()
+
+    def is_public(self):
+        return self.deck is None
 
     def level_up(self):
         if self.level == 0:
@@ -74,7 +76,6 @@ class Deck(models.Model):
     slug = AutoSlugField(populate_from='name', max_length=255, unique=True, editable=True,
                          slugify_function=ru_slugify_fn)
     subtitle = models.CharField(max_length=255, blank=True, verbose_name=u'Подзаголовок')
-    cards = models.ManyToManyField(Card, blank=True, verbose_name=u'Карточки')
     image = models.ImageField(upload_to="card_deck/%Y_%m_%d", blank=True, verbose_name=u'Изображение')
     description = models.TextField(blank=True, verbose_name=u'Текст')
     similar_decks = models.ManyToManyField('self', blank=True, verbose_name=u'Похожие наборы')

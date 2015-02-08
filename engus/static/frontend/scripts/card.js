@@ -9,7 +9,7 @@ Card.prototype.init = function() {
     this.mode = this.NORMAL_MODE;
     this.cacheElements();
     this.bindEvents();
-    this.isRegisteredUser = this.$el.is('.registered');
+    this.isLearnersCard = this.$el.is('.card--learning');
 };
 
 Card.prototype.cacheElements = function() {
@@ -41,6 +41,7 @@ Card.prototype.bindEvents = function() {
     this.$content.on('click', { self: this }, this.clickOnContentEvent);
     this.$editButton.on('click', { self: this }, this.clickOnEditButtonEvent);
     this.$playAudioBtn.on('click', { self: this }, this.playAudioEvent);
+    this.$overlay.on('click', { self: this }, this.clickOverlayEvent);
     $(document).on('click', { self: this }, this.clickOutsideEvent);
 };
 
@@ -92,6 +93,23 @@ Card.prototype.clickOnContentEvent = function(event) {
     }
 };
 
+Card.prototype.clickOverlayEvent = function(event) {
+    var self = event.data.self;
+    if ($(this).filter('.right')) {
+        self.learn();
+        self.$overlay.hide().removeClass('right').text('').css('z-index', '10');
+        setTimeout(function() {
+            self.$levelChangeControls.slideDown(200);
+        }, 700);
+
+        //self.cardsToRepeatCount -= 1;
+        //if (self.cardsToRepeatCount == 0) {
+            //switchMode(LEARN_MODE);
+        //}
+
+    }
+};
+
 Card.prototype.toggleControlsMenu = function() {
     this.$infoMenu.slideToggle(200);
     this.$content.show();
@@ -138,7 +156,9 @@ Card.prototype.learn = function() {
     this.$back.show();
     this.$example.show();
     this.$image.show();
-    this.$content.addClass('editable');
+    if (this.isLearnersCard) {
+        this.$content.addClass('editable');
+    }
 };
 
 Card.prototype.repeat = function() {
@@ -150,18 +170,6 @@ Card.prototype.repeat = function() {
     this.$overlay.addClass('right');
     this.$overlay.show().text('Показать').css('z-index', '3');
     var self = this;
-    this.$overlay.one('click', function() {
-        //self.cardsToRepeatCount -= 1;
-        self.learn();
-        self.$overlay.hide().removeClass('right').text('').css('z-index', '10');
-        setTimeout(function() {
-            self.$levelChangeControls.slideDown(200);
-        }, 700);
-
-        //if (self.cardsToRepeatCount == 0) {
-            //switchMode(LEARN_MODE);
-        //}
-    });
 };
 
 Card.prototype.deleteCardEvent = function(event) {
@@ -194,7 +202,7 @@ Card.prototype.updateCardLevelEvent = function(event) {
     } else if (levelChange == 'down') {
         self.levelDown();
     }
-    if (self.isRegisteredUser) {
+    if (self.isLearnersCard) {
         self.updateCardAjax($form);
     }
 };

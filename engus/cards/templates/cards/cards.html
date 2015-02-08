@@ -1,8 +1,8 @@
 {% if is_paginated %}{% load paginator %}{% paginator 2 %}{% endif %}
 
 <ul class="card-list__list">
-    {% for card in cards %}
-        <li class="card {% if user.is_authenticated and card.learner == user %}registered{% endif %}">
+    {% for card in card_list %}
+        <li class="card {% if user.is_authenticated and card.learner == user %}card--learning{% endif %}">
             {% include "cards/card.html" %}
         </li>
     {% endfor %}

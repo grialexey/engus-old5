@@ -114,14 +114,7 @@ def delete_card_view(request):
         if form.is_valid():
             card_id = form.cleaned_data.get('id')
             card = Card.objects.get(pk=card_id, learner=request.user)
-            if card.is_public:
-                card.learner = None
-                card.save()
-            else:
-                # card_front = card.front
-                # if not card_front.is_public:
-                #     card_front.delete()
-                card.delete()
+            card.delete()
             return HttpResponse(status=200)
         else:
             return HttpResponseBadRequest()

@@ -5,11 +5,7 @@
     </ul>
 
     <div class="card-list__content">
-        {% with cards=card_list %}
-            {% if cards %}
-                {% include "cards/cards.html" %}
-            {% endif %}
-        {% endwith %}
+        {% include "cards/cards.html" %}
         <div class="card-list__overlay"></div>
     </div>
 </section>

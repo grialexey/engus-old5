@@ -18,6 +18,7 @@ INSTALLED_APPS = (
     #'rest_framework',
     #'debug_toolbar',
     'pytils',
+    'ckeditor',
 
     # Application base, containing global templates.
     'engus.accounts',
@@ -103,5 +104,25 @@ THUMBNAIL_SUBDIR = 'thumbs'
 #     'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',)
 # }
 
+CKEDITOR_UPLOAD_PATH = 'ckeditor_uploads/'
+
+CKEDITOR_IMAGE_BACKEND = 'pillow'
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': [
+            ['Styles', 'Format', 'Bold', 'Italic', 'Underline', 'Strike', 'SpellChecker', ],
+            ['Undo', 'Redo'],
+            ['FontSize'],
+            ['Link', 'Unlink', 'Anchor'],
+            ['Image', 'Flash', 'Table', 'HorizontalRule'],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', ],
+            ['TextColor', 'BGColor'],
+            ['Smiley', 'SpecialChar'], ['Source'],
+        ],
+        'height': 600,
+        'width': 635,
+    },
+}
 
 from .local_settings import *
