@@ -67,7 +67,7 @@ Card.prototype.levelUp = function() {
 };
 
 Card.prototype.levelDown = function() {
-    this.setLevel(0);
+    this.setLevel(1);
 };
 
 Card.prototype.playAudio = function() {
@@ -184,7 +184,7 @@ Card.prototype.updateCardLevelEvent = function(event) {
     event.preventDefault();
     var self = event.data.self,
         $form = $(this),
-        levelChange = $form.find('[name=level]');
+        levelChange = $form.find('input[name=level]').val();
     self.$levelChangeControls.hide();
     if (levelChange == 'up') {
         self.levelUp();
