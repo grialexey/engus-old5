@@ -11,6 +11,7 @@ class CardFrontAdmin(admin.ModelAdmin):
 
 
 class CardAdmin(admin.ModelAdmin):
+    list_display = ('__unicode__', 'level', )
     raw_id_fields = ('front', 'learner', 'parent', )
 
 

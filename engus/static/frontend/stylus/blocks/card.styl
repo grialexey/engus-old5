@@ -9,6 +9,7 @@
     position: relative;
 
     &__content {
+        padding: 11px 0;
 
         &.editable {
             cursor: pointer;
@@ -16,7 +17,7 @@
     }
 
     &__top {
-        padding: 11px 0;
+        position: relative;
     }
 
     &__front, &__back {
@@ -58,12 +59,42 @@
         color: #333;
     }
 
+    &__level {
+        position: absolute;
+        font-weight: bold;
+        font-size: 18px;
+        top: 5px;
+        right: 6px;
+        z-index: 5;
+
+        &.level1 {
+            color: red;
+        }
+
+        &.level2 {
+            color: red;
+        }
+
+        &.level3 {
+            color: green;
+        }
+
+        &.level4 {
+            color: green;
+        }
+
+        &.level5 {
+            font-weight: bold;
+            color: blue;
+        }
+    }
+
     &__example {
         font-size: 15px;
         line-height: 17px;
         color: #888;
         padding: 0;
-        margin: 3px 22px 10px;
+        margin: 11px 22px 0;
     }
 
     &__audio {
@@ -92,6 +123,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        z-index: 10;
 
         &.left, &.right {
             cursor: pointer
@@ -147,7 +179,7 @@
         /*border-top: 1px solid rgba(0,195,255,0.3);*/
         background-color: rgba(0,195,255,0.2);
 
-        &--repeating {
+        &--level-change {
             justify-content: space-around;
             padding-left: 0;
             padding-right: 0;
@@ -235,7 +267,7 @@
             left: 15px;
             right: 15px;
             margin: 0;
-            z-index: 10;
+            z-index: 200;
         }
 
 

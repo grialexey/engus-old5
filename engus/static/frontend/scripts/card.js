@@ -1,17 +1,21 @@
 var Card = function($element) {
-    this.init($element);
-};
-
-Card.prototype.init = function($element) {
-    this.cacheElements($element);
-    this.bindEvents();
-    this.isEditable = this.$content.is('.editable');
-};
-
-Card.prototype.cacheElements = function($element) {
     this.$el = $element;
+    this.init();
+};
+
+Card.prototype.init = function() {
+    this.NORMAL_MODE = 1;
+    this.REPEAT_MODE = 2;
+    this.mode = this.NORMAL_MODE;
+    this.cacheElements();
+    this.bindEvents();
+    this.isRegisteredUser = this.$el.is('.registered');
+};
+
+Card.prototype.cacheElements = function() {
     this.$infoline = this.$el.find('.card__infoline');
     this.$editControls = this.$el.find('.card__controls--edit');
+    this.$levelChangeControls = this.$el.find('.card__controls--level-change');
     this.$overlay = this.$el.find('.card__overlay');
     this.$content = this.$el.find('> .card__content');
     this.$back = this.$content.find('.card__back');
@@ -20,9 +24,11 @@ Card.prototype.cacheElements = function($element) {
     this.$example = this.$content.find('.card__example');
     this.$deleteForm = this.$el.find('.card__form--delete');
     this.$editForm = this.$el.find('.card__form--update');
+    this.$levelChangeForm = this.$el.find('.card__form--level');
     this.$editButton = this.$el.find('.card__button--edit');
     this.$playAudioBtn = this.$el.find('.card__front-pron.with-audio');
     this.$audio = this.$el.find('.card__audio');
+    this.$level = this.$el.find('.card__level');
     this.$editForm.$exampleTextArea = this.$editForm.find('.card__form-input[name=example]');
 
 };
@@ -30,10 +36,38 @@ Card.prototype.cacheElements = function($element) {
 Card.prototype.bindEvents = function() {
     this.$deleteForm.on('submit', { self: this }, this.deleteCardEvent);
     this.$editForm.on('submit', { self: this }, this.updateCardEvent);
+    this.$levelChangeForm.on('submit', { self: this }, this.updateCardLevelEvent);
     this.$content.on('click', { self: this }, this.clickOnContentEvent);
     this.$editButton.on('click', { self: this }, this.clickOnEditButtonEvent);
     this.$playAudioBtn.on('click', { self: this }, this.playAudioEvent);
     $(document).on('click', { self: this }, this.clickOutsideEvent);
+};
+
+Card.prototype.isEditable = function() {
+    return this.$content.is('.editable');
+};
+
+Card.prototype.getLevel = function() {
+    return parseInt(this.$level.data('level'));
+};
+
+Card.prototype.setLevel = function(level) {
+    this.$level
+        .removeClass('level1 level2 level3 level4 level5')
+        .addClass('level' + level)
+        .text(level)
+        .data('level', level);
+};
+
+Card.prototype.levelUp = function() {
+    var level = this.getLevel();
+    if (level < 5) {
+        this.setLevel(level + 1);
+    }
+};
+
+Card.prototype.levelDown = function() {
+    this.setLevel(0);
 };
 
 Card.prototype.playAudio = function() {
@@ -50,19 +84,19 @@ Card.prototype.playAudioEvent = function(event) {
 
 Card.prototype.clickOnContentEvent = function(event) {
     var self = event.data.self;
-    if (self.isEditable) {
-        self.toggleControls();
+    if (self.isEditable()) {
+        self.toggleControlsMenu();
     }
 };
 
-Card.prototype.toggleControls = function() {
+Card.prototype.toggleControlsMenu = function() {
     this.$editControls.toggle();
     this.$infoline.toggle();
     this.$content.show();
     this.$editForm.hide();
 };
 
-Card.prototype.closeControls = function() {
+Card.prototype.closeControlsMenu = function() {
     this.$editControls.hide();
     this.$infoline.hide();
     this.$content.show();
@@ -73,7 +107,7 @@ Card.prototype.clickOutsideEvent = function(event) {
     var self = event.data.self;
     var $target = $(event.target);
     if (!self.$el.is($target) && !self.$el.has($target).length > 0) {
-        self.closeControls();
+        self.closeControlsMenu();
     }
 };
 
@@ -101,7 +135,7 @@ Card.prototype.learn = function() {
     this.$back.show();
     this.$example.show();
     this.$image.show();
-    if (this.isEditable) {
+    if (this.isEditable()) {
         this.$content.addClass('editable');
     }
 };
@@ -113,12 +147,14 @@ Card.prototype.repeat = function() {
     this.$image.hide();
     this.$content.removeClass('editable');
     this.$overlay.addClass('right');
-    this.$overlay.show().text('Показать');
+    this.$overlay.show().text('Показать').css('z-index', '3');
     var self = this;
     this.$overlay.one('click', function() {
         //self.cardsToRepeatCount -= 1;
         self.learn();
-        self.$overlay.hide().removeClass('right').text('');
+        self.$overlay.hide().removeClass('right').text('').css('z-index', '10');
+        self.$levelChangeControls.show();
+
         //if (self.cardsToRepeatCount == 0) {
             //switchMode(LEARN_MODE);
         //}
@@ -144,21 +180,43 @@ Card.prototype.deleteCardEvent = function(event) {
     });
 };
 
+Card.prototype.updateCardLevelEvent = function(event) {
+    event.preventDefault();
+    var self = event.data.self,
+        $form = $(this),
+        levelChange = $form.find('[name=level]');
+    self.$levelChangeControls.hide();
+    if (levelChange == 'up') {
+        self.levelUp();
+    } else if (levelChange == 'down') {
+        self.levelDown();
+    }
+    if (self.isRegisteredUser) {
+        self.updateCardAjax($form);
+    }
+};
+
 Card.prototype.updateCardEvent = function(event) {
     event.preventDefault();
-    var self = event.data.self;
+    var self = event.data.self,
+        $form = $(this);
     self.$overlay.show();
+    self.updateCardAjax($form);
+};
+
+Card.prototype.updateCardAjax = function($form) {
+    var self = this;
     $.ajax({
-        url: self.$editForm.attr('action'),
-        method: 'post',
-        data: self.$editForm.serialize()
+        url: $form.attr('action'),
+        method: $form.attr('method'),
+        data: $form.serialize()
     }).done(function(data) {
         self.$overlay.hide();
         self.$el.html(data);
         self.init();
     }).error(function() {
-        self.$editForm.show();
-        self.$overlay.css('opacity', '1').css('color', '#ff0000').text('Ошибка при сохранении');
+        $form.show();
+        self.$overlay.show().css('opacity', '1').css('color', '#ff0000').text('Ошибка при сохранении');
         setTimeout(function() {
             self.$overlay.hide();
             self.$overlay.css('opacity', '0.5').css('color', '#000').text('');

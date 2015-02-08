@@ -7,18 +7,13 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from braces.views import LoginRequiredMixin
 from .models import Deck, Card, CardFront
-from .forms import CreateCardForm, DeleteCardForm, UpdateCardForm
+from .forms import CreateCardForm, DeleteCardForm, UpdateCardForm, UpdateCardLevelForm
 
 
 class DeckDetailView(DetailView):
 
     context_object_name = 'deck'
     model = Deck
-
-    def get_context_data(self, **kwargs):
-        context = super(DeckDetailView, self).get_context_data(**kwargs)
-        context['is_my_cards'] = False
-        return context
 
 
 class MyCardListView(LoginRequiredMixin, ListView):
@@ -27,11 +22,6 @@ class MyCardListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Card.objects.filter(learner=self.request.user)
-
-    def get_context_data(self, **kwargs):
-        context = super(MyCardListView, self).get_context_data(**kwargs)
-        context['is_my_cards'] = True
-        return context
 
     def get_template_names(self):
         if self.request.is_ajax():
@@ -66,7 +56,7 @@ def update_card_view(request):
     if request.is_ajax() and request.method == 'POST':
         form = UpdateCardForm(request.POST)
         if form.is_valid():
-            pk = form.cleaned_data.get('id')
+            pk = form.cleaned_data.get('pk')
             front = form.cleaned_data.get('front').strip()
             back = form.cleaned_data.get('back', '').strip()
             example = form.cleaned_data.get('example', '').strip()
@@ -87,6 +77,30 @@ def update_card_view(request):
             card_obj.example = example
             card_obj.save()
             return render_to_response('cards/card.html', {'card': card_obj, }, context_instance=RequestContext(request))
+        else:
+            return HttpResponseBadRequest()
+    else:
+        raise Http404
+
+
+@login_required
+def update_card_level_view(request):
+    if request.is_ajax() and request.method == 'POST':
+        form = UpdateCardLevelForm(request.POST)
+        if form.is_valid():
+            pk = form.cleaned_data.get('pk')
+            level_change = form.cleaned_data.get('level')
+            try:
+                card_obj = Card.objects.get(pk=pk, learner=request.user)
+                if level_change == UpdateCardLevelForm.UP:
+                    card_obj.level_up()
+                elif level_change == UpdateCardLevelForm.DOWN:
+                    card_obj.level_down()
+                card_obj.save()
+                return render_to_response('cards/card.html', {'card': card_obj, },
+                                          context_instance=RequestContext(request))
+            except Card.DoesNotExist:
+                return HttpResponseBadRequest()
         else:
             return HttpResponseBadRequest()
     else:

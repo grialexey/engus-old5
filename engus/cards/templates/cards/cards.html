@@ -2,7 +2,7 @@
 
 <ul class="card-list__list">
     {% for card in cards %}
-        <li class="card">
+        <li class="card {% if user.is_authenticated and card.learner == user %}registered{% endif %}">
             {% include "cards/card.html" %}
         </li>
     {% endfor %}

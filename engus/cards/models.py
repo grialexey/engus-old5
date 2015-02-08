@@ -2,6 +2,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from django.utils import timezone
 from engus.utils.autoslug_field import AutoSlugField, ru_slugify_fn
 
 
@@ -28,22 +29,6 @@ class CardManager(models.Manager):
 
 
 class Card(models.Model):
-    FORGET = -2
-    REPEAT = -1
-    NEW = 0
-    GOOD = 1
-    GREAT = 2
-    FINISH = 3
-
-    LEVEL_CHOICES = (
-        (FORGET, u'Забыл'),
-        (REPEAT, u'К повторению'),
-        (NEW, u'Новая'),
-        (GOOD, u'Хорошо'),
-        (GREAT, u'Отлично'),
-        (FINISH, u'Запомнил'),
-
-    )
     front = models.ForeignKey(CardFront, verbose_name=u'Верх')
     back = models.CharField(blank=True, max_length=255, verbose_name=u'Перевод')
     image = models.ImageField(upload_to='card_image/%Y_%m_%d', blank=True, verbose_name=u'Изображение')
@@ -51,7 +36,7 @@ class Card(models.Model):
     example = models.TextField(blank=True, verbose_name=u'Пример употребления')
 
     learner = models.ForeignKey(User, null=True, blank=True)
-    level = models.IntegerField(choices=LEVEL_CHOICES, default=0)
+    level = models.IntegerField(default=0)
     last_repeat = models.DateTimeField(null=True, blank=True)
     repeat_count = models.PositiveIntegerField(default=0)
 
@@ -61,6 +46,17 @@ class Card(models.Model):
     created = models.DateTimeField(auto_now_add=True, verbose_name=u'Создана')
 
     objects = CardManager()
+
+    def level_up(self):
+        if self.level < 5:
+            self.last_repeat = timezone.now()
+            self.level += 1
+            self.repeat_count += 1
+
+    def level_down(self):
+        self.level = 1
+        self.last_repeat = timezone.now()
+        self.repeat_count += 1
 
     class Meta:
         verbose_name = u'Карточка'
