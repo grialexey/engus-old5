@@ -71,7 +71,7 @@
                 <li class="card__controls-item">
                     <form class="card__form--delete" action="{% url 'cards:card-delete' %}" method="post">
                         {% csrf_token %}
-                        <input type="hidden" name="id" value="{{ card.pk }}">
+                        <input type="hidden" name="pk" value="{{ card.pk }}">
                         <button class="card__button card__button--remove">Удалить</button>
                     </form>
                 </li>
@@ -82,7 +82,7 @@
         <form action="{% url 'cards:card-update' %}" method="post" class="card__form card__form--update" style="display: none;">
             {% csrf_token %}
             {% include 'cards/card_edit_form.html' %}
-            <input type="hidden" name="id" value="{{ card.pk }}">
+            <input type="hidden" name="pk" value="{{ card.pk }}">
 
             <ul class="card__controls">
                 <li class="card__controls-item card__controls-item--single"><input type="submit" value="Сохранить" class="card__button card__button--add"></li>

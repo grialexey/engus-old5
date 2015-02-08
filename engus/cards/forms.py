@@ -29,4 +29,4 @@ class UpdateCardLevelForm(forms.Form):
 
 
 class DeleteCardForm(forms.Form):
-    id = forms.IntegerField()
+    pk = forms.IntegerField()

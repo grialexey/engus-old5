@@ -55,13 +55,14 @@ def create_card_view(request):
 def update_card_view(request):
     if request.is_ajax() and request.method == 'POST':
         form = UpdateCardForm(request.POST)
+        print form.errors
         if form.is_valid():
-            pk = form.cleaned_data.get('pk')
+            card_pk = form.cleaned_data.get('pk')
             front = form.cleaned_data.get('front').strip()
             back = form.cleaned_data.get('back', '').strip()
             example = form.cleaned_data.get('example', '').strip()
             try:
-                card_obj = Card.objects.get(pk=pk, learner=request.user)
+                card_obj = Card.objects.get(pk=card_pk, learner=request.user)
             except Card.DoesNotExist:
                 return HttpResponseBadRequest()
             if front != card_obj.front.text:
@@ -88,10 +89,10 @@ def update_card_level_view(request):
     if request.is_ajax() and request.method == 'POST':
         form = UpdateCardLevelForm(request.POST)
         if form.is_valid():
-            pk = form.cleaned_data.get('pk')
+            card_pk = form.cleaned_data.get('pk')
             level_change = form.cleaned_data.get('level')
             try:
-                card_obj = Card.objects.get(pk=pk, learner=request.user)
+                card_obj = Card.objects.get(pk=card_pk, learner=request.user)
                 if level_change == UpdateCardLevelForm.UP:
                     card_obj.level_up()
                 elif level_change == UpdateCardLevelForm.DOWN:
@@ -112,8 +113,8 @@ def delete_card_view(request):
     if request.is_ajax() and request.method == 'POST':
         form = DeleteCardForm(request.POST)
         if form.is_valid():
-            card_id = form.cleaned_data.get('id')
-            card = Card.objects.get(pk=card_id, learner=request.user)
+            card_pk = form.cleaned_data.get('pk')
+            card = Card.objects.get(pk=card_pk, learner=request.user)
             card.delete()
             return HttpResponse(status=200)
         else:
