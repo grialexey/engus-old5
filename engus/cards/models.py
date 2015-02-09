@@ -64,7 +64,6 @@ class Card(models.Model):
     def level_down(self):
         if not self.level == 1:
             self.level = 1
-            self.last_repeat = timezone.now()
             self.repeat_count += 1
 
     class Meta:
