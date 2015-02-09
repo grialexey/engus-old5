@@ -34,11 +34,7 @@
             border-color: orange;
         }
 
-        &.m-repeat-right {
-            border-color: green;
-        }
-
-        &.m-repeat-left {
+        &.m-repeat {
             border-color: green;
         }
 
@@ -64,11 +60,31 @@
             &.m-repeat-right.m-active {
                 background-color: green;
                 color: #fff;
+
+                &::after {
+                    display: inline-block;
+                    position: relative;
+                    right: -10px;
+                    bottom: 1px;
+                    width: 0;
+                    content: '▶';
+                    font-size: 12px;
+                }
             }
 
             &.m-repeat-left.m-active {
                 background-color: green;
                 color: #fff;
+
+                &::before {
+                    display: inline-block;
+                    position: relative;
+                    left: -21px;
+                    bottom: 1px;
+                    width: 0;
+                    content: '◀';
+                    font-size: 12px;
+                }
             }
         }
     }

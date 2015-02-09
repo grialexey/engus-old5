@@ -47,7 +47,7 @@ CardList.prototype.switchModeEvent = function(event) {
     switch(mode) {
         case 'normal':
             self.setNormalMode(self.cards);
-            self.$modeSwitcher.removeClass('m-normal m-repeat-right m-repeat-left');
+            self.$modeSwitcher.removeClass('m-normal m-repeat m-repeat-right m-repeat-left');
             self.$modeSwitcher.addClass('m-normal');
             self.$modeSwitcher.$items.filter('.m-normal').addClass('m-active');
             self.setModeInUrl(null);
@@ -55,15 +55,15 @@ CardList.prototype.switchModeEvent = function(event) {
         case 'repeat':
             if (self.$modeSwitcher.is('.m-repeat-right')) {
                 self.setRepeatLeftMode(this.cards);
-                self.$modeSwitcher.removeClass('m-normal m-repeat-right m-repeat-left');
-                self.$modeSwitcher.addClass('m-repeat-left');
-                self.$modeSwitcher.$items.filter('.m-repeat-left').addClass('m-active');
+                self.$modeSwitcher.removeClass('m-normal m-repeat m-repeat-right m-repeat-left');
+                self.$modeSwitcher.addClass('m-repeat m-repeat-left');
+                self.$modeSwitcher.$items.filter('.m-repeat').addClass('m-active').removeClass('m-repeat-right').addClass('m-repeat-left');
                 self.setModeInUrl('repeat-left');
             } else {
                 self.setRepeatRightMode(this.cards);
-                self.$modeSwitcher.removeClass('m-normal m-repeat-right m-repeat-left');
-                self.$modeSwitcher.addClass('m-repeat-right');
-                self.$modeSwitcher.$items.filter('.m-repeat-right').addClass('m-active');
+                self.$modeSwitcher.removeClass('m-normal m-repeat m-repeat-right m-repeat-left');
+                self.$modeSwitcher.addClass('m-repeat m-repeat-right');
+                self.$modeSwitcher.$items.filter('.m-repeat').addClass('m-active').removeClass('m-repeat-left').addClass('m-repeat-right');
                 self.setModeInUrl('repeat-right');
             }
             break;

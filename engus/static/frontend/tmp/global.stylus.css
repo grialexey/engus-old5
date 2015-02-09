@@ -181,10 +181,7 @@ textarea {
 .card-list__modeswitch.m-normal {
   border-color: #ffa500;
 }
-.card-list__modeswitch.m-repeat-right {
-  border-color: #008000;
-}
-.card-list__modeswitch.m-repeat-left {
+.card-list__modeswitch.m-repeat {
   border-color: #008000;
 }
 .card-list__modeswitch-item {
@@ -218,9 +215,27 @@ textarea {
   background-color: #008000;
   color: #fff;
 }
+.card-list__modeswitch-item.m-repeat-right.m-active::after {
+  display: inline-block;
+  position: relative;
+  right: -10px;
+  bottom: 1px;
+  width: 0;
+  content: '▶';
+  font-size: 12px;
+}
 .card-list__modeswitch-item.m-repeat-left.m-active {
   background-color: #008000;
   color: #fff;
+}
+.card-list__modeswitch-item.m-repeat-left.m-active::before {
+  display: inline-block;
+  position: relative;
+  left: -21px;
+  bottom: 1px;
+  width: 0;
+  content: '◀';
+  font-size: 12px;
 }
 .card {
   overflow: hidden;
