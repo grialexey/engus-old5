@@ -44,10 +44,9 @@ def create_card_view(request):
             card_back = form.cleaned_data.get('back', '').strip()
             card_example = form.cleaned_data.get('example', '').strip()
             try:
-                card_front_obj = CardFront.objects.get(text__iexact=card_front, is_public=True)
-            except CardFront.DoesNotExist:
-                card_front_obj = CardFront(text=card_front, author=request.user)
-                card_front_obj.save()
+                card_front_obj = CardFront.objects.filter(text__iexact=card_front, is_public=True)[0]
+            except IndexError:
+                card_front_obj = CardFront.objects.create(text=card_front, author=request.user)
             Card.objects.create(front=card_front_obj, back=card_back, example=card_example, learner=request.user)
             return HttpResponse(status=201)
         else:
