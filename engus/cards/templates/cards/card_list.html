@@ -1,7 +1,7 @@
 <section class="card-list">
-    <ul class="card-list__modeswitch learn">
-        <li class="card-list__modeswitch-item learn active" data-mode="learn">Изучение</li>
-        <li class="card-list__modeswitch-item repeat" data-mode="repeat">Повторение</li>
+    <ul class="card-list__modeswitch {% if mode == 'repeat-right' %}m-repeat-right{% elif mode == 'repeat-left' %}m-repeat-left{% else %}m-normal{% endif %}">
+        <li class="card-list__modeswitch-item m-normal {% if not mode == 'repeat-right' and not mode == 'repeat-left' %}m-active{% endif %}" data-mode="normal">Изучение</li>
+        <li class="card-list__modeswitch-item m-repeat-right m-repeat-left {% if mode == 'repeat-right' or mode == 'repeat-left' %}m-active{% endif %}" data-mode="repeat">Повторение</li>
     </ul>
 
     <div class="card-list__content">

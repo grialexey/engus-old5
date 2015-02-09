@@ -30,11 +30,15 @@
         border-right-width: 2px;
         margin: 25px 0 15px;
 
-        &.learn {
+        &.m-normal {
             border-color: orange;
         }
 
-        &.repeat {
+        &.m-repeat-right {
+            border-color: green;
+        }
+
+        &.m-repeat-left {
             border-color: green;
         }
 
@@ -52,12 +56,17 @@
                 background-color: #f7f7f7;
             }
 
-            &.learn.active {
+            &.m-normal.m-active {
                 background-color: orange;
                 color: #fff;
             }
 
-            &.repeat.active {
+            &.m-repeat-right.m-active {
+                background-color: green;
+                color: #fff;
+            }
+
+            &.m-repeat-left.m-active {
                 background-color: green;
                 color: #fff;
             }

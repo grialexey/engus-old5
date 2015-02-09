@@ -1,15 +1,29 @@
 var CardList = function($cardListWrapper) {
-    this.LEARN_MODE = 'learn';
-    this.REPEAT_MODE = 'repeat';
-    this.MODES = [this.LEARN_MODE, this.REPEAT_MODE];
     this.cardsToRepeatCount = 0;
     this.$wrapper = $cardListWrapper;
-    this.$overlay = this.$wrapper.find('.card-list__overlay');
+    this.$fullOverlay = this.$wrapper.find('.card-list__overlay');
     this.$content = this.$wrapper.find('.card-list__content');
     this.$modeSwitcher = $('.card-list__modeswitch');
     this.$modeSwitcher.$items = this.$modeSwitcher.find('.card-list__modeswitch-item');
     this.cards = this.getCards();
     this.bindEvents();
+};
+
+CardList.prototype.getModeInUrl = function() {
+    var currentUrl = new Url;
+    console.log(currentUrl.toString());
+    return currentUrl.query['mode'];
+};
+
+CardList.prototype.setModeInUrl = function(mode) {
+    var currentUrl = new Url;
+    if (mode === null) {
+        delete currentUrl.query['mode'];
+        window.history.pushState({}, '', currentUrl.toString());
+    } else {
+        currentUrl.query['mode'] = mode;
+        window.history.pushState({}, '', currentUrl.toString());
+    }
 };
 
 CardList.prototype.bindEvents = function() {
@@ -29,34 +43,53 @@ CardList.prototype.getCards = function() {
 CardList.prototype.switchModeEvent = function(event) {
     var self = event.data.self;
     var mode = $(this).data('mode');
-    self.switchMode(mode);
-};
-
-CardList.prototype.switchMode = function(mode) {
-    this.$modeSwitcher.removeClass(this.MODES.join(' ')).addClass(mode);
-    this.$modeSwitcher.$items.removeClass('active').filter('.' + mode).addClass('active');
+    self.$modeSwitcher.$items.removeClass('m-active');
     switch(mode) {
-        case 'learn':
-            this.setLearnMode(this.cards);
+        case 'normal':
+            self.setNormalMode(self.cards);
+            self.$modeSwitcher.removeClass('m-normal m-repeat-right m-repeat-left');
+            self.$modeSwitcher.addClass('m-normal');
+            self.$modeSwitcher.$items.filter('.m-normal').addClass('m-active');
+            self.setModeInUrl(null);
             break;
         case 'repeat':
-            this.setRepeatMode(this.cards);
+            if (self.$modeSwitcher.is('.m-repeat-right')) {
+                self.setRepeatLeftMode(this.cards);
+                self.$modeSwitcher.removeClass('m-normal m-repeat-right m-repeat-left');
+                self.$modeSwitcher.addClass('m-repeat-left');
+                self.$modeSwitcher.$items.filter('.m-repeat-left').addClass('m-active');
+                self.setModeInUrl('repeat-left');
+            } else {
+                self.setRepeatRightMode(this.cards);
+                self.$modeSwitcher.removeClass('m-normal m-repeat-right m-repeat-left');
+                self.$modeSwitcher.addClass('m-repeat-right');
+                self.$modeSwitcher.$items.filter('.m-repeat-right').addClass('m-active');
+                self.setModeInUrl('repeat-right');
+            }
             break;
     }
 };
 
-CardList.prototype.setLearnMode = function() {
+CardList.prototype.setNormalMode = function() {
     this.cardsToRepeatCount = 0;
     this.cards.forEach(function(card) {
-        card.learn();
+        card.normalMode();
     });
 };
 
-CardList.prototype.setRepeatMode = function() {
+CardList.prototype.setRepeatRightMode = function() {
     this.cardsToRepeatCount = this.cards.length;
     this.randomize();
     this.cards.forEach(function(card) {
-        card.repeat();
+        card.repeatRightMode();
+    });
+};
+
+CardList.prototype.setRepeatLeftMode = function() {
+    this.cardsToRepeatCount = this.cards.length;
+    this.randomize();
+    this.cards.forEach(function(card) {
+        card.repeatLeftMode();
     });
 };
 
@@ -70,11 +103,11 @@ CardList.prototype.randomize = function() {
 };
 
 CardList.prototype.getMode = function() {
-    return this.$modeSwitcher.$items.filter('.active').data('mode');
+    return this.$modeSwitcher.$items.filter('.m-active').data('mode');
 };
 
 CardList.prototype.reloadPage = function() {
-    this.$overlay.appendTo(this.$content).show();
+    this.$fullOverlay.appendTo(this.$content).show();
     var self = this,
         url = window.location.href;
     $.ajax({
@@ -83,7 +116,6 @@ CardList.prototype.reloadPage = function() {
     }).done(function(data) {
         self.$content.html(data);
         self.cards = self.getCards();
-        self.switchMode(self.getMode());
     });
 };
 
@@ -91,17 +123,23 @@ CardList.prototype.changePageEvent = function(event) {
     event.preventDefault();
     var self = event.data.self,
         $link = $(this),
-        url = $link.attr('href');
-    self.$overlay.appendTo(self.$content).show();
+        modeInUrl = self.getModeInUrl(),
+        href = $link.attr('href'),
+        url = new Url(href);
+    if (modeInUrl) {
+        url.query['mode'] = modeInUrl;
+    } else {
+        delete url.query['mode'];
+    }
+    self.$fullOverlay.appendTo(self.$content).show();
     $.ajax({
-        url: url,
+        url: url.toString(),
         method: 'get'
     }).done(function(data) {
         self.$content.html(data);
         if(url != window.location){
-            window.history.pushState({ path:url }, '', url);
+            window.history.pushState({}, '', url.toString());
         }
         self.cards = self.getCards();
-        self.switchMode(self.getMode());
     });
 };

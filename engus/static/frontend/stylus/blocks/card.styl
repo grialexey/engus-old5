@@ -17,14 +17,17 @@
     }
 
     &__top {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
         position: relative;
     }
 
     &__front, &__back {
         line-height: 22px;
-        display: inline-block;
-        width: 50%;
-        vertical-align: top;
+        min-height: 22px;
+        flex: 0 0 50%;
+        /*vertical-align: top;*/
         box-sizing: border-box
     }
 
@@ -123,12 +126,22 @@
         text-align: center;
         font-size: 20px;
         opacity: 0.5;
-        display: flex;
         align-items: center;
         justify-content: center;
         z-index: 10;
+        display: none;
+        box-sizing: border-box;
 
-        &.left, &.right {
+        &.m-active {
+            display: flex;
+        }
+
+        &.m-error {
+            color: red;
+            opacity: 1;
+        }
+
+        &.m-left, &.m-right {
             cursor: pointer
             font-size: 16px;
             color: #ddd;
@@ -136,17 +149,19 @@
             text-align: left;
             justify-content: flex-start;
             opacity: 1;
+            z-index: 3;
 
             &:hover {
                 color: #555;
             }
         }
 
-        &.left {
+        &.m-left {
             right: 50%;
+            padding-left: 22px;
         }
 
-        &.right {
+        &.m-right {
             left: 50%;
         }
     }

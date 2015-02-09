@@ -1,5 +1,5 @@
 {% if card %}
-    <div class="card__content {% if user.is_authenticated and card.learner == user %}editable{% endif %}">
+    <div class="card__content {% if user.is_authenticated and card.learner == user and not mode == 'repeat-right' and not mode == 'repeat-left' %}editable{% endif %}">
         <div class="card__top">
             <span class="card__front">
                 <span class="card__front-word">{{ card.front.text }}</span>
@@ -10,19 +10,19 @@
                     <audio class="card__audio" src="{{ card.front.audio.url }}" preload="auto"></audio>
                 {% endif %}
             </span><!--
-         --><span class="card__back">{{ card.back }}</span>
+         --><span class="card__back {% if mode == 'repeat-right' %}m-hide{% endif %}">{{ card.back }}</span>
         </div>
 
         <span class="card__level level{{ card.level }} {% if card.is_repeated_today %}m-repeated-today{% endif %}" data-level="{{ card.level }}">{% if card.level %}{{ card.level }}{% endif %}</span>
 
         {% if card.example %}
-            <div class="card__example">{{ card.example|linebreaksbr }}</div>
+            <div class="card__example {% if mode == 'repeat-right' or mode == 'repeat-left' %}m-hide{% endif %}">{{ card.example|linebreaksbr }}</div>
         {% endif %}
 
         {% if card.image %}
             {% load thumbnail %}
             {% thumbnail card.image 506x300  quality=80 as thumb %}
-            <img class="card__image" src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}">
+            <img class="card__image {% if mode == 'repeat-right' or mode == 'repeat-left' %}m-hide{% endif %}" src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}">
         {% endif %}
     </div>
 
@@ -98,4 +98,6 @@
     {% endif %}
 {% endif %}
 
-<div class="card__overlay" style="display: none;"></div>
+<div class="card__overlay m-full"></div>
+<div class="card__overlay m-right {% if mode == 'repeat-right' %}m-active{% endif %}">Показать</div>
+<div class="card__overlay m-left {% if mode == 'repeat-left' %}m-active{% endif %}">Показать</div>

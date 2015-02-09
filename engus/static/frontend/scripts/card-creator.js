@@ -15,7 +15,7 @@ CardCreator.prototype.bindEvents = function() {
 
 CardCreator.prototype.createForm = function() {
     var $form = this.$template.clone();
-    $form.$overlay = $form.find('.card__overlay');
+    $form.$fullOverlay = $form.find('.card__overlay');
     $form.appendTo('.header__wrapper');
     $form.on('submit', this.createEvent.bind(this));
     return $form;
@@ -77,10 +77,10 @@ CardCreator.prototype.createEvent = function(event) {
         self.$button.addClass('active');
         self.$form.show();
         self.$pageOverlay.fadeIn(150);
-        self.$form.$overlay.css('opacity', '1').css('color', '#ff0000').text('Ошибка при добавлении').show();
-        self.$form.$overlay.show();
+        self.$form.$fullOverlay.css('opacity', '1').css('color', '#ff0000').text('Ошибка при добавлении').show();
+        self.$form.$fullOverlay.show();
         setTimeout(function() {
-            self.$form.$overlay.css('opacity', '0.5').css('color', '#000').text('').hide();
+            self.$form.$fullOverlay.css('opacity', '0.5').css('color', '#000').text('').hide();
         }, 1500);
     });
 };

@@ -92,8 +92,8 @@ a img {
 html {
   overflow-y: scroll; /* fixing "jump horizontally" effect */
 }
-.hide {
-  display: none;
+.m-hide {
+  display: none !important;
 }
 .clear {
   clear: both;
@@ -178,10 +178,13 @@ textarea {
   border-right-width: 2px;
   margin: 25px 0 15px;
 }
-.card-list__modeswitch.learn {
+.card-list__modeswitch.m-normal {
   border-color: #ffa500;
 }
-.card-list__modeswitch.repeat {
+.card-list__modeswitch.m-repeat-right {
+  border-color: #008000;
+}
+.card-list__modeswitch.m-repeat-left {
   border-color: #008000;
 }
 .card-list__modeswitch-item {
@@ -207,11 +210,15 @@ textarea {
 .card-list__modeswitch-item:hover {
   background-color: #f7f7f7;
 }
-.card-list__modeswitch-item.learn.active {
+.card-list__modeswitch-item.m-normal.m-active {
   background-color: #ffa500;
   color: #fff;
 }
-.card-list__modeswitch-item.repeat.active {
+.card-list__modeswitch-item.m-repeat-right.m-active {
+  background-color: #008000;
+  color: #fff;
+}
+.card-list__modeswitch-item.m-repeat-left.m-active {
   background-color: #008000;
   color: #fff;
 }
@@ -234,14 +241,38 @@ textarea {
   cursor: pointer;
 }
 .card__top {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: box;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  -o-box-orient: horizontal;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-lines: single;
+  -moz-box-lines: single;
+  -o-box-lines: single;
+  -webkit-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
   position: relative;
 }
 .card__front,
 .card__back {
   line-height: 22px;
-  display: inline-block;
-  width: 50%;
-  vertical-align: top;
+  min-height: 22px;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -o-box-flex: 1;
+  box-flex: 1;
+  -webkit-flex: 0 0 50%;
+  -ms-flex: 0 0 50%;
+  flex: 0 0 50%;
+/*vertical-align: top;*/
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -329,12 +360,6 @@ textarea {
   opacity: 0.5;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
   filter: alpha(opacity=50);
-  display: -webkit-box;
-  display: -moz-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: box;
-  display: flex;
   -webkit-box-align: center;
   -moz-box-align: center;
   -o-box-align: center;
@@ -348,9 +373,27 @@ textarea {
   -webkit-justify-content: center;
   justify-content: center;
   z-index: 10;
+  display: none;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
-.card__overlay.left,
-.card__overlay.right {
+.card__overlay.m-active {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: box;
+  display: flex;
+}
+.card__overlay.m-error {
+  color: #f00;
+  opacity: 1;
+  -ms-filter: none;
+  filter: none;
+}
+.card__overlay.m-left,
+.card__overlay.m-right {
   cursor: pointer;
   font-size: 16px;
   color: #ddd;
@@ -369,15 +412,17 @@ textarea {
   opacity: 1;
   -ms-filter: none;
   filter: none;
+  z-index: 3;
 }
-.card__overlay.left:hover,
-.card__overlay.right:hover {
+.card__overlay.m-left:hover,
+.card__overlay.m-right:hover {
   color: #555;
 }
-.card__overlay.left {
+.card__overlay.m-left {
   right: 50%;
+  padding-left: 22px;
 }
-.card__overlay.right {
+.card__overlay.m-right {
   left: 50%;
 }
 .card__infoline {

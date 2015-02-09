@@ -29,6 +29,11 @@ class MyCardListView(LoginRequiredMixin, ListView):
         else:
             return 'cards/card_list_my.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(MyCardListView, self).get_context_data(**kwargs)
+        context['mode'] = self.request.GET.get('mode', '')
+        return context
+
 
 @login_required
 def create_card_view(request):

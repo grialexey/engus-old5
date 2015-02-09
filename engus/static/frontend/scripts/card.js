@@ -15,10 +15,13 @@ Card.prototype.cacheElements = function() {
     this.$infoMenu = this.$el.find('.card__infomenu');
     this.$editControls = this.$el.find('.card__controls--edit');
     this.$levelChangeControls = this.$el.find('.card__controls--level-change');
-    this.$overlay = this.$el.find('.card__overlay');
+    this.$fullOverlay = this.$el.find('.card__overlay.m-full');
+    this.$rightOverlay = this.$el.find('.card__overlay.m-right');
+    this.$leftOverlay = this.$el.find('.card__overlay.m-left');
     this.$content = this.$el.find('> .card__content');
     this.$back = this.$content.find('.card__back');
     this.$front = this.$content.find('.card__front');
+    this.$frontContent = this.$content.find('.card__front > *');
     this.$image = this.$content.find('.card__image');
     this.$example = this.$content.find('.card__example');
     this.$deleteForm = this.$el.find('.card__form--delete');
@@ -39,7 +42,8 @@ Card.prototype.bindEvents = function() {
     this.$content.on('click', { self: this }, this.clickOnContentEvent);
     this.$editButton.on('click', { self: this }, this.clickOnEditButtonEvent);
     this.$playAudioBtn.on('click', { self: this }, this.playAudioEvent);
-    this.$overlay.on('click', { self: this }, this.clickOverlayEvent);
+    this.$rightOverlay.on('click', { self: this }, this.clickRightOverlayEvent);
+    this.$leftOverlay.on('click', { self: this }, this.clickLeftOverlayEvent);
     $(document).on('click', { self: this }, this.clickOutsideEvent);
 };
 
@@ -91,36 +95,48 @@ Card.prototype.clickOnContentEvent = function(event) {
     }
 };
 
-Card.prototype.clickOverlayEvent = function(event) {
+Card.prototype.clickRightOverlayEvent = function(event) {
     var self = event.data.self;
-    if ($(this).filter('.right')) {
-        self.learn();
-        self.$overlay.hide().removeClass('right').text('').css('z-index', '10');
-        if (!self.isRepeatedToday) {
-            setTimeout(function() {
-                self.$levelChangeControls.slideDown(200);
-            }, 350);
-        }
-        //self.cardsToRepeatCount -= 1;
-        //if (self.cardsToRepeatCount == 0) {
-            //switchMode(LEARN_MODE);
-        //}
-
+    self.normalMode();
+    self.$rightOverlay.removeClass('m-active');
+    if (!self.isRepeatedToday) {
+        setTimeout(function() {
+            self.$levelChangeControls.slideDown(200);
+        }, 350);
     }
+    //self.cardsToRepeatCount -= 1;
+    //if (self.cardsToRepeatCount == 0) {
+        //switchMode(NORMAL_MODE);
+    //}
+};
+
+Card.prototype.clickLeftOverlayEvent = function(event) {
+    var self = event.data.self;
+    self.normalMode();
+    self.$leftOverlay.removeClass('m-active');
+    if (!self.isRepeatedToday) {
+        setTimeout(function() {
+            self.$levelChangeControls.slideDown(200);
+        }, 350);
+    }
+    //self.cardsToRepeatCount -= 1;
+    //if (self.cardsToRepeatCount == 0) {
+        //switchMode(NORMAL_MODE);
+    //}
 };
 
 Card.prototype.toggleControlsMenu = function() {
     this.$infoMenu.slideToggle(200);
     this.$content.show();
     this.$editForm.hide();
-    this.$levelChangeControls.hide();
+    this.$levelChangeControls.slideUp(100);
 };
 
 Card.prototype.closeControlsMenu = function() {
-    this.$infoMenu.hide();
+    this.$infoMenu.slideUp(100);
     this.$content.show();
     this.$editForm.hide();
-    this.$levelChangeControls.hide();
+    this.$levelChangeControls.slideUp(100);
 };
 
 Card.prototype.clickOutsideEvent = function(event) {
@@ -150,25 +166,36 @@ Card.prototype.closeEditForm = function() {
     this.$editControls.hide();
 };
 
-Card.prototype.learn = function() {
-    this.$overlay.hide();
-    this.$back.show();
-    this.$example.show();
-    this.$image.show();
+Card.prototype.normalMode = function() {
+    this.$rightOverlay.removeClass('m-active');
+    this.$leftOverlay.removeClass('m-active');
+    this.$frontContent.removeClass('m-hide');
+    this.$back.removeClass('m-hide');
+    this.$example.removeClass('m-hide');
+    this.$image.removeClass('m-hide');
     if (this.isRegisteredUserOwned) {
         this.$content.addClass('editable');
     }
 };
 
-Card.prototype.repeat = function() {
-    this.$overlay.hide();
-    this.$back.hide();
-    this.$example.hide();
-    this.$image.hide();
+Card.prototype.repeatRightMode = function() {
+    this.$back.addClass('m-hide');
+    this.$frontContent.removeClass('m-hide');
+    this.$example.addClass('m-hide');
+    this.$image.addClass('m-hide');
     this.$content.removeClass('editable');
-    this.$overlay.addClass('right');
-    this.$overlay.show().text('Показать').css('z-index', '3');
-    var self = this;
+    this.$leftOverlay.removeClass('m-active');
+    this.$rightOverlay.addClass('m-active');
+};
+
+Card.prototype.repeatLeftMode = function() {
+    this.$frontContent.addClass('m-hide');
+    this.$back.removeClass('m-hide');
+    this.$example.addClass('m-hide');
+    this.$image.addClass('m-hide');
+    this.$content.removeClass('editable');
+    this.$rightOverlay.removeClass('m-active');
+    this.$leftOverlay.addClass('m-active');
 };
 
 Card.prototype.deleteCardEvent = function(event) {
@@ -183,9 +210,9 @@ Card.prototype.deleteCardEvent = function(event) {
         self.$el.remove();
     }).error(function() {
         self.$el.show();
-        self.$overlay.css('opacity', '1').css('color', '#ff0000').text('Ошибка при удалении').show();
+        self.$fullOverlay.addClass('m-active m-error').text('Ошибка при удалении');
         setTimeout(function() {
-            self.$overlay.css('opacity', '0.5').css('color', '#000').text('').hide();
+            self.$fullOverlay.removeClass('m-active m-error').text('');
         }, 1500);
     });
 };
@@ -195,7 +222,7 @@ Card.prototype.updateCardLevelEvent = function(event) {
     var self = event.data.self,
         $form = $(this),
         levelChange = $form.find('input[name=level]').val();
-    self.$levelChangeControls.hide();
+    self.$levelChangeControls.slideUp(100);
     if (levelChange == 'up') {
         self.levelUp();
     } else if (levelChange == 'down') {
@@ -210,7 +237,7 @@ Card.prototype.updateCardEvent = function(event) {
     event.preventDefault();
     var self = event.data.self,
         $form = $(this);
-    self.$overlay.show();
+    self.$fullOverlay.addClass('m-active');
     self.updateCardAjax($form);
 };
 
@@ -221,15 +248,14 @@ Card.prototype.updateCardAjax = function($form) {
         method: $form.attr('method'),
         data: $form.serialize()
     }).done(function(data) {
-        self.$overlay.hide();
+        self.$fullOverlay.removeClass('m-active');
         self.$el.html(data);
         self.init();
     }).error(function() {
         $form.show();
-        self.$overlay.show().css('opacity', '1').css('color', '#ff0000').text('Ошибка при сохранении');
+        self.$fullOverlay.addClass('m-active m-error').text('Ошибка при сохранении');
         setTimeout(function() {
-            self.$overlay.hide();
-            self.$overlay.css('opacity', '0.5').css('color', '#000').text('');
+            self.$fullOverlay.removeClass('m-active m-error').text('');
         }, 1500);
     });
 };
