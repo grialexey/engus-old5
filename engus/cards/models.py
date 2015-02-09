@@ -62,7 +62,7 @@ class Card(models.Model):
             self.repeat_count += 1
 
     def level_down(self):
-        if not self.is_repeated_today():
+        if not self.level == 1:
             self.level = 1
             self.last_repeat = timezone.now()
             self.repeat_count += 1

@@ -67,7 +67,7 @@
                         {% csrf_token %}
                         <input type="hidden" name="pk" value="{{ card.pk }}">
                         <input type="hidden" name="level" value="down">
-                        <button class="card__button card__button--forget" {% if card.is_repeated_today %}disabled{% endif %}>Забыл</button>
+                        <button class="card__button card__button--forget" {% if card.level == 1 %}disabled{% endif %}>Забыл</button>
                     </form>
                 </li>
                 <li class="card__controls-item"><span class="card__button card__button--edit">Редактировать</span></li>
