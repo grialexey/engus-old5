@@ -639,6 +639,20 @@ textarea {
   padding: 4px 0;
   margin-top: -4px;
 }
+.card__form-input[name=example]::-webkit-input-placeholder {
+  font-size: inherit;
+}
+.card__form-input[name=example]:-moz-placeholder {
+/* Firefox 18- */
+  font-size: inherit;
+}
+.card__form-input[name=example]::-moz-placeholder {
+/* Firefox 19+ */
+  font-size: inherit;
+}
+.card__form-input[name=example]:-ms-input-placeholder {
+  font-size: inherit;
+}
 .card__form ::-webkit-input-placeholder {
   font-weight: normal;
   font-size: 16px;

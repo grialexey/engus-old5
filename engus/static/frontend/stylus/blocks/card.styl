@@ -322,6 +322,22 @@
                 line-height: inherit;
                 padding: 4px 0;
                 margin-top: -4px;
+
+                &::-webkit-input-placeholder {
+                    font-size: inherit;
+                }
+
+                &:-moz-placeholder { /* Firefox 18- */
+                    font-size: inherit;
+                }
+
+                &::-moz-placeholder {  /* Firefox 19+ */
+                    font-size: inherit;
+                }
+
+                &:-ms-input-placeholder {
+                    font-size: inherit;
+                }
             }
         }
 
