@@ -10,6 +10,12 @@ class CardFrontAdmin(admin.ModelAdmin):
     list_filter = ('is_public', )
     search_fields = ('text', )
     raw_id_fields = ('author', )
+    exclude = ('author', )
+
+    def save_model(self, request, obj, form, change):
+        if not change:
+            obj.author = request.user
+            obj.save()
 
 
 class CardAdmin(admin.ModelAdmin):
@@ -42,8 +48,9 @@ class DeckAdmin(admin.ModelAdmin):
     ]
 
     def save_model(self, request, obj, form, change):
-        obj.author = request.user
-        obj.save()
+        if not change:
+            obj.author = request.user
+            obj.save()
 
 
 admin.site.register(CardFront, CardFrontAdmin)
