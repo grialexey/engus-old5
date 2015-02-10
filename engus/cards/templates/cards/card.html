@@ -28,7 +28,7 @@
 
     <ul class="card__controls card__controls--level-change" style="display: none;">
         <li class="card__controls-item">
-            <form class="card__form--level" action="{% url 'cards:card-update-level' %}" method="post">
+            <form class="card__form--level" action="{% url 'cards:card-update-level' card.pk %}" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="pk" value="{{ card.pk }}">
                 <input type="hidden" name="level" value="up">
@@ -36,7 +36,7 @@
             </form>
         </li>
         <li class="card__controls-item">
-            <form class="card__form--level" action="{% url 'cards:card-update-level' %}" method="post">
+            <form class="card__form--level" action="{% url 'cards:card-update-level' card.pk %}" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="pk" value="{{ card.pk }}">
                 <input type="hidden" name="level" value="down">
@@ -55,7 +55,7 @@
 
             <ul class="card__controls card__controls--edit">
                 <li class="card__controls-item">
-                    <form class="card__form--level" action="{% url 'cards:card-update-level' %}" method="post">
+                    <form class="card__form--level" action="{% url 'cards:card-update-level' card.pk %}" method="post">
                         {% csrf_token %}
                         <input type="hidden" name="pk" value="{{ card.pk }}">
                         <input type="hidden" name="level" value="up">
@@ -63,7 +63,7 @@
                     </form>
                 </li>
                 <li class="card__controls-item">
-                    <form class="card__form--level" action="{% url 'cards:card-update-level' %}" method="post">
+                    <form class="card__form--level" action="{% url 'cards:card-update-level' card.pk %}" method="post">
                         {% csrf_token %}
                         <input type="hidden" name="pk" value="{{ card.pk }}">
                         <input type="hidden" name="level" value="down">
@@ -72,7 +72,7 @@
                 </li>
                 <li class="card__controls-item"><span class="card__button card__button--edit">Редактировать</span></li>
                 <li class="card__controls-item">
-                    <form class="card__form--delete" action="{% url 'cards:card-delete' %}" method="post">
+                    <form class="card__form--delete" action="{% url 'cards:card-delete' card.pk %}" method="post">
                         {% csrf_token %}
                         <input type="hidden" name="pk" value="{{ card.pk }}">
                         <button class="card__button card__button--remove">Удалить</button>
@@ -82,7 +82,7 @@
         </div>
 
 
-        <form action="{% url 'cards:card-update' %}" method="post" class="card__form card__form--update" style="display: none;">
+        <form action="{% url 'cards:card-update' card.pk %}" method="post" class="card__form card__form--update" style="display: none;">
             {% csrf_token %}
             {% include 'cards/card_edit_form.html' %}
             <input type="hidden" name="pk" value="{{ card.pk }}">

@@ -3,11 +3,11 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView
 from django.http import HttpResponse, Http404, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from braces.views import LoginRequiredMixin
-from .models import Deck, Card, CardFront
-from .forms import CreateCardForm, DeleteCardForm, UpdateCardForm, UpdateCardLevelForm
+from .models import Deck, Card
+from .forms import CardForm, DeleteCardForm, UpdateCardLevelForm
 
 
 class DeckDetailView(DetailView):
@@ -38,16 +38,12 @@ class MyCardListView(LoginRequiredMixin, ListView):
 @login_required
 def create_card_view(request):
     if request.is_ajax() and request.method == 'POST':
-        form = CreateCardForm(request.POST)
+        form = CardForm(request.POST, user=request.user)
         if form.is_valid():
-            card_front = form.cleaned_data.get('front').strip()
-            card_back = form.cleaned_data.get('back', '').strip()
-            card_example = form.cleaned_data.get('example', '').strip()
-            try:
-                card_front_obj = CardFront.objects.filter(text__iexact=card_front, is_public=True)[0]
-            except IndexError:
-                card_front_obj = CardFront.objects.create(text=card_front, author=request.user)
-            Card.objects.create(front=card_front_obj, back=card_back, example=card_example, learner=request.user)
+            form.get_card_front()
+            card = form.save(commit=False)
+            card.learner = request.user
+            card.save()
             return HttpResponse(status=201)
         else:
             return HttpResponseBadRequest()
@@ -56,32 +52,14 @@ def create_card_view(request):
 
 
 @login_required
-def update_card_view(request):
+def update_card_view(request, pk):
+    card_to_update = get_object_or_404(Card, pk=pk, learner=request.user)
     if request.is_ajax() and request.method == 'POST':
-        form = UpdateCardForm(request.POST)
-        print form.errors
+        form = CardForm(request.POST, instance=card_to_update, user=request.user)
         if form.is_valid():
-            card_pk = form.cleaned_data.get('pk')
-            front = form.cleaned_data.get('front').strip()
-            back = form.cleaned_data.get('back', '').strip()
-            example = form.cleaned_data.get('example', '').strip()
-            try:
-                card_obj = Card.objects.get(pk=card_pk, learner=request.user)
-            except Card.DoesNotExist:
-                return HttpResponseBadRequest()
-            if front != card_obj.front.text:
-                # if not card_obj.front.is_public:
-                #     card_obj.delete()
-                try:
-                    card_front_obj = CardFront.objects.get(text__iexact=front, is_public=True)
-                except CardFront.DoesNotExist:
-                    card_front_obj = CardFront(text=front, author=request.user)
-                    card_front_obj.save()
-                card_obj.front = card_front_obj
-            card_obj.back = back
-            card_obj.example = example
-            card_obj.save()
-            return render_to_response('cards/card.html', {'card': card_obj, }, context_instance=RequestContext(request))
+            form.get_card_front()
+            card = form.save()
+            return render_to_response('cards/card.html', {'card': card, }, context_instance=RequestContext(request))
         else:
             return HttpResponseBadRequest()
     else:
@@ -89,23 +67,14 @@ def update_card_view(request):
 
 
 @login_required
-def update_card_level_view(request):
+def update_card_level_view(request, pk):
+    card_to_update = get_object_or_404(Card, pk=pk, learner=request.user)
     if request.is_ajax() and request.method == 'POST':
-        form = UpdateCardLevelForm(request.POST)
+        form = UpdateCardLevelForm(request.POST, instance=card_to_update)
         if form.is_valid():
-            card_pk = form.cleaned_data.get('pk')
-            level_change = form.cleaned_data.get('level')
-            try:
-                card_obj = Card.objects.get(pk=card_pk, learner=request.user)
-                if level_change == UpdateCardLevelForm.UP:
-                    card_obj.level_up()
-                elif level_change == UpdateCardLevelForm.DOWN:
-                    card_obj.level_down()
-                card_obj.save()
-                return render_to_response('cards/card.html', {'card': card_obj, },
-                                          context_instance=RequestContext(request))
-            except Card.DoesNotExist:
-                return HttpResponseBadRequest()
+            form.update_level()
+            card = form.save()
+            return render_to_response('cards/card.html', {'card': card, }, context_instance=RequestContext(request))
         else:
             return HttpResponseBadRequest()
     else:
@@ -113,13 +82,12 @@ def update_card_level_view(request):
 
 
 @login_required
-def delete_card_view(request):
+def delete_card_view(request, pk):
+    card_to_delete = get_object_or_404(Card, pk=pk, learner=request.user)
     if request.is_ajax() and request.method == 'POST':
-        form = DeleteCardForm(request.POST)
+        form = DeleteCardForm(request.POST, instance=card_to_delete)
         if form.is_valid():
-            card_pk = form.cleaned_data.get('pk')
-            card = Card.objects.get(pk=card_pk, learner=request.user)
-            card.delete()
+            card_to_delete.delete()
             return HttpResponse(status=200)
         else:
             return HttpResponseBadRequest()
