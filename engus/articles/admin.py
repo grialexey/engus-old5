@@ -19,10 +19,12 @@ class ArticleAdminForm(forms.ModelForm):
 
 
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ('name', 'category', 'is_published', 'is_approved', 'author', 'modified', 'created')
+    list_display = ('name', 'category', 'is_published', 'is_approved', 'author', 'created', 'modified',
+                    'published', )
     form = ArticleAdminForm
     raw_id_fields = ('author', )
     filter_horizontal = ('cards', 'tags', )
+    list_filter = ('is_published', 'is_approved', )
 
 
 admin.site.register(Article, ArticleAdmin)

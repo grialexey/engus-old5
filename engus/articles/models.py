@@ -3,7 +3,20 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.utils import timezone
 from engus.utils.autoslug_field import AutoSlugField, ru_slugify_fn
+
+
+class ArticleQuerySet(models.QuerySet):
+
+    def published(self):
+        return self.filter(is_published=True, is_approved=True, published__lt=timezone.now)
+
+
+class ArticleManager(models.Manager):
+
+    def get_queryset(self):
+        return super(ArticleManager, self).get_queryset().select_related('category')
 
 
 class Article(models.Model):
@@ -35,16 +48,24 @@ class Article(models.Model):
     is_published = models.BooleanField(default=False, verbose_name=u'Опубликовано')
     is_approved = models.BooleanField(default=True, verbose_name=u'Одобрена')
     author = models.ForeignKey(User, verbose_name=u'Автор')
+    published = models.DateTimeField(null=True, blank=True, verbose_name=u'Опубликована')
     created = models.DateTimeField(auto_now_add=True, verbose_name=u'Создана')
     modified = models.DateTimeField(auto_now=True, verbose_name=u'Редактирована')
 
+    objects = ArticleManager().from_queryset(ArticleQuerySet)()
+
     class Meta:
-        ordering = ['-created', ]
+        ordering = ['-published', ]
         verbose_name = u'Статья'
         verbose_name_plural = u'Статьи'
 
     def __unicode__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        if self.published is None and self.is_published and self.is_approved:
+            self.published = timezone.now()
+        super(Article, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('articles:article-detail', kwargs={'category': self.category.slug, 'slug': self.slug, })
