@@ -1,10 +1,8 @@
 from django.conf.urls import patterns, url
-from .views import (DeckDetailView, create_card_view, delete_card_view, update_card_view, MyCardListView,
-                    update_card_level_view)
+from .views import create_card_view, delete_card_view, update_card_view, MyCardListView, update_card_level_view
 
 
 urlpatterns = patterns('',
-    url(r'^deck/(?P<slug>[-_\w]+)/$', DeckDetailView.as_view(), name='deck-detail'),
     url(r'^my/$', MyCardListView.as_view(), name='card-list-my'),
     url(r'^api/card/create/$', create_card_view, name='card-create'),
     url(r'^api/card/delete/(?P<pk>\d+)/$', delete_card_view, name='card-delete'),

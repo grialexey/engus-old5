@@ -23,6 +23,7 @@ INSTALLED_APPS = (
     # Application base, containing global templates.
     'engus.accounts',
     'engus.cards',
+    'engus.articles',
 
     # Local apps, referenced via engus.appname
 
@@ -109,14 +110,14 @@ CKEDITOR_IMAGE_BACKEND = 'pillow'
 CKEDITOR_CONFIGS = {
     'default': {
         'toolbar': [
-            ['Styles', 'Format', 'Bold', 'Italic', 'Underline', 'Strike', 'SpellChecker', ],
             ['Undo', 'Redo'],
-            ['FontSize'],
+            ['Format', 'Bold', 'Italic', 'Underline', 'Strike', 'SpellChecker', ],
+            # ['FontSize'],
             ['Link', 'Unlink', 'Anchor'],
-            ['Image', 'Flash', 'Table', 'HorizontalRule'],
+            ['Image', 'Table', 'HorizontalRule'],
             ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', ],
             ['TextColor', 'BGColor'],
-            ['Smiley', 'SpecialChar'], ['Source'],
+            ['Smiley', 'SpecialChar'],
         ],
         'height': 600,
         'width': 635,

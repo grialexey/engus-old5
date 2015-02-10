@@ -6,14 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from braces.views import LoginRequiredMixin
-from .models import Deck, Card
+from .models import Card
 from .forms import CardForm, DeleteCardForm, UpdateCardLevelForm
-
-
-class DeckDetailView(DetailView):
-
-    context_object_name = 'deck'
-    model = Deck
 
 
 class MyCardListView(LoginRequiredMixin, ListView):

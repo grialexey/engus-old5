@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+	<article class="article">
+        {% if article.image %}
+            {% load thumbnail %}
+            {% thumbnail article.image 550x0  quality=80 as thumb %}
+            <img class="article__image" src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}">
+        {% endif %}
+        <h1 class="article__title">{{ article.name }}</h1>
+        {{ article.description|safe }}
+
+
+        {% with card_list=article.cards.all %}
+            {% if card_list %}
+                <h2 class="article__heading2">Карточки</h2>
+                {% include "cards/card_list.html" %}
+            {% endif %}
+        {% endwith %}
+
+    </article>
+{% endblock %}
