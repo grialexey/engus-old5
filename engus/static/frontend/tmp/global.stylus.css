@@ -962,7 +962,7 @@ textarea {
 .registration form label {
   display: block;
   margin: 5px 0;
-  color: #646464;
+  color: #333;
 }
 .registration form input {
   display: block;
@@ -972,9 +972,9 @@ textarea {
   box-sizing: border-box;
   padding: 8px 15px;
   margin: 5px 0;
-  border: 1px solid #646464;
-  border-top-color: rgba(100,100,100,0.6);
-  border-left-color: rgba(100,100,100,0.6);
+  border: 1px solid #009600;
+  border-top-color: rgba(0,150,0,0.6);
+  border-left-color: rgba(0,150,0,0.6);
   border-bottom-width: 2px;
   border-right-width: 2px;
   -webkit-box-shadow: none;

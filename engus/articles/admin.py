@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
 from django import forms
-from django.contrib.admin.widgets import FilteredSelectMultiple
 from ckeditor.widgets import CKEditorWidget
 from .models import Article, ArticleCategory, ArticleTag, ArticleRating
 

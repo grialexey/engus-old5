@@ -5,6 +5,7 @@ from django.conf import settings
 from django.shortcuts import redirect, render_to_response
 from django.template import RequestContext
 from .forms import CustomUserCreationForm
+from .models import Invite
 
 
 @csrf_protect
@@ -18,10 +19,13 @@ def register(request):
             if form.is_valid():
                 username = form.clean_username()
                 password = form.clean_password2()
-                form.save()
-                user = authenticate(username=username, password=password)
-                if user is not None and user.is_active:
-                    login(request, user)
+                user = form.save()
+                invite = Invite.objects.get(code=form.cleaned_data['invite_code'])
+                invite.registered_user = user
+                invite.save()
+                authenticated_user = authenticate(username=username, password=password)
+                if authenticated_user is not None and authenticated_user.is_active:
+                    login(request, authenticated_user)
                 return redirect(settings.LOGIN_REDIRECT_URL)
         else:
             form = CustomUserCreationForm()
