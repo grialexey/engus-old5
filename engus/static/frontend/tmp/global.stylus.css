@@ -781,7 +781,7 @@ textarea {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
-  margin: 5px 10px 5px 0;
+  margin: 5px 2px 5px 0;
 }
 .header__menu-item:last-child {
   margin-right: 0;
@@ -802,7 +802,7 @@ textarea {
   line-height: 25px;
   text-decoration: none;
   color: #fff;
-  padding: 7px 12px;
+  padding: 7px 10px;
   -webkit-transition: background-color 0.1s, opacity 0.1s;
   -moz-transition: background-color 0.1s, opacity 0.1s;
   -o-transition: background-color 0.1s, opacity 0.1s;
