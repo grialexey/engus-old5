@@ -42,8 +42,8 @@ def create_card_view(request):
         if form.is_valid():
             card_front_text = form.cleaned_data['front']
             card = form.save(commit=False)
-            card.add_card_front(card_front_text, request.user)
             card.learner = request.user
+            card.add_card_front(card_front_text, request.user)
             card.save()
             return HttpResponse(status=201)
         else:
