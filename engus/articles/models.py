@@ -2,7 +2,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
-from django.contrib.auth.models import User
 from django.utils import timezone
 from engus.utils.autoslug_field import AutoSlugField, ru_slugify_fn
 
