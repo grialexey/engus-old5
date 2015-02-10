@@ -6,23 +6,11 @@ from .models import Card, CardFront
 class CardForm(forms.ModelForm):
     front = forms.CharField(max_length=255)
 
-    def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop('user')
-        super(CardForm, self).__init__(*args, **kwargs)
-
     def clean(self):
         super(CardForm, self).clean()
         self.cleaned_data['back'] = self.cleaned_data['back'].strip()
         self.cleaned_data['example'] = self.cleaned_data['example'].strip()
         self.cleaned_data['front'] = self.cleaned_data['front'].strip()
-
-    def get_card_front(self):
-        front = self.cleaned_data['front']
-        try:
-            card_front_obj = CardFront.objects.filter(text__iexact=front, is_public=True)[0]
-        except IndexError:
-            card_front_obj = CardFront.objects.create(text=front, author=self.user)
-        self.instance.front = card_front_obj
 
     class Meta:
         model = Card

@@ -66,6 +66,13 @@ class Card(models.Model):
             self.level = 1
             self.repeat_count += 1
 
+    def add_card_front(self, text, user):
+        try:
+            card_front_obj = CardFront.objects.filter(text__iexact=text, is_public=True)[0]
+        except IndexError:
+            card_front_obj = CardFront.objects.create(text=text, author=user)
+        self.front = card_front_obj
+
     class Meta:
         verbose_name = u'Карточка'
         verbose_name_plural = u'Карточки'

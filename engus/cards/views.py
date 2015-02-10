@@ -38,10 +38,11 @@ class MyCardListView(LoginRequiredMixin, ListView):
 @login_required
 def create_card_view(request):
     if request.is_ajax() and request.method == 'POST':
-        form = CardForm(request.POST, user=request.user)
+        form = CardForm(request.POST)
         if form.is_valid():
-            form.get_card_front()
+            card_front_text = form.cleaned_data['front']
             card = form.save(commit=False)
+            card.add_card_front(card_front_text, request.user)
             card.learner = request.user
             card.save()
             return HttpResponse(status=201)
@@ -55,10 +56,12 @@ def create_card_view(request):
 def update_card_view(request, pk):
     card_to_update = get_object_or_404(Card, pk=pk, learner=request.user)
     if request.is_ajax() and request.method == 'POST':
-        form = CardForm(request.POST, instance=card_to_update, user=request.user)
+        form = CardForm(request.POST, instance=card_to_update)
         if form.is_valid():
-            form.get_card_front()
-            card = form.save()
+            card_front_text = form.cleaned_data['front']
+            card = form.save(commit=False)
+            card.add_card_front(card_front_text, request.user)
+            card.save()
             return render_to_response('cards/card.html', {'card': card, }, context_instance=RequestContext(request))
         else:
             return HttpResponseBadRequest()
