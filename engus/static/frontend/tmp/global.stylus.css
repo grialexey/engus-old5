@@ -326,9 +326,9 @@ textarea {
   z-index: 5;
 }
 .card__level.m-repeated-today {
-  opacity: 0.5;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-  filter: alpha(opacity=50);
+  opacity: 0.3;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+  filter: alpha(opacity=30);
 }
 .card__level.level1 {
   color: #f00;
