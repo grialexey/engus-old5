@@ -140,6 +140,7 @@ CardList.prototype.changePageEvent = function(event) {
         if(url != window.location){
             window.history.pushState({}, '', url.toString());
         }
+        delete self.cards;
         self.cards = self.getCards();
     });
 };
