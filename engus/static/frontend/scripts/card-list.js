@@ -11,7 +11,6 @@ var CardList = function($cardListWrapper) {
 
 CardList.prototype.getModeInUrl = function() {
     var currentUrl = new Url;
-    console.log(currentUrl.toString());
     return currentUrl.query['mode'];
 };
 
@@ -140,7 +139,9 @@ CardList.prototype.changePageEvent = function(event) {
         if(url != window.location){
             window.history.pushState({}, '', url.toString());
         }
-        delete self.cards;
+        self.cards.forEach(function(card) {
+            card.unbindEvents();
+        });
         self.cards = self.getCards();
     });
 };

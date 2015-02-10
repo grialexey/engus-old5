@@ -47,6 +47,18 @@ Card.prototype.bindEvents = function() {
     $(document).on('click', { self: this }, this.clickOutsideEvent);
 };
 
+Card.prototype.unbindEvents = function() {
+    this.$deleteForm.off('submit', this.deleteCardEvent);
+    this.$editForm.off('submit', this.updateCardEvent);
+    this.$levelChangeForm.off('submit', this.updateCardLevelEvent);
+    this.$content.off('click', this.clickOnContentEvent);
+    this.$editButton.off('click', this.clickOnEditButtonEvent);
+    this.$playAudioBtn.off('click', this.playAudioEvent);
+    this.$rightOverlay.off('click', this.clickRightOverlayEvent);
+    this.$leftOverlay.off('click', this.clickLeftOverlayEvent);
+    $(document).off('click', this.clickOutsideEvent);
+};
+
 Card.prototype.isEditable = function() {
     return this.$content.is('.editable');
 };
