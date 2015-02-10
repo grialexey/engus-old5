@@ -19,6 +19,7 @@ INSTALLED_APPS = (
     #'debug_toolbar',
     'pytils',
     'ckeditor',
+    'django_select2',
 
     # Application base, containing global templates.
     'engus.accounts',

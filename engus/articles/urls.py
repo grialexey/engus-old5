@@ -3,5 +3,5 @@ from .views import ArticleDetailView
 
 
 urlpatterns = patterns('',
-    url(r'^(?P<slug>[-_\w]+)/$', ArticleDetailView.as_view(), name='article-detail'),
+    url(r'^(?P<category>[-_\w]+)/(?P<slug>[-_\w]+)/$', ArticleDetailView.as_view(), name='article-detail'),
 )

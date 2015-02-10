@@ -12,7 +12,7 @@
         {{ article.description|safe }}
 
 
-        {% with card_list=article.cards.all %}
+        {% with card_list=article.cards.public %}
             {% if card_list %}
                 <h2 class="article__heading2">Карточки</h2>
                 {% include "cards/card_list.html" %}

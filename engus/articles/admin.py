@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
 from django import forms
+from django.contrib.admin.widgets import FilteredSelectMultiple
 from ckeditor.widgets import CKEditorWidget
-from engus.cards.models import Card
-from .models import Article
+from .models import Article, ArticleCategory, ArticleTag
 
 
 class ArticleAdminForm(forms.ModelForm):
@@ -13,11 +13,18 @@ class ArticleAdminForm(forms.ModelForm):
         fields = '__all__'
         model = Article
 
+    def __init__(self, *args, **kwargs):
+        super(ArticleAdminForm, self).__init__(*args, **kwargs)
+        self.fields['tags'].queryset = ArticleTag.objects.all()
+
 
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug', 'subtitle', 'author', )
+    list_display = ('name', 'category', 'is_published', 'is_approved', 'author', 'modified', 'created')
     form = ArticleAdminForm
     raw_id_fields = ('author', )
+    filter_horizontal = ('cards', 'tags', )
 
 
 admin.site.register(Article, ArticleAdmin)
+admin.site.register(ArticleCategory)
+admin.site.register(ArticleTag)

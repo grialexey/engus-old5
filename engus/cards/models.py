@@ -20,6 +20,12 @@ class CardFront(models.Model):
         return self.text
 
 
+class CardQuerySet(models.QuerySet):
+
+    def public(self):
+        return self.filter(learner=None)
+
+
 class CardManager(models.Manager):
 
     def get_queryset(self):
@@ -40,7 +46,7 @@ class Card(models.Model):
     popularity = models.IntegerField(default=0)
     created = models.DateTimeField(auto_now_add=True, verbose_name=u'Создана')
 
-    objects = CardManager()
+    objects = CardManager().from_queryset(CardQuerySet)()
 
     # def is_public(self):
     #     return self.deck is None

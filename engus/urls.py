@@ -15,6 +15,7 @@ urlpatterns = patterns('',
     url(r'^engusadmin/', include(admin.site.urls)),
     url(r'^accounts/', include('engus.accounts.urls')),
     url(r'^ckeditor/', include('ckeditor.urls')),
+    url(r'^select2/', include('django_select2.urls')),
 )
 
 

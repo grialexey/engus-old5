@@ -25,12 +25,13 @@ class Article(models.Model):
     slug = AutoSlugField(populate_from='name', max_length=255, unique=True, editable=True,
                          slugify_function=ru_slugify_fn)
     subtitle = models.CharField(max_length=255, blank=True, verbose_name=u'Подзаголовок')
+    category = models.ForeignKey('ArticleCategory', verbose_name=u'Категория')
     image = models.ImageField(upload_to="card_deck/%Y_%m_%d", blank=True, verbose_name=u'Изображение')
     level = models.IntegerField(choices=LEVEL_CHOICES, verbose_name=u'Уровень')
     tags = models.ManyToManyField('ArticleTag', blank=True, null=True, verbose_name=u'Теги')
     description = models.TextField(blank=True, verbose_name=u'Текст')
-    cards = models.ManyToManyField('cards.Card', blank=True, null=True, verbose_name=u'Карточки')
-
+    cards = models.ManyToManyField('cards.Card', blank=True, null=True, verbose_name=u'Карточки',
+                                   limit_choices_to={'learner': None, })
     is_published = models.BooleanField(default=False, verbose_name=u'Опубликовано')
     is_approved = models.BooleanField(default=True, verbose_name=u'Одобрена')
     author = models.ForeignKey(User, verbose_name=u'Автор')
@@ -46,7 +47,20 @@ class Article(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('articles:article-detail', kwargs={'slug': self.slug, })
+        return reverse('articles:article-detail', kwargs={'category': self.category.slug, 'slug': self.slug, })
+
+
+class ArticleCategory(models.Model):
+    name = models.CharField(max_length=100)
+    slug = AutoSlugField(populate_from='name', max_length=100, unique=True, editable=True,
+                         slugify_function=ru_slugify_fn)
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = u'Категория'
+        verbose_name_plural = u'Категории'
 
 
 class ArticleRating(models.Model):
@@ -66,3 +80,12 @@ class ArticleRating(models.Model):
 
 class ArticleTag(models.Model):
     name = models.CharField(max_length=100)
+    slug = AutoSlugField(populate_from='name', max_length=100, unique=True, editable=True,
+                         slugify_function=ru_slugify_fn)
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = u'Тег'
+        verbose_name_plural = u'Теги'
