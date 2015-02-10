@@ -45,6 +45,7 @@ class Article(models.Model):
     description = models.TextField(blank=True, verbose_name=u'Текст')
     cards = models.ManyToManyField('cards.Card', blank=True, null=True, verbose_name=u'Карточки',
                                    limit_choices_to={'learner': None, })
+    rating = models.IntegerField(default=0, verbose_name=u'Рейтинг')
     is_published = models.BooleanField(default=False, verbose_name=u'Опубликовано')
     is_approved = models.BooleanField(default=True, verbose_name=u'Одобрена')
     author = models.ForeignKey(User, verbose_name=u'Автор')
@@ -55,7 +56,7 @@ class Article(models.Model):
     objects = ArticleManager().from_queryset(ArticleQuerySet)()
 
     class Meta:
-        ordering = ['-published', ]
+        ordering = ['-rating', '-published', ]
         verbose_name = u'Статья'
         verbose_name_plural = u'Статьи'
 
@@ -66,6 +67,14 @@ class Article(models.Model):
         if self.published is None and self.is_published and self.is_approved:
             self.published = timezone.now()
         super(Article, self).save(*args, **kwargs)
+
+    def calculate_rating(self):
+        self.rating = 0
+        for rating in self.articlerating_set.all():
+            if rating.positive:
+                self.rating += 1
+            else:
+                self.rating -= 1
 
     def get_absolute_url(self):
         return reverse('articles:article-detail', kwargs={'category': self.category.slug, 'slug': self.slug, })
@@ -94,9 +103,15 @@ class ArticleRating(models.Model):
         ordering = ['-created', ]
         verbose_name = u'Оценка для статьи'
         verbose_name_plural = u'Оценки для статьи'
+        unique_together = ('article', 'user', )
 
     def __unicode__(self):
-        return self.article
+        return self.article.name
+
+    def save(self, *args, **kwargs):
+        super(ArticleRating, self).save(*args, **kwargs)
+        self.article.calculate_rating()
+        self.article.save()
 
 
 class ArticleTag(models.Model):
