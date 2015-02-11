@@ -10,7 +10,6 @@ var CardList = function($cardListWrapper) {
     this.$newCardsCounnt = this.$filterSwitcherLinks.filter('.m-new ').find('.card-list__filter-list-item-count');
     this.$toRepeatCardsCounnt = this.$filterSwitcherLinks.filter('.m-to-repeat').find('.card-list__filter-list-item-count');
     this.$learnedCardsCounnt = this.$filterSwitcherLinks.filter('.m-learned').find('.card-list__filter-list-item-count');
-    this.$paginators = $('.paginator');
     this.$modeSwitcher.$items = this.$modeSwitcher.find('.card-list__modeswitch-item');
     this.cards = this.getCards();
     this.bindEvents();
@@ -67,7 +66,6 @@ CardList.prototype.switchModeEvent = function(event) {
             self.setModeInUrl(null);
             break;
         case 'repeat':
-            self.$paginators.remove();
             if (self.$modeSwitcher.is('.m-repeat-right')) {
                 self.setRepeatLeftMode(this.cards);
                 self.$modeSwitcher.removeClass('m-normal m-repeat m-repeat-right m-repeat-left');
