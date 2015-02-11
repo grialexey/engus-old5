@@ -44,6 +44,7 @@ class Card(models.Model):
     repeat_count = models.PositiveIntegerField(default=0)
 
     popularity = models.IntegerField(default=0)
+    learned = models.DateTimeField(null=True, blank=True, verbose_name=u'Запомнена')
     created = models.DateTimeField(auto_now_add=True, verbose_name=u'Создана')
 
     objects = CardManager().from_queryset(CardQuerySet)()
@@ -60,12 +61,15 @@ class Card(models.Model):
                 self.level = 2
             elif self.level < 5:
                 self.level += 1
+            elif self.level == 5 and self.learned is None:
+                self.learned = timezone.now()
             self.last_repeat = timezone.now()
             self.repeat_count += 1
 
     def level_down(self):
         if not self.level == 1:
             self.level = 1
+            self.learned = None
             self.last_repeat = timezone.now()
             self.repeat_count += 1
 
