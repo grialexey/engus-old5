@@ -52,7 +52,7 @@ class Card(models.Model):
     #     return self.deck is None
 
     def is_repeated_today(self):
-        return self.last_repeat is not None and (self.last_repeat.date() == timezone.now().date())
+        return self.last_repeat is not None and (self.last_repeat.date() == timezone.now().date()) and self.level > 1
 
     def level_up(self):
         if not self.is_repeated_today():
@@ -66,6 +66,7 @@ class Card(models.Model):
     def level_down(self):
         if not self.level == 1:
             self.level = 1
+            self.last_repeat = timezone.now()
             self.repeat_count += 1
 
     def add_card_front(self, text, user):
