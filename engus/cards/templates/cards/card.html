@@ -21,7 +21,7 @@
 
         {% if card.image %}
             {% load thumbnail %}
-            {% thumbnail card.image 506x300  quality=80 as thumb %}
+            {% thumbnail card.image 100x80  quality=80 as thumb %}
             <img class="card__image {% if mode == 'repeat-right' or mode == 'repeat-left' %}m-hide{% endif %}" src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}">
         {% endif %}
     </div>
