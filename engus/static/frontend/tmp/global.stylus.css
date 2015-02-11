@@ -170,6 +170,110 @@ textarea {
   z-index: 5;
   display: none;
 }
+.card-list__filter-list {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: box;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  -o-box-orient: horizontal;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: justify;
+  -moz-box-pack: justify;
+  -o-box-pack: justify;
+  -ms-flex-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  -webkit-box-lines: multiple;
+  -moz-box-lines: multiple;
+  -o-box-lines: multiple;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+  border: 1px solid #000;
+  border-bottom-width: 2px;
+  border-right-width: 2px;
+  margin: 0 0 25px 0;
+}
+.card-list__filter-list.m-all {
+  border-color: #00a0f0;
+}
+.card-list__filter-list.m-new {
+  border-color: #00a0f0;
+}
+.card-list__filter-list.m-to-repeat {
+  border-color: #00a0f0;
+}
+.card-list__filter-list.m-learned {
+  border-color: #00a0f0;
+}
+.card-list__filter-list-item {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -o-box-flex: 1;
+  box-flex: 1;
+  -webkit-flex: 1 0 25%;
+  -ms-flex: 1 0 25%;
+  flex: 1 0 25%;
+  text-align: center;
+/*font-weight: bold;*/
+  font-size: 16px;
+  -webkit-transition: background-color 0.2s;
+  -moz-transition: background-color 0.2s;
+  -o-transition: background-color 0.2s;
+  -ms-transition: background-color 0.2s;
+  transition: background-color 0.2s;
+  cursor: pointer;
+  color: #555;
+  white-space: nowrap;
+}
+.card-list__filter-list-item:hover {
+  background-color: #f7f7f7;
+}
+.card-list__filter-list-item-count {
+  position: relative;
+  bottom: 6px;
+  left: 1px;
+  display: inline-block;
+  font-size: 12px;
+/*font-weight: bold;*/
+  width: 0;
+  color: #999;
+}
+.card-list__filter-list-item-link.m-active .card-list__filter-list-item-count {
+  color: #fff;
+}
+.card-list__filter-list-item-link {
+  display: block;
+  text-decoration: none;
+  padding: 10px 0;
+  color: #555;
+}
+.card-list__filter-list-item-link.m-all.m-active {
+  background-color: #00a0f0;
+  color: #fff;
+}
+.card-list__filter-list-item-link.m-new.m-active {
+  background-color: #00a0f0;
+  color: #fff;
+}
+.card-list__filter-list-item-link.m-to-repeat.m-active {
+  background-color: #00a0f0;
+  color: #fff;
+}
+.card-list__filter-list-item-link.m-learned.m-active {
+  background-color: #00a0f0;
+  color: #fff;
+}
 .card-list__modeswitch {
   display: -webkit-box;
   display: -moz-box;
@@ -846,7 +950,7 @@ textarea {
   margin: 0 auto;
 /*background-color: #f5f5f5;*/
 }
-.pages {
+.paginator {
   width: 100%;
   display: -webkit-box;
   display: -moz-box;
@@ -880,7 +984,7 @@ textarea {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-.pages__item {
+.paginator__item {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   -o-box-flex: 1;
@@ -892,7 +996,7 @@ textarea {
   font-size: 15px;
   line-height: 39px;
 }
-.pages__item--fastnav {
+.paginator__item--fastnav {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   -o-box-flex: 1;
@@ -901,19 +1005,19 @@ textarea {
   -ms-flex: 0 0 110px;
   flex: 0 0 110px;
 }
-.pages__link {
+.paginator__link {
   text-decoration: none;
   display: block;
   color: #62b69b;
 }
-.pages__link:hover {
+.paginator__link:hover {
   background-color: rgba(98,182,155,0.1);
 }
-.pages__link.active {
+.paginator__link.active {
   color: #fff;
   background-color: #62b69b;
 }
-.pages__inactivelink {
+.paginator__inactivelink {
   display: block;
   color: #ddd;
 }

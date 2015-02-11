@@ -3,5 +3,27 @@
 {% block header_menu_item_mycards_class %}active{% endblock %}
 
 {% block content %}
-{% include "cards/card_list.html" %}
+    <ul class="card-list__filter-list {% if cards_filter %}m-{{ cards_filter }}{% else %}m-all{% endif %}">
+        <li class="card-list__filter-list-item">
+            <a class="card-list__filter-list-item-link m-all {% if not cards_filter %}m-active{% endif %}" href="{% url "cards:card-list-my" %}">
+                Все <span class="card-list__filter-list-item-count">{{ cards_counts.all_cards_count }}</span>
+            </a>
+        </li>
+        <li class="card-list__filter-list-item">
+            <a class="card-list__filter-list-item-link m-to-repeat {% if cards_filter == 'to-repeat' %}m-active{% endif %}" href="{% url "cards:card-list-my" %}?filter=to-repeat">
+                Повторить <span class="card-list__filter-list-item-count">{{ cards_counts.to_repeat_cards_count }}</span>
+            </a>
+        </li>
+        <li class="card-list__filter-list-item">
+            <a class="card-list__filter-list-item-link m-new {% if cards_filter == 'new' %}m-active{% endif %}" href="{% url "cards:card-list-my" %}?filter=new">
+                Новые <span class="card-list__filter-list-item-count">{{ cards_counts.new_cards_count }}</span>
+            </a>
+        </li>
+        <li class="card-list__filter-list-item">
+            <a class="card-list__filter-list-item-link m-learned {% if cards_filter == 'learned' %}m-active{% endif %}" href="{% url "cards:card-list-my" %}?filter=learned">
+                Выученные <span class="card-list__filter-list-item-count">{{ cards_counts.learned_cards_count }}</span>
+            </a>
+        </li>
+    </ul>
+    {% include "cards/card_list.html" %}
 {% endblock %}

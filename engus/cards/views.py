@@ -1,13 +1,24 @@
 # -*- coding: utf-8 -*-
+import json
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView
 from django.http import HttpResponse, Http404, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
+from django.template import RequestContext, loader
 from braces.views import LoginRequiredMixin
 from .models import Card
 from .forms import CardForm, DeleteCardForm, UpdateCardLevelForm
+
+
+def get_cards_counts_for_user(user):
+    return {
+        'all_cards_count': Card.objects.all_for_user(user=user).count(),
+        'new_cards_count': Card.objects.new_for_user(user=user).count(),
+        'to_repeat_cards_count': Card.objects.to_repeat_for_user(user=user).count(),
+        'learned_cards_count': Card.objects.learned_for_user(user=user).count(),
+    }
 
 
 class MyCardListView(LoginRequiredMixin, ListView):
@@ -15,7 +26,18 @@ class MyCardListView(LoginRequiredMixin, ListView):
     paginate_by = 12
 
     def get_queryset(self):
-        return Card.objects.filter(learner=self.request.user)
+        cards_filter = self.request.GET.get('filter')
+        if cards_filter == 'new':
+            cards = Card.objects.new_for_user(user=self.request.user)
+        elif cards_filter == 'in-learning':
+            cards = Card.objects.in_learning_for_user(user=self.request.user)
+        elif cards_filter == 'to-repeat':
+            cards = Card.objects.to_repeat_for_user(user=self.request.user)
+        elif cards_filter == 'learned':
+            cards = Card.objects.learned_for_user(user=self.request.user)
+        else:
+            cards = Card.objects.all_for_user(user=self.request.user)
+        return cards
 
     def get_template_names(self):
         if self.request.is_ajax():
@@ -26,6 +48,8 @@ class MyCardListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(MyCardListView, self).get_context_data(**kwargs)
         context['mode'] = self.request.GET.get('mode', '')
+        context['cards_filter'] = self.request.GET.get('filter')
+        context['cards_counts'] = get_cards_counts_for_user(self.request.user)
         return context
 
 
@@ -56,7 +80,12 @@ def update_card_view(request, pk):
             card = form.save(commit=False)
             card.add_card_front(card_front_text, request.user)
             card.save()
-            return render_to_response('cards/card.html', {'card': card, }, context_instance=RequestContext(request))
+            card_template = loader.get_template('cards/card.html')
+            response_data = {
+                'card': card_template.render(RequestContext(request, {'card': card, })),
+                'cards_counts': get_cards_counts_for_user(request.user)
+            }
+            return HttpResponse(json.dumps(response_data), content_type="application/json")
         else:
             return HttpResponseBadRequest()
     else:
@@ -71,7 +100,12 @@ def update_card_level_view(request, pk):
         if form.is_valid():
             form.update_level()
             card = form.save()
-            return render_to_response('cards/card.html', {'card': card, }, context_instance=RequestContext(request))
+            card_template = loader.get_template('cards/card.html')
+            response_data = {
+                'card': card_template.render(RequestContext(request, {'card': card, })),
+                'cards_counts': get_cards_counts_for_user(request.user)
+            }
+            return HttpResponse(json.dumps(response_data), content_type="application/json")
         else:
             return HttpResponseBadRequest()
     else:

@@ -18,6 +18,92 @@
         display: none;
     }
 
+    &__filter-list {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        box-sizing: border-box;
+        width: 100%;
+        border: 1px solid #000;
+        border-bottom-width: 2px;
+        border-right-width: 2px;
+        margin: 0 0 25px 0;
+
+        &.m-all {
+            border-color: mainColor(1);
+        }
+
+        &.m-new {
+            border-color: mainColor(1);
+        }
+
+        &.m-to-repeat {
+            border-color: mainColor(1);
+        }
+
+        &.m-learned {
+            border-color: mainColor(1);
+        }
+
+        &-item {
+            flex: 1 0 25%;
+            text-align: center;
+            /*font-weight: bold;*/
+            font-size: 16px;
+            transition: background-color 0.2s;
+            cursor: pointer;
+            color: #555;
+            white-space: nowrap;
+
+            &:hover {
+                background-color: #f7f7f7;
+            }
+
+            &-count {
+                position: relative;
+                bottom: 6px;
+                left: 1px;
+                display: inline-block;
+                font-size: 12px;
+                /*font-weight: bold;*/
+                width: 0;
+                color: #999;
+            }
+
+            &-link.m-active &-count {
+                color: #fff;
+            }
+
+            &-link {
+                display: block;
+                text-decoration: none;
+                padding: 10px 0;
+                color: #555;
+
+                &.m-all.m-active {
+                    background-color: mainColor(1);
+                    color: #fff;
+                }
+
+                &.m-new.m-active {
+                    background-color: mainColor(1);
+                    color: #fff;
+                }
+
+                &.m-to-repeat.m-active {
+                    background-color: mainColor(1);
+                    color: #fff;
+                }
+
+                &.m-learned.m-active {
+                    background-color: mainColor(1);
+                    color: #fff;
+                }
+            }
+        }
+    }
+
     &__modeswitch {
         display: flex;
         flex-direction: row;
