@@ -1,7 +1,7 @@
 {% if card %}
-    <div class="card__content {% if user.is_authenticated and card.learner == user and not mode == 'repeat-right' and not mode == 'repeat-left' %}editable{% endif %}">
+    <div class="card__content {% if card.is_to_repeat %}m-to-repeat{% endif %} {% if user.is_authenticated and card.learner == user and not mode == 'repeat-right' and not mode == 'repeat-left' %}editable{% endif %}">
         <div class="card__top">
-            <span class="card__front {% if card.is_to_repeat %}m-to-repeat{% endif %}">
+            <span class="card__front">
                 <span class="card__front-word">{{ card.front.text }}</span>
                 {% if card.front.pronunciation %}
                     <span class="card__front-pron {% if card.front.audio %}with-audio{% endif %}">{{ card.front.pronunciation }}</span>

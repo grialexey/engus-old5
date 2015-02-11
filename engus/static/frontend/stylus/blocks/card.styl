@@ -9,10 +9,16 @@
     position: relative;
 
     &__content {
-        padding: 11px 0;
+        padding: 11px 22px;
+        box-sizing: border-box;
 
         &.editable {
             cursor: pointer;
+        }
+
+        &.m-to-repeat {
+            padding-left: 17px;
+            border-left: 5px solid #00c3ff;
         }
     }
 
@@ -32,18 +38,10 @@
     }
 
     &__front {
-        padding-left: 22px;
+        padding-left: 0;
         padding-right: 10px
         font-size: 20px;
         position: relative;
-
-        &.m-to-repeat::before {
-            position: absolute;
-            left: 9px;
-            top: 2px;
-            content '•';
-            color: #f99;
-        }
 
         &-word {
             font-weight: bold;
@@ -66,7 +64,7 @@
     }
 
     &__back {
-        padding-right: 22px;
+        padding-right: 0;
         font-size: 18px;
         color: #333;
     }
@@ -109,7 +107,7 @@
         line-height: 17px;
         color: #aaa;
         padding: 0;
-        margin: 11px 22px 0;
+        margin: 11px 0 0;
     }
 
     &__audio {
@@ -120,7 +118,7 @@
         max-width: 100%;
         display: block;
         margin: 15px 0 5px;
-        padding: 0 22px;
+        padding: 0;
     }
 
     &__overlay {
