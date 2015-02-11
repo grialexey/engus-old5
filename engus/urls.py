@@ -2,6 +2,7 @@
 from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.views.generic.base import TemplateView
+from engus.articles.views import ArticleListView
 
 from django.contrib import admin
 admin.autodiscover()
@@ -9,7 +10,7 @@ admin.site.site_header = u'Администрирование Ингус.ру'
 
 
 urlpatterns = patterns('',
-    url(r'^$', TemplateView.as_view(template_name='home.html'), name='home'),
+    url(r'^$', ArticleListView.as_view(), name='home'),
     url(r'^articles/', include('engus.articles.urls', namespace='articles')),
     url(r'^cards/', include('engus.cards.urls', namespace='cards')),
     url(r'^engusadmin/', include(admin.site.urls)),

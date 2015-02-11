@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <ul class="article-list">
+        {% load thumbnail %}
+        {% for article in article_list %}<li class="article-list__item">
+            <a class="article-list__item-link" href="{{ article.get_absolute_url }}">
+                {% if article.image %}
+                {% thumbnail article.image 250x150  quality=80 crop as thumb %}
+                <img class="article-list__item-image" src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}">
+                {% endif %}
+                <h2 class="article-list__item-title">{{ article.name }}</h2>
+                <h3 class="article-list__item-subtitle">{{ article.subtitle }}</h3>
+                <div class="article-list__item-infoline">
+                    Рейтинг: <span class="article-list__item-rating {% if article.rating > 0 %}m-positive{% elif article.rating < 0 %}m-negative{% endif %}">{{ article.rating }}</span>
+                    <span class="article-list__item-date">{{ article.published|date:"d.m.Y" }}</span>
+                </div>
+            </a>
+        </li>{% endfor %}
+    </ul>
+{% endblock %}
