@@ -1,5 +1,5 @@
 {% if card %}
-    <div class="card__content {% if card.is_to_repeat %}m-to-repeat{% endif %} {% if user.is_authenticated and card.learner == user and not mode == 'repeat-right' and not mode == 'repeat-left' %}editable{% endif %}">
+    <div class="card__content {% if card.is_to_repeat %}m-to-repeat{% endif %} {% if not card.learner == user %}m-to-repeat{% endif %} {% if user.is_authenticated and card.learner == user and not mode == 'repeat-right' and not mode == 'repeat-left' %}editable{% endif %}">
         <div class="card__top">
             <span class="card__front">
                 <span class="card__front-word">{{ card.front.text }}</span>
@@ -32,7 +32,7 @@
                 {% csrf_token %}
                 <input type="hidden" name="pk" value="{{ card.pk }}">
                 <input type="hidden" name="level" value="up">
-                <button class="card__button card__button--learned" {% if not card.is_to_repeat %}disabled{% endif %}>Вспомнил</button>
+                <button class="card__button card__button--learned">Вспомнил</button>
             </form>
         </li>
         <li class="card__controls-item">

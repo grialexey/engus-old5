@@ -51,7 +51,7 @@ class Card(models.Model):
     objects = CardManager().from_queryset(CardQuerySet)()
 
     def is_to_repeat(self):
-        return self.next_repeat < timezone.now()
+        return self.learner is not None and self.next_repeat < timezone.now()
 
     def set_next_repeat(self):
         now = timezone.now()

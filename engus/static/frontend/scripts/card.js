@@ -7,7 +7,7 @@ Card.prototype.init = function() {
     this.cacheElements();
     this.bindEvents();
     this.isRegisteredUserOwned = this.$el.is('.m-user-owned');
-    this.isRepeatedToday = this.$level.is('.m-repeated-today');
+    this.isToRepeat = this.$content.is('.m-to-repeat');
 };
 
 Card.prototype.cacheElements = function() {
@@ -30,7 +30,6 @@ Card.prototype.cacheElements = function() {
     this.$editButton = this.$el.find('.card__button--edit');
     this.$playAudioBtn = this.$el.find('.card__front-pron.with-audio');
     this.$audio = this.$el.find('.card__audio');
-    this.$level = this.$el.find('.card__level');
     this.$editForm.$exampleTextArea = this.$editForm.find('.card__form-input[name=example]');
 
 };
@@ -63,29 +62,12 @@ Card.prototype.isEditable = function() {
     return this.$content.is('.editable');
 };
 
-Card.prototype.getLevel = function() {
-    return parseInt(this.$level.data('level'));
-};
-
-Card.prototype.setLevel = function(level) {
-    this.$level
-        .removeClass('level1 level2 level3 level4 level5')
-        .addClass('level' + level)
-        .text(level)
-        .data('level', level);
-};
-
 Card.prototype.levelUp = function() {
-    var level = this.getLevel();
-    if (level == 0) {
-        this.setLevel(2);
-    } else if (level < 5) {
-        this.setLevel(level + 1);
-    }
+    this.$content.removeClass('m-to-repeat');
 };
 
 Card.prototype.levelDown = function() {
-    this.setLevel(1);
+    this.$content.addClass('m-to-repeat');
 };
 
 Card.prototype.playAudio = function() {
@@ -111,7 +93,7 @@ Card.prototype.clickRightOverlayEvent = function(event) {
     var self = event.data.self;
     self.normalMode();
     self.$rightOverlay.removeClass('m-active');
-    if (!self.isRepeatedToday) {
+    if (self.isToRepeat) {
         setTimeout(function() {
             self.$levelChangeControls.slideDown(200);
         }, 350);
@@ -127,7 +109,7 @@ Card.prototype.clickLeftOverlayEvent = function(event) {
     self.normalMode();
     self.playAudio();
     self.$leftOverlay.removeClass('m-active');
-    if (!self.isRepeatedToday) {
+    if (self.isToRepeat) {
         setTimeout(function() {
             self.$levelChangeControls.slideDown(200);
         }, 550);
@@ -236,13 +218,13 @@ Card.prototype.updateCardLevelEvent = function(event) {
         $form = $(this),
         levelChange = $form.find('input[name=level]').val();
     self.$levelChangeControls.slideUp(100);
-    self.$fullOverlay.addClass('m-active');
     if (levelChange == 'up') {
         self.levelUp();
     } else if (levelChange == 'down') {
         self.levelDown();
     }
     if (self.isRegisteredUserOwned) {
+        self.$fullOverlay.addClass('m-active');
         self.updateCardAjax($form);
     }
 };
