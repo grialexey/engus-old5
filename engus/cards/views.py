@@ -64,8 +64,10 @@ def update_card_view(request, pk):
             card.add_card_front(card_front_text, request.user)
             card.save()
             card_template = loader.get_template('cards/card.html')
+            context = RequestContext(request, {'card': card, })
             response_data = {
-                'card': card_template.render(RequestContext(request, {'card': card, })),
+                'card': card_template.render(context),
+                'cards_to_repeat_count': context['cards_to_repeat_count']
             }
             return HttpResponse(json.dumps(response_data), content_type="application/json")
         else:
@@ -83,8 +85,10 @@ def update_card_level_view(request, pk):
             form.update_level()
             card = form.save()
             card_template = loader.get_template('cards/card.html')
+            context = RequestContext(request, {'card': card, })
             response_data = {
-                'card': card_template.render(RequestContext(request, {'card': card, })),
+                'card': card_template.render(context),
+                'cards_to_repeat_count': context['cards_to_repeat_count']
             }
             return HttpResponse(json.dumps(response_data), content_type="application/json")
         else:

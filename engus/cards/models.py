@@ -57,7 +57,7 @@ class Card(models.Model):
         now = timezone.now()
         if self.level == 0:
             self.next_repeat = now
-        if self.level == 1:
+        elif self.level == 1:
             self.next_repeat = now + datetime.timedelta(minutes=20)
         elif self.level == 2:
             self.next_repeat = now + datetime.timedelta(hours=8)

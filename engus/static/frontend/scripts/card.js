@@ -265,7 +265,7 @@ Card.prototype.updateCardAjax = function($form) {
         self.$el.html(data['card']);
         self.init();
 
-        var cardsCounts = data['cards_counts'];
+        $('.header__menu-repeat-count').text(data['cards_to_repeat_count']);
     }).error(function() {
         $form.show();
         self.$fullOverlay.addClass('m-active m-error').text('Ошибка при сохранении');
