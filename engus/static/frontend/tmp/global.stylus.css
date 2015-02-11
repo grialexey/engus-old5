@@ -204,7 +204,7 @@ textarea {
   border-right-width: 2px;
   margin: 0 0 25px 0;
 }
-.card-list__filter-list.m-all {
+.card-list__filter-list.m-to-learn {
   border-color: #00a0f0;
 }
 .card-list__filter-list.m-new {
@@ -258,11 +258,7 @@ textarea {
   padding: 10px 0;
   color: #555;
 }
-.card-list__filter-list-item-link.m-all.m-active {
-  background-color: #00a0f0;
-  color: #fff;
-}
-.card-list__filter-list-item-link.m-new.m-active {
+.card-list__filter-list-item-link.m-to-learn.m-active {
   background-color: #00a0f0;
   color: #fff;
 }

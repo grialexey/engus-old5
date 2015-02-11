@@ -14,8 +14,7 @@ from .forms import CardForm, DeleteCardForm, UpdateCardLevelForm
 
 def get_cards_counts_for_user(user):
     return {
-        'all_cards_count': Card.objects.all_for_user(user=user).count(),
-        'new_cards_count': Card.objects.new_for_user(user=user).count(),
+        'to_learn_cards_count': Card.objects.to_learn_for_user(user=user).count(),
         'to_repeat_cards_count': Card.objects.to_repeat_for_user(user=user).count(),
         'learned_cards_count': Card.objects.learned_for_user(user=user).count(),
     }
@@ -36,7 +35,7 @@ class MyCardListView(LoginRequiredMixin, ListView):
         elif cards_filter == 'learned':
             cards = Card.objects.learned_for_user(user=self.request.user)
         else:
-            cards = Card.objects.all_for_user(user=self.request.user)
+            cards = Card.objects.to_learn_for_user(user=self.request.user)
         return cards
 
     def get_template_names(self):

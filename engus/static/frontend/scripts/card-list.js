@@ -6,10 +6,10 @@ var CardList = function($cardListWrapper) {
     this.$modeSwitcher = $('.card-list__modeswitch');
     this.$filterSwitcher = $('.card-list__filter-list');
     this.$filterSwitcherLinks = this.$filterSwitcher.find('.card-list__filter-list-item-link');
-    this.$allCardsCounnt = this.$filterSwitcherLinks.filter('.m-all').find('.card-list__filter-list-item-count');
-    this.$newCardsCounnt = this.$filterSwitcherLinks.filter('.m-new ').find('.card-list__filter-list-item-count');
-    this.$toRepeatCardsCounnt = this.$filterSwitcherLinks.filter('.m-to-repeat').find('.card-list__filter-list-item-count');
-    this.$learnedCardsCounnt = this.$filterSwitcherLinks.filter('.m-learned').find('.card-list__filter-list-item-count');
+    this.$toLearnCardsCount = this.$filterSwitcherLinks.filter('.m-to-learn').find('.card-list__filter-list-item-count');
+    this.$newCardsCount = this.$filterSwitcherLinks.filter('.m-new ').find('.card-list__filter-list-item-count');
+    this.$toRepeatCardsCount = this.$filterSwitcherLinks.filter('.m-to-repeat').find('.card-list__filter-list-item-count');
+    this.$learnedCardsCount = this.$filterSwitcherLinks.filter('.m-learned').find('.card-list__filter-list-item-count');
     this.$modeSwitcher.$items = this.$modeSwitcher.find('.card-list__modeswitch-item');
     this.cards = this.getCards();
     this.bindEvents();
@@ -46,11 +46,10 @@ CardList.prototype.getCards = function() {
     return cards;
 };
 
-CardList.prototype.updateCardsCounts = function(allCardsCount, newCardsCount, toRepeatCardsCount, learnedCardsCount) {
-    this.$allCardsCounnt.text(allCardsCount);
-    this.$newCardsCounnt.text(newCardsCount);
-    this.$toRepeatCardsCounnt.text(toRepeatCardsCount);
-    this.$learnedCardsCounnt.text(learnedCardsCount);
+CardList.prototype.updateCardsCounts = function(toLearnCardsCount, toRepeatCardsCount, learnedCardsCount) {
+    this.$toLearnCardsCount.text(toLearnCardsCount);
+    this.$toRepeatCardsCount.text(toRepeatCardsCount);
+    this.$learnedCardsCount.text(learnedCardsCount);
 };
 
 CardList.prototype.switchModeEvent = function(event) {

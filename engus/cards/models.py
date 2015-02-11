@@ -29,11 +29,8 @@ class CardQuerySet(models.QuerySet):
     def all_for_user(self, user):
         return self.filter(learner=user)
 
-    def new_for_user(self, user):
-        return self.filter(learner=user, level=0)
-
-    def in_learning_for_user(self, user):
-        return self.filter(learner=user, level__gt=0, level__lt=5)
+    def to_learn_for_user(self, user):
+        return self.filter(learner=user, level__lt=5)
 
     def to_repeat_for_user(self, user):
         now = timezone.now()
@@ -43,7 +40,7 @@ class CardQuerySet(models.QuerySet):
                                                                                            last_repeat__year=now.year))
 
     def learned_for_user(self, user):
-        return self.filter(learner=user, level=5)
+        return self.filter(learner=user, level=5).order_by('-learned')
 
 
 class CardManager(models.Manager):
