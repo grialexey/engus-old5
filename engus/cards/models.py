@@ -37,7 +37,8 @@ class CardQuerySet(models.QuerySet):
 
     def to_repeat_for_user(self, user):
         now = timezone.now()
-        return self.filter(learner=user, last_repeat__isnull=False).filter(Q(level=1) | ~Q(last_repeat__day=now.day,
+        return self.filter(learner=user, last_repeat__isnull=False, level__lt=5).filter(Q(level=1) |
+                                                                                        ~Q(last_repeat__day=now.day,
                                                                                            last_repeat__month=now.month,
                                                                                            last_repeat__year=now.year))
 
