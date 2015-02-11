@@ -154,7 +154,7 @@ textarea {
   position: relative;
 }
 .card-list__content {
-  margin: 25px 0;
+  margin: 15px 0;
   position: relative;
 }
 .card-list__overlay {
@@ -202,31 +202,32 @@ textarea {
   border: 1px solid #000;
   border-bottom-width: 2px;
   border-right-width: 2px;
+  border-top: none;
   margin: 0 0 25px 0;
 }
 .card-list__filter-list.m-to-learn {
-  border-color: #00a0f0;
+  border-color: rgba(0,160,240,0.6);
 }
 .card-list__filter-list.m-new {
-  border-color: #00a0f0;
+  border-color: rgba(0,160,240,0.6);
 }
 .card-list__filter-list.m-to-repeat {
-  border-color: #00a0f0;
+  border-color: rgba(0,160,240,0.6);
 }
 .card-list__filter-list.m-learned {
-  border-color: #00a0f0;
+  border-color: rgba(0,160,240,0.6);
 }
 .card-list__filter-list-item {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   -o-box-flex: 1;
   box-flex: 1;
-  -webkit-flex: 1 0 25%;
-  -ms-flex: 1 0 25%;
-  flex: 1 0 25%;
+  -webkit-flex: 0 0 33%;
+  -ms-flex: 0 0 33%;
+  flex: 0 0 33%;
   text-align: center;
 /*font-weight: bold;*/
-  font-size: 16px;
+  font-size: 17px;
   -webkit-transition: background-color 0.2s;
   -moz-transition: background-color 0.2s;
   -o-transition: background-color 0.2s;
@@ -241,8 +242,8 @@ textarea {
 }
 .card-list__filter-list-item-count {
   position: relative;
-  bottom: 6px;
-  left: 1px;
+  bottom: 4px;
+  left: 2px;
   display: inline-block;
   font-size: 12px;
 /*font-weight: bold;*/
@@ -255,19 +256,19 @@ textarea {
 .card-list__filter-list-item-link {
   display: block;
   text-decoration: none;
-  padding: 10px 0;
+  padding: 11px 0;
   color: #555;
 }
 .card-list__filter-list-item-link.m-to-learn.m-active {
-  background-color: #00a0f0;
+  background-color: rgba(0,160,240,0.6);
   color: #fff;
 }
 .card-list__filter-list-item-link.m-to-repeat.m-active {
-  background-color: #00a0f0;
+  background-color: rgba(0,160,240,0.6);
   color: #fff;
 }
 .card-list__filter-list-item-link.m-learned.m-active {
-  background-color: #00a0f0;
+  background-color: rgba(0,160,240,0.6);
   color: #fff;
 }
 .card-list__modeswitch {
@@ -818,7 +819,7 @@ textarea {
   margin: 0 auto;
   padding: 0 15px;
   position: relative;
-  margin-top: 25px;
+/*margin-top: 15px;*/
   margin-bottom: 35px;
 }
 .content__overlay {
@@ -836,6 +837,7 @@ textarea {
 }
 .header {
   background-color: #00a0f0;
+  border-bottom: 1px solid #fff;
 }
 .header__wrapper {
   display: block;
@@ -880,7 +882,7 @@ textarea {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
-  margin: 5px 2px 5px 0;
+  margin: 5px 15px 5px 0;
 }
 .header__menu-item:last-child {
   margin-right: 0;

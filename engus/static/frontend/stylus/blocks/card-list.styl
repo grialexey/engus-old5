@@ -2,7 +2,7 @@
     position: relative;
 
     &__content {
-        margin: 25px 0;
+        margin: 15px 0;
         position: relative;
     }
 
@@ -28,29 +28,30 @@
         border: 1px solid #000;
         border-bottom-width: 2px;
         border-right-width: 2px;
+        border-top: none;
         margin: 0 0 25px 0;
 
         &.m-to-learn {
-            border-color: mainColor(1);
+            border-color: mainColor(0.6);
         }
 
         &.m-new {
-            border-color: mainColor(1);
+            border-color: mainColor(0.6);
         }
 
         &.m-to-repeat {
-            border-color: mainColor(1);
+            border-color: mainColor(0.6);
         }
 
         &.m-learned {
-            border-color: mainColor(1);
+            border-color: mainColor(0.6);
         }
 
         &-item {
-            flex: 1 0 25%;
+            flex: 0 0 33%;
             text-align: center;
             /*font-weight: bold;*/
-            font-size: 16px;
+            font-size: 17px;
             transition: background-color 0.2s;
             cursor: pointer;
             color: #555;
@@ -62,8 +63,8 @@
 
             &-count {
                 position: relative;
-                bottom: 6px;
-                left: 1px;
+                bottom: 4px;
+                left: 2px;
                 display: inline-block;
                 font-size: 12px;
                 /*font-weight: bold;*/
@@ -78,21 +79,21 @@
             &-link {
                 display: block;
                 text-decoration: none;
-                padding: 10px 0;
+                padding: 11px 0;
                 color: #555;
 
                 &.m-to-learn.m-active {
-                    background-color: mainColor(1);
+                    background-color: mainColor(0.6);
                     color: #fff;
                 }
 
                 &.m-to-repeat.m-active {
-                    background-color: mainColor(1);
+                    background-color: mainColor(0.6);
                     color: #fff;
                 }
 
                 &.m-learned.m-active {
-                    background-color: mainColor(1);
+                    background-color: mainColor(0.6);
                     color: #fff;
                 }
             }
