@@ -236,6 +236,7 @@ Card.prototype.updateCardLevelEvent = function(event) {
         $form = $(this),
         levelChange = $form.find('input[name=level]').val();
     self.$levelChangeControls.slideUp(100);
+    self.$fullOverlay.addClass('m-active');
     if (levelChange == 'up') {
         self.levelUp();
     } else if (levelChange == 'down') {
