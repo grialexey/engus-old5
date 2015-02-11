@@ -1,7 +1,7 @@
 {% if card %}
     <div class="card__content {% if user.is_authenticated and card.learner == user and not mode == 'repeat-right' and not mode == 'repeat-left' %}editable{% endif %}">
         <div class="card__top">
-            <span class="card__front">
+            <span class="card__front {% if card.is_to_repeat %}m-to-repeat{% endif %}">
                 <span class="card__front-word">{{ card.front.text }}</span>
                 {% if card.front.pronunciation %}
                     <span class="card__front-pron {% if card.front.audio %}with-audio{% endif %}">{{ card.front.pronunciation }}</span>
@@ -13,7 +13,7 @@
          --><span class="card__back {% if mode == 'repeat-right' %}m-hide{% endif %}">{{ card.back }}</span>
         </div>
 
-        <span class="card__level level{{ card.level }} {% if card.is_repeated_today %}m-repeated-today{% endif %}" data-level="{{ card.level }}">{% if card.level %}{{ card.level }}{% endif %}</span>
+{#        <span class="card__level level{{ card.level }} {% if card.is_repeated_today %}m-repeated-today{% endif %}" data-level="{{ card.level }}">{% if card.level %}{{ card.level }}{% endif %}</span>#}
 
         {% if card.example %}
             <div class="card__example {% if mode == 'repeat-right' or mode == 'repeat-left' %}m-hide{% endif %}">{{ card.example|linebreaksbr }}</div>
@@ -32,7 +32,7 @@
                 {% csrf_token %}
                 <input type="hidden" name="pk" value="{{ card.pk }}">
                 <input type="hidden" name="level" value="up">
-                <button class="card__button card__button--learned" {% if card.is_repeated_today %}disabled{% endif %}>Вспомнил</button>
+                <button class="card__button card__button--learned" {% if not card.is_to_repeat %}disabled{% endif %}>Вспомнил</button>
             </form>
         </li>
         <li class="card__controls-item">
@@ -40,7 +40,7 @@
                 {% csrf_token %}
                 <input type="hidden" name="pk" value="{{ card.pk }}">
                 <input type="hidden" name="level" value="down">
-                <button class="card__button card__button--forget" {% if card.is_repeated_today %}disabled{% endif %}>Не вспомнил</button>
+                <button class="card__button card__button--forget">Не вспомнил</button>
             </form>
         </li>
     </ul>
@@ -48,9 +48,8 @@
     {% if user.is_authenticated and card.learner == user %}
         <div class="card__infomenu" style="display: none;">
             <ul class="card__infoline">
+                <li class="card__infoline-item">Следующее повторение: {{ card.next_repeat|date:"d.m.Y H:i" }}</li>
                 <li class="card__infoline-item">Добавлена: {{ card.created|date:"d.m.Y" }}</li>
-                {% if card.last_repeat %}<li class="card__infoline-item">Повторена: {{ card.last_repeat|date:"d.m.Y" }}</li>{% endif %}
-                <li class="card__infoline-item">Повторений: {{ card.repeat_count }}</li>
             </ul>
 
             <ul class="card__controls card__controls--edit">
@@ -59,7 +58,7 @@
                         {% csrf_token %}
                         <input type="hidden" name="pk" value="{{ card.pk }}">
                         <input type="hidden" name="level" value="up">
-                        <button class="card__button card__button--learned" {% if card.is_repeated_today %}disabled{% endif %}>Запомнил</button>
+                        <button class="card__button card__button--learned" {% if not card.is_to_repeat %}disabled{% endif %}>Запомнил</button>
                     </form>
                 </li>
                 <li class="card__controls-item">
@@ -67,7 +66,7 @@
                         {% csrf_token %}
                         <input type="hidden" name="pk" value="{{ card.pk }}">
                         <input type="hidden" name="level" value="down">
-                        <button class="card__button card__button--forget" {% if card.level == 1 %}disabled{% endif %}>Забыл</button>
+                        <button class="card__button card__button--forget">Забыл</button>
                     </form>
                 </li>
                 <li class="card__controls-item"><span class="card__button card__button--edit">Редактировать</span></li>

@@ -12,7 +12,7 @@ class CardFrontAdmin(admin.ModelAdmin):
 
 
 class CardAdmin(admin.ModelAdmin):
-    list_display = ('__unicode__', 'level', )
+    list_display = ('__unicode__', 'level', 'next_repeat', 'created', )
     raw_id_fields = ('front', 'learner', )
 
 

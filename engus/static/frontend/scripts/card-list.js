@@ -41,15 +41,9 @@ CardList.prototype.getCards = function() {
         cards = [],
         $cards = this.$content.find('.card');
     $cards.each(function() {
-        cards.push(new Card($(this), self));
+        cards.push(new Card($(this)));
     });
     return cards;
-};
-
-CardList.prototype.updateCardsCounts = function(toLearnCardsCount, toRepeatCardsCount, learnedCardsCount) {
-    this.$toLearnCardsCount.text(toLearnCardsCount);
-    this.$toRepeatCardsCount.text(toRepeatCardsCount);
-    this.$learnedCardsCount.text(learnedCardsCount);
 };
 
 CardList.prototype.switchModeEvent = function(event) {

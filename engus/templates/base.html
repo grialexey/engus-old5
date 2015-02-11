@@ -19,7 +19,10 @@
             <ul class="header__menu">
                 <li class="header__menu-item"><a href="/" class="header__menu-link header__menu-link--logo">Ингус</a></li>
                 {% if user.is_authenticated %}
-                    <li class="header__menu-item"><a href="{% url "cards:card-list-my" %}" class="header__menu-link {% block header_menu_item_mycards_class %}{% endblock %}">Мои карточки</a></li>
+                    <li class="header__menu-item">
+                        <a href="{% url "cards:card-list-my" %}" class="header__menu-link  header__menu-link--mycards {% block header_menu_item_mycards_class %}{% endblock %}">Мои карточки</a>
+                        {% if cards_to_repeat_count %}<a href="{% url "cards:card-list-my" %}?sort=repeat" class="header__menu-repeat-count">{{ cards_to_repeat_count }}</a>{% endif %}
+                    </li>
                     <li class="header__menu-item"><span href="/" class="header__menu-link header__menu-link--add">+</span></li>
                     <li class="header__menu-item header__menu-item--fill"></li>
                     <li class="header__menu-item"><a href="{% url 'logout' %}" class="header__menu-link">Мой профиль</a>

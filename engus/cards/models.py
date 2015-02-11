@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import datetime
 from django.db import models
 from django.db.models import Q
 from django.contrib.auth.models import User
@@ -26,21 +27,8 @@ class CardQuerySet(models.QuerySet):
     def public(self):
         return self.filter(learner=None)
 
-    def all_for_user(self, user):
-        return self.filter(learner=user)
-
-    def to_learn_for_user(self, user):
-        return self.filter(learner=user, level__lt=5)
-
-    def to_repeat_for_user(self, user):
-        now = timezone.now()
-        return self.filter(learner=user, last_repeat__isnull=False, level__lt=5).filter(Q(level=1) |
-                                                                                        ~Q(last_repeat__day=now.day,
-                                                                                           last_repeat__month=now.month,
-                                                                                           last_repeat__year=now.year))
-
-    def learned_for_user(self, user):
-        return self.filter(learner=user, level=5).order_by('-learned')
+    def to_repeat(self):
+        return self.filter(next_repeat__lt=timezone.now())
 
 
 class CardManager(models.Manager):
@@ -54,41 +42,46 @@ class Card(models.Model):
     back = models.CharField(blank=True, max_length=255, verbose_name=u'Перевод')
     image = models.ImageField(upload_to='card_image/%Y_%m_%d', blank=True, verbose_name=u'Изображение')
     example = models.TextField(blank=True, verbose_name=u'Пример употребления')
-
     learner = models.ForeignKey(User, null=True, blank=True)
-    level = models.IntegerField(default=0)
-    last_repeat = models.DateTimeField(null=True, blank=True)
+    level = models.PositiveIntegerField(default=0)
+    next_repeat = models.DateTimeField(default=timezone.now)
     repeat_count = models.PositiveIntegerField(default=0)
-
-    popularity = models.IntegerField(default=0)
-    learned = models.DateTimeField(null=True, blank=True, verbose_name=u'Запомнена')
     created = models.DateTimeField(auto_now_add=True, verbose_name=u'Создана')
 
     objects = CardManager().from_queryset(CardQuerySet)()
 
-    # def is_public(self):
-    #     return self.deck is None
+    def is_to_repeat(self):
+        return self.next_repeat < timezone.now()
 
-    def is_repeated_today(self):
-        return self.last_repeat is not None and (self.last_repeat.date() == timezone.now().date()) and self.level > 1
+    def set_next_repeat(self):
+        now = timezone.now()
+        if self.level == 0:
+            self.next_repeat = now
+        if self.level == 1:
+            self.next_repeat = now + datetime.timedelta(minutes=20)
+        elif self.level == 2:
+            self.next_repeat = now + datetime.timedelta(hours=8)
+        elif self.level == 3:
+            self.next_repeat = now + datetime.timedelta(hours=24)
+        elif self.level == 4:
+            self.next_repeat = now + datetime.timedelta(hours=72)
+        elif self.level == 5:
+            self.next_repeat = now + datetime.timedelta(weeks=2)
+        elif self.level == 6:
+            self.next_repeat = now + datetime.timedelta(weeks=6)
+        else:
+            self.next_repeat = now + datetime.timedelta(weeks=52)
 
-    def level_up(self):
-        if not self.is_repeated_today():
-            if self.level == 0:
-                self.level = 2
-            elif self.level < 5:
-                self.level += 1
-            elif self.level == 5 and self.learned is None:
-                self.learned = timezone.now()
-            self.last_repeat = timezone.now()
+    def good(self):
+        if self.is_to_repeat():
+            self.level += 1
             self.repeat_count += 1
+            self.set_next_repeat()
 
-    def level_down(self):
-        if not self.level == 1:
-            self.level = 1
-            self.learned = None
-            self.last_repeat = timezone.now()
-            self.repeat_count += 1
+    def bad(self):
+        self.level = 0
+        self.repeat_count += 1
+        self.set_next_repeat()
 
     def add_card_front(self, text, user):
         try:

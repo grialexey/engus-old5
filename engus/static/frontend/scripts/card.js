@@ -1,6 +1,5 @@
-var Card = function($element, cardList) {
+var Card = function($element) {
     this.$el = $element;
-    this.cardList = cardList;
     this.init();
 };
 
@@ -267,7 +266,6 @@ Card.prototype.updateCardAjax = function($form) {
         self.init();
 
         var cardsCounts = data['cards_counts'];
-        self.cardList.updateCardsCounts(cardsCounts['to_learn_cards_count'], cardsCounts['to_repeat_cards_count'], cardsCounts['learned_cards_count']);
     }).error(function() {
         $form.show();
         self.$fullOverlay.addClass('m-active m-error').text('Ошибка при сохранении');

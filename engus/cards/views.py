@@ -12,30 +12,14 @@ from .models import Card
 from .forms import CardForm, DeleteCardForm, UpdateCardLevelForm
 
 
-def get_cards_counts_for_user(user):
-    return {
-        'to_learn_cards_count': Card.objects.to_learn_for_user(user=user).count(),
-        'to_repeat_cards_count': Card.objects.to_repeat_for_user(user=user).count(),
-        'learned_cards_count': Card.objects.learned_for_user(user=user).count(),
-    }
-
-
 class MyCardListView(LoginRequiredMixin, ListView):
 
     paginate_by = 12
 
     def get_queryset(self):
-        cards_filter = self.request.GET.get('filter')
-        if cards_filter == 'new':
-            cards = Card.objects.new_for_user(user=self.request.user)
-        elif cards_filter == 'in-learning':
-            cards = Card.objects.in_learning_for_user(user=self.request.user)
-        elif cards_filter == 'to-repeat':
-            cards = Card.objects.to_repeat_for_user(user=self.request.user)
-        elif cards_filter == 'learned':
-            cards = Card.objects.learned_for_user(user=self.request.user)
-        else:
-            cards = Card.objects.to_learn_for_user(user=self.request.user)
+        cards = Card.objects.filter(learner=self.request.user)
+        if self.request.GET.get('sort') == 'repeat':
+            cards = cards.order_by('next_repeat')
         return cards
 
     def get_template_names(self):
@@ -48,7 +32,7 @@ class MyCardListView(LoginRequiredMixin, ListView):
         context = super(MyCardListView, self).get_context_data(**kwargs)
         context['mode'] = self.request.GET.get('mode', '')
         context['cards_filter'] = self.request.GET.get('filter')
-        context['cards_counts'] = get_cards_counts_for_user(self.request.user)
+        context['to_repeat_count'] = self.request.GET.get('filter')
         return context
 
 
@@ -82,7 +66,6 @@ def update_card_view(request, pk):
             card_template = loader.get_template('cards/card.html')
             response_data = {
                 'card': card_template.render(RequestContext(request, {'card': card, })),
-                'cards_counts': get_cards_counts_for_user(request.user)
             }
             return HttpResponse(json.dumps(response_data), content_type="application/json")
         else:
@@ -102,7 +85,6 @@ def update_card_level_view(request, pk):
             card_template = loader.get_template('cards/card.html')
             response_data = {
                 'card': card_template.render(RequestContext(request, {'card': card, })),
-                'cards_counts': get_cards_counts_for_user(request.user)
             }
             return HttpResponse(json.dumps(response_data), content_type="application/json")
         else:

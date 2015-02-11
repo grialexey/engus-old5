@@ -423,6 +423,14 @@ textarea {
   padding-left: 22px;
   padding-right: 10px;
   font-size: 20px;
+  position: relative;
+}
+.card__front.m-to-repeat::before {
+  position: absolute;
+  left: 9px;
+  top: 2px;
+  content: '•';
+  color: #f99;
 }
 .card__front-word {
   font-weight: bold;
@@ -819,7 +827,7 @@ textarea {
   margin: 0 auto;
   padding: 0 15px;
   position: relative;
-/*margin-top: 15px;*/
+  margin-top: 25px;
   margin-bottom: 35px;
 }
 .content__overlay {
@@ -837,7 +845,6 @@ textarea {
 }
 .header {
   background-color: #00a0f0;
-  border-bottom: 1px solid #fff;
 }
 .header__wrapper {
   display: block;
@@ -883,6 +890,7 @@ textarea {
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   margin: 5px 15px 5px 0;
+  position: relative;
 }
 .header__menu-item:last-child {
   margin-right: 0;
@@ -897,8 +905,45 @@ textarea {
   flex: 1 1 auto;
   margin: 0;
 }
+.header__menu-repeat-count {
+  background-color: #fff;
+  color: #00a0f0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0 5px;
+  -webkit-border-radius: 11px;
+  border-radius: 11px;
+  line-height: 22px;
+  height: 22px;
+  min-width: 22px;
+  text-align: center;
+  display: block;
+  -webkit-transition: opacity 0.1s;
+  -moz-transition: opacity 0.1s;
+  -o-transition: opacity 0.1s;
+  -ms-transition: opacity 0.1s;
+  transition: opacity 0.1s;
+  font-size: 15px;
+  position: absolute;
+  right: -10px;
+  top: -11px;
+  text-decoration: none;
+  border: 1px solid #fff;
+}
+.header__menu-link--mycards.active + .header__menu-repeat-count {
+  opacity: 1;
+  -ms-filter: none;
+  filter: none;
+  background-color: #f00;
+  color: #fff;
+}
+.header__menu-link--mycards.active + .header__menu-repeat-count:hover {
+  background-color: #f33;
+}
 .header__menu-link {
   display: block;
+  border: 1px solid #fff;
   font-size: 18px;
   line-height: 25px;
   text-decoration: none;
@@ -930,7 +975,8 @@ textarea {
   border: 1px solid #fff;
   font-size: 23px;
   position: relative;
-  padding: 6px 12px;
+  padding-left: 12px;
+  padding-right: 12px;
 }
 .header__menu-link--add.active {
   background-color: #fff;

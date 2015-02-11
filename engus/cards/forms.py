@@ -31,9 +31,9 @@ class UpdateCardLevelForm(forms.ModelForm):
     def update_level(self):
         level_change = self.cleaned_data.get('level')
         if level_change == UpdateCardLevelForm.UP:
-            self.instance.level_up()
+            self.instance.good()
         elif level_change == UpdateCardLevelForm.DOWN:
-            self.instance.level_down()
+            self.instance.bad()
 
     class Meta:
         model = Card

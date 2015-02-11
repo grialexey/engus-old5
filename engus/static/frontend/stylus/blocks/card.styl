@@ -35,6 +35,15 @@
         padding-left: 22px;
         padding-right: 10px
         font-size: 20px;
+        position: relative;
+
+        &.m-to-repeat::before {
+            position: absolute;
+            left: 9px;
+            top: 2px;
+            content '•';
+            color: #f99;
+        }
 
         &-word {
             font-weight: bold;

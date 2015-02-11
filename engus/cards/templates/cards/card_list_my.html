@@ -3,22 +3,5 @@
 {% block header_menu_item_mycards_class %}active{% endblock %}
 
 {% block content %}
-    <ul class="card-list__filter-list {% if cards_filter %}m-{{ cards_filter }}{% else %}m-to-learn{% endif %}">
-        <li class="card-list__filter-list-item">
-            <a class="card-list__filter-list-item-link m-to-learn {% if not cards_filter %}m-active{% endif %}" href="{% url "cards:card-list-my" %}">
-                К изучению <span class="card-list__filter-list-item-count">{{ cards_counts.to_learn_cards_count }}</span>
-            </a>
-        </li>
-        <li class="card-list__filter-list-item">
-            <a class="card-list__filter-list-item-link m-to-repeat {% if cards_filter == 'to-repeat' %}m-active{% endif %}" href="{% url "cards:card-list-my" %}?filter=to-repeat&mode=repeat-right">
-                Повторить <span class="card-list__filter-list-item-count">{{ cards_counts.to_repeat_cards_count }}</span>
-            </a>
-        </li>
-        <li class="card-list__filter-list-item">
-            <a class="card-list__filter-list-item-link m-learned {% if cards_filter == 'learned' %}m-active{% endif %}" href="{% url "cards:card-list-my" %}?filter=learned">
-                Изученные <span class="card-list__filter-list-item-count">{{ cards_counts.learned_cards_count }}</span>
-            </a>
-        </li>
-    </ul>
     {% include "cards/card_list.html" %}
 {% endblock %}
