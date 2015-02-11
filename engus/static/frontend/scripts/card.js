@@ -125,11 +125,12 @@ Card.prototype.clickRightOverlayEvent = function(event) {
 Card.prototype.clickLeftOverlayEvent = function(event) {
     var self = event.data.self;
     self.normalMode();
+    self.playAudio();
     self.$leftOverlay.removeClass('m-active');
     if (!self.isRepeatedToday) {
         setTimeout(function() {
             self.$levelChangeControls.slideDown(200);
-        }, 350);
+        }, 550);
     }
     //self.cardsToRepeatCount -= 1;
     //if (self.cardsToRepeatCount == 0) {
