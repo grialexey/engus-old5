@@ -26,7 +26,7 @@ class Article(models.Model):
     ADVANCED = 5
 
     LEVEL_CHOICES = (
-        (BEGINNER, u'Beginner'),
+        (BEGINNER, u'Beginner (для начинающих)'),
         (ELEMENTARY, u'Elementary'),
         (INTERMEDIATE, u'Intermediate'),
         (UPPER_INTERMEDIATE, u'Upper-Intermediate'),
@@ -37,9 +37,9 @@ class Article(models.Model):
     slug = AutoSlugField(populate_from='name', max_length=255, unique=True, editable=True,
                          slugify_function=ru_slugify_fn)
     subtitle = models.CharField(max_length=255, blank=True, verbose_name=u'Подзаголовок')
-    category = models.ForeignKey('ArticleCategory', verbose_name=u'Категория')
+    category = models.ForeignKey('ArticleCategory', verbose_name=u'Раздел')
     image = models.ImageField(upload_to="card_deck/%Y_%m_%d", blank=True, verbose_name=u'Изображение')
-    level = models.IntegerField(choices=LEVEL_CHOICES, verbose_name=u'Уровень')
+    level = models.IntegerField(choices=LEVEL_CHOICES, verbose_name=u'Уровень владения языком')
     tags = models.ManyToManyField('ArticleTag', blank=True, null=True, verbose_name=u'Теги')
     description = models.TextField(blank=True, verbose_name=u'Текст')
     cards = models.ManyToManyField('cards.Card', blank=True, null=True, verbose_name=u'Карточки',
@@ -55,7 +55,7 @@ class Article(models.Model):
     objects = ArticleManager().from_queryset(ArticleQuerySet)()
 
     class Meta:
-        ordering = ['-rating', '-published', ]
+        ordering = ['-published', ]
         verbose_name = u'Статья'
         verbose_name_plural = u'Статьи'
 
@@ -88,8 +88,8 @@ class ArticleCategory(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = u'Категория'
-        verbose_name_plural = u'Категории'
+        verbose_name = u'Раздел'
+        verbose_name_plural = u'Разделы'
 
 
 class ArticleRating(models.Model):

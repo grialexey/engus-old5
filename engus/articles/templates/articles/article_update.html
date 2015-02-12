@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block pagetitle %}Добавление новой статьи. {% endblock %}
+
+{% block extrascripts %}
+    {{ form.media }}
+{% endblock %}
+
+
+{% block content %}
+    <section class="article-form">
+        <header class="article-form__header">
+            <h1 class="article-form__title">Редактирование статьи</h1>
+        </header>
+        <form method="post" action="" class="article-form__form" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {% if form.errors %}<div class="errorlist">Пожалуйста, исправьте ошибки</div>{% endif %}
+
+            {{ form.non_field_errors }}
+
+            {% for field in form %}
+                <p>
+                    {{ field.errors }}
+                    <label class="{% if field.field.required %}m-required{% endif %}" for="{{ field.id_for_label }}">{{ field.label }}:</label>
+                    {{ field }}
+                </p>
+            {% endfor %}
+
+
+            <div class="article-formsave-buttons">
+                <input type="submit" class="product__button-save" value="Сохранить" name="_save">
+            </div>
+        </form>
+    </section>
+{% endblock %}

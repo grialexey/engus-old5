@@ -118,10 +118,10 @@ CKEDITOR_CONFIGS = {
             ['Link', 'Unlink', 'Anchor'],
             ['Image', 'Table', 'HorizontalRule'],
             ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', ],
-            ['TextColor', 'BGColor'],
+            # ['TextColor', 'BGColor'],
             ['Smiley', 'SpecialChar'],
         ],
-        'height': 600,
+        'height': 500,
         'width': 635,
     },
 }

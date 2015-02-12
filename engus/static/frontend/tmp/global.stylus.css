@@ -124,6 +124,98 @@ textarea {
   font-family: Helvetica, sans-serif;
   font-weight: normal;
 }
+.article-form {
+  margin-bottom: 80px;
+}
+.article-form__title {
+  font-size: 25px;
+  margin-bottom: 15px;
+}
+.article-form__form a {
+  color: #0096f0;
+  text-decoration: none;
+  cursor: pointer;
+}
+.article-form__form a:hover,
+.article-form__form a.hover {
+  text-decoration: underline;
+}
+.article-form__form p {
+  margin-bottom: 20px;
+}
+.article-form__form label.m-required {
+  font-weight: bold;
+}
+.article-form__form label[for=id_image] {
+  display: block;
+  margin: 0 0 5px;
+}
+.article-form__form input[type=text]:not(.select2-input),
+.article-form__form textarea {
+  display: block;
+  margin: 5px 0;
+  width: 100%;
+  height: 39px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 1px solid #999;
+  border-bottom-width: 2px;
+  border-right-width: 2px;
+  padding: 7px 10px;
+}
+.article-form__form select,
+.article-form__form input[type="file"] {
+  display: block;
+  margin: 5px 0;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 1px solid #999;
+  border-bottom-width: 2px;
+  border-right-width: 2px;
+  padding: 7px 10px;
+  background-color: #fff;
+  height: 39px;
+  color: #555;
+  vertical-align: middle;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+}
+.article-form__form input[type=submit] {
+  display: block;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 30px 0;
+  padding: 7px 10px;
+  font-size: 20px;
+  color: #00aeec;
+  background-color: #fff;
+  border: 1px solid #00a0f0;
+  border-bottom-width: 2px;
+  border-right-width: 2px;
+  border-top-color: rgba(0,160,240,0.6);
+  border-left-color: rgba(0,160,240,0.6);
+  cursor: pointer;
+}
+.article-form__form .errorlist {
+  color: #f00;
+}
+.article-form__form .errorlist li {
+  margin: 15px 0 5px;
+}
+.article-form__form .select2-container {
+  display: block;
+  margin: 5px 0;
+  width: 100% !important;
+}
+.article-form__form .django-ckeditor-widget,
+.article-form__form #cke_id_description {
+  max-width: 100%;
+}
 .article-list {
   margin-top: 35px;
 }
