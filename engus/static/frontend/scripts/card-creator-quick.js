@@ -1,4 +1,4 @@
-var CardCreator = function ($template, $button, $pageOverlay, cardList) {
+var CardCreatorQuick = function ($template, $button, $pageOverlay, cardList) {
     this.loading = false;
     this.$template = $template;
     this.$button = $button;
@@ -8,12 +8,12 @@ var CardCreator = function ($template, $button, $pageOverlay, cardList) {
     this.bindEvents();
 };
 
-CardCreator.prototype.bindEvents = function() {
+CardCreatorQuick.prototype.bindEvents = function() {
     this.$button.on('click', this.clickButtonEvent.bind(this));
     $(document).on('click', this.clickOutsideEvent.bind(this));
 };
 
-CardCreator.prototype.createForm = function() {
+CardCreatorQuick.prototype.createForm = function() {
     var $form = this.$template.clone();
     $form.$fullOverlay = $form.find('.card__overlay');
     $form.appendTo('.header__wrapper');
@@ -21,7 +21,7 @@ CardCreator.prototype.createForm = function() {
     return $form;
 };
 
-CardCreator.prototype.clickOutsideEvent = function(event) {
+CardCreatorQuick.prototype.clickOutsideEvent = function(event) {
     var $target = $(event.target);
     if (!this.$form.is($target) && !this.$form.has($target).length && !$target.is(this.$button)) {
         this.$form.remove();
@@ -30,7 +30,7 @@ CardCreator.prototype.clickOutsideEvent = function(event) {
     }
 };
 
-CardCreator.prototype.clickButtonEvent = function(event) {
+CardCreatorQuick.prototype.clickButtonEvent = function(event) {
     if (!this.loading) {
         if (this.$button.is('.active')) {
             this.close();
@@ -40,20 +40,20 @@ CardCreator.prototype.clickButtonEvent = function(event) {
     }
 };
 
-CardCreator.prototype.open = function() {
+CardCreatorQuick.prototype.open = function() {
     this.$button.addClass('active');
     this.$pageOverlay.fadeIn(150);
     this.$form = this.createForm();
     this.$form.fadeIn(150).find('input[type=text]').first().focus();
 };
 
-CardCreator.prototype.close = function() {
+CardCreatorQuick.prototype.close = function() {
     this.$form.remove();
     this.$button.removeClass('active');
     this.$pageOverlay.fadeOut(150);
 };
 
-CardCreator.prototype.createEvent = function(event) {
+CardCreatorQuick.prototype.createEvent = function(event) {
     event.preventDefault();
     this.loading = true;
     this.$form.hide();
@@ -64,13 +64,15 @@ CardCreator.prototype.createEvent = function(event) {
         url: self.$form.attr('action'),
         method: 'post',
         data: self.$form.serialize()
-    }).done(function() {
+    }).done(function(data) {
         self.loading = false;
         self.$button.removeClass('loading');
         self.close();
         if (self.cardList) {
             self.cardList.reloadPage();
         }
+
+        $('.header__menu-repeat-count').text(data['cards_to_repeat_count']);
     }).error(function() {
         self.loading = false;
         self.$button.removeClass('loading');

@@ -22,7 +22,7 @@ class ArticleAdmin(admin.ModelAdmin):
                     'published', 'rating', )
     form = ArticleAdminForm
     raw_id_fields = ('author', )
-    filter_horizontal = ('cards', 'tags', )
+    filter_horizontal = ('tags', )
     list_filter = ('is_published', 'is_approved', )
     ordering = ('published', )
 

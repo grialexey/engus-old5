@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block pagetitle %}Добавление новой статьи. {% endblock %}
+{% block pagetitle %}Редактирование статьи. {% endblock %}
 
 {% block extrascripts %}
     {{ form.media }}
@@ -29,8 +29,35 @@
 
 
             <div class="article-formsave-buttons">
-                <input type="submit" class="product__button-save" value="Сохранить" name="_save">
+                <input type="submit" class="product__button-save" value="Сохранить">
             </div>
         </form>
+
+        <h2 class="article-form__subtitle">Добавление карточек</h2>
+
+        {% with card_list=article.card_set.public %}
+            {% include "cards/card_list.html" %}
+        {% endwith %}
+
+        {% if article.card_set.public.count < 12 %}
+            <form action="{% url 'cards:card-create' %}" method="post" class="card card__form card__form--create-article" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% include "cards/card_edit_form.html" %}
+
+                <div class="card__form-image">
+                    <input type="file" name="image">
+                </div>
+
+                <input type="hidden" name="article" value="{{ form.instance.pk }}">
+
+                <ul class="card__controls">
+                    <li class="card__controls-item card__controls-item--single"><input type="submit" value="Добавить" class="card__button card__button--add"></li>
+                </ul>
+
+                <div class="card__overlay m-full"></div>
+            </form>
+        {% else %}
+            <div>Не более 12 карточек</div>
+        {% endif %}
     </section>
 {% endblock %}

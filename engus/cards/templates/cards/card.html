@@ -1,5 +1,5 @@
 {% if card %}
-    <div class="card__content {% if card.is_to_repeat %}m-to-repeat{% endif %} {% if not card.learner == user %}m-to-repeat{% endif %} {% if user.is_authenticated and card.learner == user and not mode == 'repeat-right' and not mode == 'repeat-left' %}editable{% endif %}">
+    <div class="card__content {% if card.is_to_repeat %}m-to-repeat{% endif %} {% if user.is_authenticated and card.user == user and not mode == 'repeat-right' and not mode == 'repeat-left' %}editable{% endif %}">
         <div class="card__top">
             <span class="card__front">
                 <span class="card__front-word">{{ card.front.text }}</span>
@@ -45,14 +45,17 @@
         </li>
     </ul>
 
-    {% if user.is_authenticated and card.learner == user %}
+    {% if user.is_authenticated and card.user == user %}
         <div class="card__infomenu" style="display: none;">
+            {% if not card.article %}
             <ul class="card__infoline">
                 <li class="card__infoline-item">Следующее повторение: {{ card.next_repeat|date:"d.m.Y H:i" }}</li>
                 <li class="card__infoline-item">Добавлена: {{ card.created|date:"d.m.Y" }}</li>
             </ul>
+            {% endif %}
 
             <ul class="card__controls card__controls--edit">
+                {% if not card.article %}
                 <li class="card__controls-item">
                     <form class="card__form--level" action="{% url 'cards:card-update-level' card.pk %}" method="post">
                         {% csrf_token %}
@@ -69,6 +72,7 @@
                         <button class="card__button card__button--forget">Забыл</button>
                     </form>
                 </li>
+                {% endif %}
                 <li class="card__controls-item"><span class="card__button card__button--edit">Редактировать</span></li>
                 <li class="card__controls-item">
                     <form class="card__form--delete" action="{% url 'cards:card-delete' card.pk %}" method="post">
@@ -81,9 +85,11 @@
         </div>
 
 
-        <form action="{% url 'cards:card-update' card.pk %}" method="post" class="card__form card__form--update" style="display: none;">
+        <form action="{% url 'cards:card-update' card.pk %}" method="post" class="card__form card__form--update" enctype="multipart/form-data" style="display: none;">
             {% csrf_token %}
             {% include 'cards/card_edit_form.html' %}
+
+            {% if card.article %}<input type="hidden" name="article" value="{{ card.article.pk }}">{% endif %}
             <input type="hidden" name="pk" value="{{ card.pk }}">
 
             <ul class="card__controls">
@@ -92,7 +98,6 @@
 
             <div class="card__overlay" style="display: none;"></div>
         </form>
-
 
     {% endif %}
 {% endif %}

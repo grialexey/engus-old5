@@ -38,12 +38,10 @@ class Article(models.Model):
                          slugify_function=ru_slugify_fn)
     subtitle = models.CharField(max_length=255, blank=True, verbose_name=u'Подзаголовок')
     category = models.ForeignKey('ArticleCategory', verbose_name=u'Раздел')
-    image = models.ImageField(upload_to="card_deck/%Y_%m_%d", blank=True, verbose_name=u'Изображение')
+    image = models.ImageField(upload_to="article/%Y_%m_%d", blank=True, verbose_name=u'Изображение')
     level = models.IntegerField(choices=LEVEL_CHOICES, verbose_name=u'Уровень владения языком')
     tags = models.ManyToManyField('ArticleTag', blank=True, null=True, verbose_name=u'Теги')
     description = models.TextField(blank=True, verbose_name=u'Текст')
-    cards = models.ManyToManyField('cards.Card', blank=True, null=True, verbose_name=u'Карточки',
-                                   limit_choices_to={'learner': None, })
     rating = models.IntegerField(default=0, verbose_name=u'Рейтинг')
     is_published = models.BooleanField(default=False, verbose_name=u'Опубликовано')
     is_approved = models.BooleanField(default=True, verbose_name=u'Одобрена')

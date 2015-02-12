@@ -1,4 +1,5 @@
 $(document).ready(function() {
     var cardList = new CardList($('.card-list'));
-    new CardCreator($('.card__form--create'), $('.header__menu-link--add'), $('.content__overlay'), cardList);
+    new CardCreatorQuick($('.card__form--create-top'), $('.header__menu-link--add'), $('.content__overlay'), cardList);
+    new CardCreatorForArticle($('.card__form--create-article'));
 });

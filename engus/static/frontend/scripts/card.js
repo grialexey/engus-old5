@@ -150,7 +150,7 @@ Card.prototype.clickOnEditButtonEvent = function(event) {
 Card.prototype.openEditForm = function() {
     this.$content.hide();
     this.$infoline.hide();
-    this.$editControls.hide();
+    this.$infoMenu.hide();
     this.$editForm.show();
 };
 
@@ -158,7 +158,7 @@ Card.prototype.closeEditForm = function() {
     this.$editForm.hide();
     this.$content.show();
     this.$infoline.hide();
-    this.$editControls.hide();
+    this.$infoMenu.hide();
 };
 
 Card.prototype.normalMode = function() {
@@ -239,10 +239,15 @@ Card.prototype.updateCardEvent = function(event) {
 
 Card.prototype.updateCardAjax = function($form) {
     var self = this;
+    var formData = new FormData($form[0]);
+    console.log(formData);
     $.ajax({
         url: $form.attr('action'),
         method: $form.attr('method'),
-        data: $form.serialize()
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false
     }).done(function(data) {
         self.$fullOverlay.removeClass('m-active');
         self.$el.html(data['card']);

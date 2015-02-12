@@ -17,7 +17,7 @@ class MyCardListView(LoginRequiredMixin, ListView):
     paginate_by = 12
 
     def get_queryset(self):
-        cards = Card.objects.filter(learner=self.request.user)
+        cards = Card.objects.filter(user=self.request.user).learning()
         if self.request.GET.get('sort') == 'repeat':
             cards = cards.order_by('next_repeat')
         return cards
@@ -39,14 +39,20 @@ class MyCardListView(LoginRequiredMixin, ListView):
 @login_required
 def create_card_view(request):
     if request.is_ajax() and request.method == 'POST':
-        form = CardForm(request.POST)
+        form = CardForm(request.POST, files=request.FILES)
         if form.is_valid():
             card_front_text = form.cleaned_data['front']
             card = form.save(commit=False)
-            card.learner = request.user
             card.add_card_front(card_front_text, request.user)
+            card.user = request.user
             card.save()
-            return HttpResponse(status=201)
+            card_template = loader.get_template('cards/card.html')
+            context = RequestContext(request, {'card': card, })
+            response_data = {
+                'card': card_template.render(context),
+                'cards_to_repeat_count': context['cards_to_repeat_count']
+            }
+            return HttpResponse(json.dumps(response_data), status=201, content_type="application/json")
         else:
             return HttpResponseBadRequest()
     else:
@@ -55,9 +61,9 @@ def create_card_view(request):
 
 @login_required
 def update_card_view(request, pk):
-    card_to_update = get_object_or_404(Card, pk=pk, learner=request.user)
+    card_to_update = get_object_or_404(Card, pk=pk, user=request.user)
     if request.is_ajax() and request.method == 'POST':
-        form = CardForm(request.POST, instance=card_to_update)
+        form = CardForm(request.POST, files=request.FILES, instance=card_to_update)
         if form.is_valid():
             card_front_text = form.cleaned_data['front']
             card = form.save(commit=False)
@@ -78,7 +84,7 @@ def update_card_view(request, pk):
 
 @login_required
 def update_card_level_view(request, pk):
-    card_to_update = get_object_or_404(Card, pk=pk, learner=request.user)
+    card_to_update = get_object_or_404(Card, pk=pk, user=request.user)
     if request.is_ajax() and request.method == 'POST':
         form = UpdateCardLevelForm(request.POST, instance=card_to_update)
         if form.is_valid():
@@ -99,7 +105,7 @@ def update_card_level_view(request, pk):
 
 @login_required
 def delete_card_view(request, pk):
-    card_to_delete = get_object_or_404(Card, pk=pk, learner=request.user)
+    card_to_delete = get_object_or_404(Card, pk=pk, user=request.user)
     if request.is_ajax() and request.method == 'POST':
         form = DeleteCardForm(request.POST, instance=card_to_delete)
         if form.is_valid():

@@ -12,8 +12,8 @@ class CardFrontAdmin(admin.ModelAdmin):
 
 
 class CardAdmin(admin.ModelAdmin):
-    list_display = ('__unicode__', 'level', 'next_repeat', 'created', )
-    raw_id_fields = ('front', 'learner', )
+    list_display = ('__unicode__', 'level', 'next_repeat', 'user', 'created', )
+    raw_id_fields = ('front', 'user', )
 
 
 admin.site.register(CardFront, CardFrontAdmin)

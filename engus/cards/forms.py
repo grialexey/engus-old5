@@ -11,10 +11,14 @@ class CardForm(forms.ModelForm):
         self.cleaned_data['back'] = self.cleaned_data['back'].strip()
         self.cleaned_data['example'] = self.cleaned_data['example'].strip()
         self.cleaned_data['front'] = self.cleaned_data['front'].strip()
+        article = self.cleaned_data['article']
+        if article and article.card_set.count() > 12:
+            raise forms.ValidationError('Не более 12 карточек в статье')
+
 
     class Meta:
         model = Card
-        fields = ['back', 'example', ]
+        fields = ['back', 'example', 'article', 'image', ]
 
 
 class UpdateCardLevelForm(forms.ModelForm):

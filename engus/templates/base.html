@@ -16,7 +16,8 @@
         <script type="text/javascript" src="{{ STATIC_URL }}frontend/libs/url.js"></script>
         <script type="text/javascript" src="{{ STATIC_URL }}frontend/scripts/card.js"></script>
         <script type="text/javascript" src="{{ STATIC_URL }}frontend/scripts/card-list.js"></script>
-        <script type="text/javascript" src="{{ STATIC_URL }}frontend/scripts/card-creator.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}frontend/scripts/card-creator-quick.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}frontend/scripts/card-creator-for-article.js"></script>
         <script type="text/javascript" src="{{ STATIC_URL }}frontend/scripts/app.js"></script>
     {% else %}
         <script type="text/javascript" src="{{ STATIC_URL }}js/global.min.js"></script>
@@ -49,7 +50,7 @@
             </ul>
 
             {% if user.is_authenticated %}
-                <form action="{% url 'cards:card-create' %}" method="post" class="card card__form--create card__form" style="display: none;">
+                <form action="{% url 'cards:card-create' %}" method="post" class="card card__form--create-top card__form" style="display: none;">
                     {% csrf_token %}
                     {% include "cards/card_edit_form.html" %}
                     <ul class="card__controls">

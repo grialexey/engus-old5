@@ -25,10 +25,13 @@ class CardFront(models.Model):
 class CardQuerySet(models.QuerySet):
 
     def public(self):
-        return self.filter(learner=None)
+        return self.filter(article__isnull=False).order_by('created')
+
+    def learning(self):
+        return self.filter(article__isnull=True)
 
     def to_repeat(self):
-        return self.filter(next_repeat__lt=timezone.now())
+        return self.learning().filter(next_repeat__lt=timezone.now())
 
 
 class CardManager(models.Manager):
@@ -42,16 +45,17 @@ class Card(models.Model):
     back = models.CharField(blank=True, max_length=255, verbose_name=u'Перевод')
     image = models.ImageField(upload_to='card_image/%Y_%m_%d', blank=True, verbose_name=u'Изображение')
     example = models.TextField(blank=True, verbose_name=u'Пример употребления')
-    learner = models.ForeignKey(User, related_name='learning_card_set', null=True, blank=True)
+    user = models.ForeignKey(User, verbose_name=u'Создатель')
     level = models.PositiveIntegerField(default=0)
     next_repeat = models.DateTimeField(default=timezone.now)
     repeat_count = models.PositiveIntegerField(default=0)
+    article = models.ForeignKey('articles.Article', null=True, blank=True, verbose_name=u'Статья')
     created = models.DateTimeField(auto_now_add=True, verbose_name=u'Создана')
 
     objects = CardManager().from_queryset(CardQuerySet)()
 
     def is_to_repeat(self):
-        return self.learner is not None and self.next_repeat < timezone.now()
+        return self.article or self.next_repeat < timezone.now()
 
     def set_next_repeat(self):
         now = timezone.now()

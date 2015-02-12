@@ -127,8 +127,15 @@ textarea {
 .article-form {
   margin-bottom: 80px;
 }
+.article-form .card-list__modeswitch {
+  display: none !important;
+}
 .article-form__title {
   font-size: 25px;
+  margin-bottom: 15px;
+}
+.article-form__subtitle {
+  font-size: 22px;
   margin-bottom: 15px;
 }
 .article-form__form a {
@@ -189,7 +196,7 @@ textarea {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  margin: 30px 0;
+  margin: 20px 0 50px;
   padding: 7px 10px;
   font-size: 20px;
   color: #00aeec;
@@ -916,13 +923,16 @@ textarea {
   background-color: #fff;
   color: #ccc;
 }
-.card__form--create {
+.card__form--create-top {
   position: absolute;
   top: 80px;
   left: 15px;
   right: 15px;
   margin: 0;
   z-index: 200;
+}
+.card__form-image {
+  margin: 0 0 10px 22px;
 }
 .card__form-input {
   display: block;

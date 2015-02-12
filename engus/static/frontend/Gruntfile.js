@@ -13,7 +13,8 @@ module.exports = function(grunt) {
                         'libs/url.js',
                         'scripts/card.js',
                         'scripts/card-list.js',
-                        'scripts/card-creator.js',
+                        'scripts/card-creator-quick.js',
+                        'scripts/card-creator-for-article.js',
                         'scripts/app.js'
                     ]
                 }
