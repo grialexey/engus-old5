@@ -49,7 +49,7 @@ Card.prototype.bindEvents = function() {
         self = this;
     this.$playAudioBtn.on('mouseover', { self: this }, function() { timeout = setTimeout(function() { self.playAudio(); }, 300); });
     this.$playAudioBtn.on('mouseleave', { self: this }, function() { clearTimeout(timeout); });
-    this.$rightOverlay.on('mouseover', { self: this }, function() { timeout = setTimeout(function() { self.playAudio(); }, 300); });
+    this.$rightOverlay.on('mouseover', { self: this }, function() { timeout = setTimeout(function() { self.playAudio(); }, 500); });
     this.$rightOverlay.on('mouseleave', { self: this }, function() { clearTimeout(timeout); });
 };
 
