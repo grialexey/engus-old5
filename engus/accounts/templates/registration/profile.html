@@ -19,7 +19,10 @@
     <ul class="profile__article-list">
         {% for article in user.article_set.all %}
             <li class="profile__article-list-item">
-                <a class="link" href="{% url 'articles:article-update' pk=article.pk %}">{{ article.name }}</a>
+                <a class="link profile__article-list-item-title" href="{{ article.get_absolute_url }}">{{ article.name }}</a>
+                <br>
+                {% if article.is_published %}Опубликована{% else %}Не опубликована{% endif %}
+                <a class="link" href="{% url 'articles:article-update' pk=article.pk %}">Редактировать</a>
             </li>
         {% empty %}
             <li class="profile__article-list-item">У Вас нет статей</li>
