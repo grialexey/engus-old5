@@ -45,12 +45,11 @@ Card.prototype.bindEvents = function() {
     this.$leftOverlay.on('click', { self: this }, this.clickLeftOverlayEvent);
     $(document).on('click', { self: this }, this.clickOutsideEvent);
 
-    var timeout,
-        self = this;
-    this.$playAudioBtn.on('mouseover', { self: this }, function() { timeout = setTimeout(function() { self.playAudio(); }, 700); });
-    this.$playAudioBtn.on('mouseleave', { self: this }, function() { clearTimeout(timeout); });
-    this.$rightOverlay.on('mouseover', { self: this }, function() { timeout = setTimeout(function() { self.playAudio(); }, 800); });
-    this.$rightOverlay.on('mouseleave', { self: this }, function() { clearTimeout(timeout); });
+    var timeout;
+    this.$playAudioBtn.on('mouseover', { self: this }, function(event) { timeout = setTimeout(function() { event.data.self.playAudio(); }, 500); });
+    this.$playAudioBtn.on('mouseleave', { self: this }, function(event) { clearTimeout(timeout); });
+    this.$rightOverlay.on('mouseover', { self: this }, function(event) { timeout = setTimeout(function() { event.data.self.playAudio(); }, 700); });
+    this.$rightOverlay.on('mouseleave', { self: this }, function(event) { clearTimeout(timeout); });
 };
 
 Card.prototype.unbindEvents = function() {
