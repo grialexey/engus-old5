@@ -42,7 +42,7 @@ class Card(models.Model):
     back = models.CharField(blank=True, max_length=255, verbose_name=u'Перевод')
     image = models.ImageField(upload_to='card_image/%Y_%m_%d', blank=True, verbose_name=u'Изображение')
     example = models.TextField(blank=True, verbose_name=u'Пример употребления')
-    learner = models.ForeignKey(User, null=True, blank=True)
+    learner = models.ForeignKey(User, related_name='learning_card_set', null=True, blank=True)
     level = models.PositiveIntegerField(default=0)
     next_repeat = models.DateTimeField(default=timezone.now)
     repeat_count = models.PositiveIntegerField(default=0)

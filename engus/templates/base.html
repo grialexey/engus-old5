@@ -25,7 +25,9 @@
                     </li>
                     <li class="header__menu-item"><span href="/" class="header__menu-link header__menu-link--add">+</span></li>
                     <li class="header__menu-item header__menu-item--fill"></li>
-                    <li class="header__menu-item"><a href="{% url 'logout' %}" class="header__menu-link">Мой профиль</a>
+                    <li class="header__menu-item">
+                        <a href="{% url 'profile' %}" class="header__menu-link {% block header_menu_item_profile_class %}{% endblock %}">Мой профиль</a>
+                    </li>
                 {% else %}
                     <li class="header__menu-item header__menu-item--fill"></li>
                     <li class="header__menu-item"><a href="/" class="header__menu-link">О сайте</a></li>

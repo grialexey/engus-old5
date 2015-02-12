@@ -3,9 +3,20 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth import login, authenticate
 from django.conf import settings
 from django.shortcuts import redirect, render_to_response
+from django.views.generic.base import TemplateView
 from django.template import RequestContext
 from .forms import CustomUserCreationForm
 from .models import Invite
+
+
+class ProfileView(TemplateView):
+
+    template_name = 'registration/profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ProfileView, self).get_context_data(**kwargs)
+        return context
+
 
 
 @csrf_protect

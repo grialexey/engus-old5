@@ -50,13 +50,14 @@
 
         &-infoline {
             font-size: 15px;
-            color: #bbb;
+            color: #888;
             margin-bottom: 5px;
-            transition: color 0.2s;
+            transition: opacity 0.2s;
+            opacity: 0.3;
         }
 
         &:hover &-infoline {
-            color: #888;
+            opacity: 1;
         }
 
         &-rating {
@@ -64,7 +65,7 @@
             margin-right: 10px;
 
             &.m-positive {
-                color: #5c5;
+                color: #0c0;
 
                 &::before {
                     content: '+';
@@ -72,18 +73,12 @@
             }
 
             &.m-negative {
-                color: #f55;
+                color: #f00;
             }
         }
 
         &-category {
-            text-decoration: none;
-            color: #8cd;
             margin-right: 10px;
-
-            &:hover {
-                text-decoration: underline;
-            }
         }
 
         &-date {
