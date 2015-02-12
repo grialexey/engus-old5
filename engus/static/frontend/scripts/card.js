@@ -40,11 +40,17 @@ Card.prototype.bindEvents = function() {
     this.$levelChangeForm.on('submit', { self: this }, this.updateCardLevelEvent);
     this.$content.on('click', { self: this }, this.clickOnContentEvent);
     this.$editButton.on('click', { self: this }, this.clickOnEditButtonEvent);
-    this.$playAudioBtn.on('mouseover', { self: this }, this.playAudioEvent);
     this.$playAudioBtn.on('click', { self: this }, this.playAudioEvent);
     this.$rightOverlay.on('click', { self: this }, this.clickRightOverlayEvent);
     this.$leftOverlay.on('click', { self: this }, this.clickLeftOverlayEvent);
     $(document).on('click', { self: this }, this.clickOutsideEvent);
+
+    var timeout,
+        self = this;
+    this.$playAudioBtn.on('mouseover', { self: this }, function() { timeout = setTimeout(function() { self.playAudio(); }, 300); });
+    this.$playAudioBtn.on('mouseleave', { self: this }, function() { clearTimeout(timeout); });
+    this.$rightOverlay.on('mouseover', { self: this }, function() { timeout = setTimeout(function() { self.playAudio(); }, 300); });
+    this.$rightOverlay.on('mouseleave', { self: this }, function() { clearTimeout(timeout); });
 };
 
 Card.prototype.unbindEvents = function() {
