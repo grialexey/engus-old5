@@ -12,11 +12,12 @@
                 {% endif %}
                 <h2 class="article-list__item-title">{{ article.name }}</h2>
                 <h3 class="article-list__item-subtitle">{{ article.subtitle }}</h3>
-                <div class="article-list__item-infoline">
-                    Рейтинг: <span class="article-list__item-rating {% if article.rating > 0 %}m-positive{% elif article.rating < 0 %}m-negative{% endif %}">{{ article.rating }}</span>
-                    <span class="article-list__item-date">{{ article.published|date:"d.m.Y" }}</span>
-                </div>
             </a>
+            <div class="article-list__item-infoline">
+                <span class="article-list__item-rating {% if article.rating > 0 %}m-positive{% elif article.rating < 0 %}m-negative{% endif %}">{{ article.rating }}</span>
+                <a class="article-list__item-category" href="">{{ article.category.name }}</a>
+                <span class="article-list__item-date">{{ article.published|date:"d.m.Y" }}</span>
+            </div>
         </li>{% endfor %}
     </ul>
 {% endblock %}

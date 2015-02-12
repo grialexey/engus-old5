@@ -17,6 +17,10 @@
             display: block;
         }
 
+        &-link:visited &-title {
+            color: #555;
+        }
+
         &-link:hover &-title {
             color: red;
         }
@@ -57,6 +61,7 @@
 
         &-rating {
             font-weight: bold;
+            margin-right: 10px;
 
             &.m-positive {
                 color: #5c5;
@@ -71,8 +76,18 @@
             }
         }
 
+        &-category {
+            text-decoration: none;
+            color: #8cd;
+            margin-right: 10px;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
         &-date {
-            float: right;
+            /*float: right;*/
         }
     }
 }

@@ -141,6 +141,9 @@ textarea {
   text-decoration: none;
   display: block;
 }
+.article-list__item-link:visited .article-list__item-title {
+  color: #555;
+}
 .article-list__item-link:hover .article-list__item-title {
   color: #f00;
 }
@@ -182,6 +185,7 @@ textarea {
 }
 .article-list__item-rating {
   font-weight: bold;
+  margin-right: 10px;
 }
 .article-list__item-rating.m-positive {
   color: #5c5;
@@ -192,8 +196,13 @@ textarea {
 .article-list__item-rating.m-negative {
   color: #f55;
 }
-.article-list__item-date {
-  float: right;
+.article-list__item-category {
+  text-decoration: none;
+  color: #8cd;
+  margin-right: 10px;
+}
+.article-list__item-category:hover {
+  text-decoration: underline;
 }
 .article {
   margin: 25px 0 35px;
