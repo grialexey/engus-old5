@@ -40,6 +40,7 @@ Card.prototype.bindEvents = function() {
     this.$levelChangeForm.on('submit', { self: this }, this.updateCardLevelEvent);
     this.$content.on('click', { self: this }, this.clickOnContentEvent);
     this.$editButton.on('click', { self: this }, this.clickOnEditButtonEvent);
+    this.$playAudioBtn.on('mouseover', { self: this }, this.playAudioEvent);
     this.$playAudioBtn.on('click', { self: this }, this.playAudioEvent);
     this.$rightOverlay.on('click', { self: this }, this.clickRightOverlayEvent);
     this.$leftOverlay.on('click', { self: this }, this.clickLeftOverlayEvent);
