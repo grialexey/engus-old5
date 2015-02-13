@@ -1,4 +1,4 @@
-{% if card %}
+<li class="card {% if user.is_authenticated and card.user == user %}m-user-owned{% endif %}">
     <div class="card__content {% if card.is_to_repeat %}m-to-repeat{% endif %} {% if user.is_authenticated and card.user == user and not mode == 'repeat-right' and not mode == 'repeat-left' %}editable{% endif %}">
         <div class="card__top">
             <span class="card__front">
@@ -12,8 +12,6 @@
             </span><!--
          --><span class="card__back {% if mode == 'repeat-right' %}m-hide{% endif %}">{{ card.back }}</span>
         </div>
-
-{#        <span class="card__level level{{ card.level }} {% if card.is_repeated_today %}m-repeated-today{% endif %}" data-level="{{ card.level }}">{% if card.level %}{{ card.level }}{% endif %}</span>#}
 
         {% if card.example %}
             <div class="card__example {% if mode == 'repeat-right' or mode == 'repeat-left' %}m-hide{% endif %}">{{ card.example|linebreaksbr }}</div>
@@ -100,8 +98,8 @@
         </form>
 
     {% endif %}
-{% endif %}
 
-<div class="card__overlay m-full"></div>
-<div class="card__overlay m-right {% if mode == 'repeat-right' %}m-active{% endif %}">Показать</div>
-<div class="card__overlay m-left {% if mode == 'repeat-left' %}m-active{% endif %}">Показать</div>
+    <div class="card__overlay m-full"></div>
+    <div class="card__overlay m-right {% if mode == 'repeat-right' %}m-active{% endif %}">Показать</div>
+    <div class="card__overlay m-left {% if mode == 'repeat-left' %}m-active{% endif %}">Показать</div>
+</li>

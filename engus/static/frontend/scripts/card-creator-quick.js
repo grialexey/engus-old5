@@ -1,10 +1,9 @@
-var CardCreatorQuick = function ($template, $button, $pageOverlay, cardList) {
+var CardCreatorQuick = function ($template, $button, $pageOverlay) {
     this.loading = false;
     this.$template = $template;
     this.$button = $button;
     this.$pageOverlay = $pageOverlay;
     this.$form = this.createForm();
-    this.cardList = cardList;
     this.bindEvents();
 };
 
@@ -68,9 +67,6 @@ CardCreatorQuick.prototype.createEvent = function(event) {
         self.loading = false;
         self.$button.removeClass('loading');
         self.close();
-        if (self.cardList) {
-            self.cardList.reloadPage();
-        }
 
         $('.header__menu-repeat-count').text(data['cards_to_repeat_count']);
     }).error(function() {

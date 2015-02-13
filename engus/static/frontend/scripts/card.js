@@ -1,16 +1,21 @@
 var Card = function($element) {
-    this.$el = $element;
-    this.init();
+    this.init($element);
 };
 
-Card.prototype.init = function() {
-    this.cacheElements();
+Card.prototype.init = function($element) {
+    this.cacheElements($element);
     this.bindEvents();
     this.isRegisteredUserOwned = this.$el.is('.m-user-owned');
     this.isToRepeat = this.$content.is('.m-to-repeat');
 };
 
-Card.prototype.cacheElements = function() {
+Card.prototype.destroy = function() {
+    this.unbindEvents();
+    this.$el.remove();
+};
+
+Card.prototype.cacheElements = function($element) {
+    this.$el = $element;
     this.$infoline = this.$el.find('.card__infoline');
     this.$infoMenu = this.$el.find('.card__infomenu');
     this.$editControls = this.$el.find('.card__controls--edit');
@@ -44,10 +49,6 @@ Card.prototype.bindEvents = function() {
     this.$rightOverlay.on('click', { self: this }, this.clickRightOverlayEvent);
     this.$leftOverlay.on('click', { self: this }, this.clickLeftOverlayEvent);
     $(document).on('click', { self: this }, this.clickOutsideEvent);
-
-    //var timeout;
-    //this.$playAudioBtn.on('mouseover', { self: this }, function(event) { timeout = setTimeout(function() { event.data.self.playAudio(); }, 500); });
-    //this.$playAudioBtn.on('mouseleave', { self: this }, function(event) { clearTimeout(timeout); });
 };
 
 Card.prototype.unbindEvents = function() {
@@ -245,7 +246,6 @@ Card.prototype.updateCardEvent = function(event) {
 Card.prototype.updateCardAjax = function($form) {
     var self = this;
     var formData = new FormData($form[0]);
-    console.log(formData);
     $.ajax({
         url: $form.attr('action'),
         method: $form.attr('method'),
@@ -254,11 +254,11 @@ Card.prototype.updateCardAjax = function($form) {
         contentType: false,
         processData: false
     }).done(function(data) {
-        self.$fullOverlay.removeClass('m-active');
-        self.$el.html(data['card']);
-        self.init();
-
         $('.header__menu-repeat-count').text(data['cards_to_repeat_count']);
+        var $updatedCardEl = $(data['card']);
+        $updatedCardEl.insertAfter(self.$el);
+        new Card($updatedCardEl);
+        self.destroy();
     }).error(function() {
         $form.show();
         self.$fullOverlay.addClass('m-active m-error').text('Ошибка при сохранении');

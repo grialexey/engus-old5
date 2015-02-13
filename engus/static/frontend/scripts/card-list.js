@@ -11,6 +11,7 @@ var CardList = function($cardListWrapper) {
     this.$toRepeatCardsCount = this.$filterSwitcherLinks.filter('.m-to-repeat').find('.card-list__filter-list-item-count');
     this.$learnedCardsCount = this.$filterSwitcherLinks.filter('.m-learned').find('.card-list__filter-list-item-count');
     this.$modeSwitcher.$items = this.$modeSwitcher.find('.card-list__modeswitch-item');
+    this.$pages = this.$content.find('.paginator__link');
     this.cards = this.getCards();
     this.bindEvents();
 };
@@ -32,7 +33,7 @@ CardList.prototype.setModeInUrl = function(mode) {
 };
 
 CardList.prototype.bindEvents = function() {
-    this.$content.on('click', '.paginator__link', { self: this }, this.changePageEvent);
+    //this.$content.on('click', '.paginator__link', { self: this }, this.changePageEvent);
     this.$modeSwitcher.$items.on('click', { self: this }, this.switchModeEvent);
 };
 
@@ -74,6 +75,22 @@ CardList.prototype.switchModeEvent = function(event) {
             }
             break;
     }
+    self.changePagesUrls();
+};
+
+CardList.prototype.changePagesUrls = function() {
+    var self = this;
+    this.$pages.each(function() {
+        var href = new Url($(this).attr('href')),
+            url = new Url(),
+            modeInUrl = self.getModeInUrl();
+        if (modeInUrl) {
+            href.query['mode'] = modeInUrl;
+        } else {
+            delete href.query['mode'];
+        }
+        $(this).attr('href', href.toString());
+    })
 };
 
 CardList.prototype.setNormalMode = function() {
@@ -105,50 +122,5 @@ CardList.prototype.randomize = function() {
         return Math.round(Math.random())-0.5;
     }).forEach(function(card) {
         card.$el.detach().appendTo(self.$content.find('.card-list__list'));
-    });
-};
-
-CardList.prototype.getMode = function() {
-    return this.$modeSwitcher.$items.filter('.m-active').data('mode');
-};
-
-CardList.prototype.reloadPage = function() {
-    this.$fullOverlay.appendTo(this.$content).show();
-    var self = this,
-        url = window.location.href;
-    $.ajax({
-        url: url,
-        method: 'get'
-    }).done(function(data) {
-        self.$content.html(data);
-        self.cards = self.getCards();
-    });
-};
-
-CardList.prototype.changePageEvent = function(event) {
-    event.preventDefault();
-    var self = event.data.self,
-        $link = $(this),
-        modeInUrl = self.getModeInUrl(),
-        href = $link.attr('href'),
-        url = new Url(href);
-    if (modeInUrl) {
-        url.query['mode'] = modeInUrl;
-    } else {
-        delete url.query['mode'];
-    }
-    self.$fullOverlay.appendTo(self.$content).show();
-    $.ajax({
-        url: url.toString(),
-        method: 'get'
-    }).done(function(data) {
-        self.$content.html(data);
-        if(url != window.location){
-            window.history.pushState({}, '', url.toString());
-        }
-        self.cards.forEach(function(card) {
-            card.unbindEvents();
-        });
-        self.cards = self.getCards();
     });
 };

@@ -23,10 +23,7 @@ class MyCardListView(LoginRequiredMixin, ListView):
         return cards
 
     def get_template_names(self):
-        if self.request.is_ajax():
-            return 'cards/card_list_my_ajax.html'
-        else:
-            return 'cards/card_list_my.html'
+        return 'cards/card_list_my.html'
 
     def get_context_data(self, **kwargs):
         context = super(MyCardListView, self).get_context_data(**kwargs)
@@ -63,7 +60,7 @@ def create_card_view(request):
 def update_card_view(request, pk):
     card_to_update = get_object_or_404(Card, pk=pk, user=request.user)
     if request.is_ajax() and request.method == 'POST':
-        form = CardForm(request.POST, files=request.FILES, instance=card_to_update)
+        form = CardForm(request.POST, instance=card_to_update)
         if form.is_valid():
             card_front_text = form.cleaned_data['front']
             card = form.save(commit=False)

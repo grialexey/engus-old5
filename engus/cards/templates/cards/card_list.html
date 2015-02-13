@@ -5,7 +5,17 @@
     </ul>
 
     <div class="card-list__content">
-        {% include "cards/cards.html" %}
+
+        {% if is_paginated %}{% load paginator %}{% paginator 2 %}{% endif %}
+
+        <ul class="card-list__list">
+            {% for card in card_list %}
+                {% include "cards/card.html" %}
+            {% endfor %}
+        </ul>
+
+        {% if is_paginated %}{% load paginator %}{% paginator 2 %}{% endif %}
+
         <div class="card-list__overlay"></div>
     </div>
 </section>
