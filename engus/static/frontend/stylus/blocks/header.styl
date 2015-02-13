@@ -48,21 +48,16 @@
             text-decoration: none;
             border: 1px solid #fff;
 
-            &.m-active {
-                border: 1px solid #fff !important;
-                background: linear-gradient(top, #ff4832, #cf0404);
-                color: #fff;
-            }
-
-            &:hover {
-                border: 1px solid #fff !important;
-                background: linear-gradient(top, #ff4832, #cf0404);
-                color: #fff;
-            }
         }
 
         &-link--mycards.active + &-repeat-count {
-            border: 1px solid mainColor(1);
+            border: 1px solid #fff !important;
+            background: linear-gradient(top, #ff4832, #cf0404);
+            color: #fff;
+
+            &:hover {
+                background: linear-gradient(top, #ff6a51, #fc0404);
+            }
         }
 
         &-link {
