@@ -64,15 +64,15 @@ class Card(models.Model):
         elif self.level == 1:
             self.next_repeat = now + datetime.timedelta(minutes=20)
         elif self.level == 2:
-            self.next_repeat = now + datetime.timedelta(hours=8)
+            self.next_repeat = now + datetime.timedelta(hours=2)
         elif self.level == 3:
-            self.next_repeat = now + datetime.timedelta(hours=24)
+            self.next_repeat = now + datetime.timedelta(hours=8)
         elif self.level == 4:
-            self.next_repeat = now + datetime.timedelta(hours=72)
+            self.next_repeat = now + datetime.timedelta(hours=24)
         elif self.level == 5:
-            self.next_repeat = now + datetime.timedelta(weeks=2)
+            self.next_repeat = now + datetime.timedelta(hours=72)
         elif self.level == 6:
-            self.next_repeat = now + datetime.timedelta(weeks=6)
+            self.next_repeat = now + datetime.timedelta(weeks=3)
         elif self.level > 6:
             self.next_repeat = now + datetime.timedelta(weeks=52)
 
