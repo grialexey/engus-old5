@@ -23,6 +23,7 @@ CardQuickCreator.prototype.bindEvents = function() {
 CardQuickCreator.prototype.createCardCreator = function() {
     var $cardCreator = this.$template.clone();
     $cardCreator.removeClass('m-hide').addClass('m-quick-creator').hide();
+    $cardCreator.find('.card__overlay:not(.m-full)').remove();
     $cardCreator.$fullOverlay = $cardCreator.find('.card__overlay');
     $cardCreator.prependTo('.header__menu');
     $cardCreator.find('.card__form--create').on('submit', { self: this }, this.createEvent);

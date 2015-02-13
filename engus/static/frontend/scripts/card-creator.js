@@ -15,6 +15,7 @@ CardCreator.prototype.getDeferred = function() {
 CardCreator.prototype.cacheElements = function($element) {
     this.$el = $element;
     this.$form = $element.find('.card__form--create');
+    this.$el.find('.card__overlay:not(.m-full)').remove();
     this.$fullOverlay = this.$el.find('.card__overlay.m-full');
 };
 
