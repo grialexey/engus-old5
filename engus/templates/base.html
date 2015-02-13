@@ -36,7 +36,7 @@
                 {% if user.is_authenticated %}
                     <li class="header__menu-item">
                         <a href="{% url "cards:card-list-my" %}" class="header__menu-link  header__menu-link--mycards {% block header_menu_item_mycards_class %}{% endblock %}">Мои карточки</a>
-                        {% if cards_to_repeat_count %}<a href="{% url "cards:card-list-my" %}?sort=repeat&mode=repeat-right" class="header__menu-repeat-count {% if cards_sort == 'repeat' %}m-active{% endif %}">{{ cards_to_repeat_count }}</a>{% endif %}
+                        {% if cards_to_repeat_count %}<a href="{% url "cards:card-list-my" %}?sort=repeat&mode=repeat-right" class="header__menu-repeat-count {% if card_sorting == 'repeat' %}m-active{% endif %}">{{ cards_to_repeat_count }}</a>{% endif %}
                     </li>
                     <li class="header__menu-item"><span href="/" class="header__menu-link header__menu-link--add">+</span></li>
                     {% include 'cards/card.html' %}

@@ -28,7 +28,7 @@ class MyCardListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(MyCardListView, self).get_context_data(**kwargs)
         context['mode'] = self.request.GET.get('mode', '')
-        context['cards_sort'] = self.request.GET.get('sort')
+        context['card_sorting'] = self.request.GET.get('sort')
         context['to_repeat_count'] = self.request.GET.get('filter')
         return context
 
