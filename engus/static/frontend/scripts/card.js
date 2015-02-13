@@ -256,8 +256,8 @@ Card.prototype.updateCardAjax = function($form) {
         $('.header__menu-repeat-count').text(data['cards_to_repeat_count']);
         var $updatedCardEl = $(data['card']);
         $updatedCardEl.insertAfter(self.$el);
-        new Card($updatedCardEl);
         self.destroy();
+        self.init($updatedCardEl);
     }).error(function() {
         $form.show();
         self.$fullOverlay.addClass('m-active m-error').text('Ошибка при сохранении');
