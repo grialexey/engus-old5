@@ -19,7 +19,7 @@ class MyCardListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         cards = Card.objects.filter(user=self.request.user).learning()
         if self.request.GET.get('sort') == 'repeat':
-            cards = cards.order_by('next_repeat')
+            cards = cards.to_repeat().order_by('-next_repeat')
         return cards
 
     def get_template_names(self):
