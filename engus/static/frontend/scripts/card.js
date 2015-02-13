@@ -60,7 +60,6 @@ Card.prototype.unbindEvents = function() {
     this.$playAudioBtn.off('click', this.playAudioEvent);
     this.$rightOverlay.off('click', this.clickRightOverlayEvent);
     this.$leftOverlay.off('click', this.clickLeftOverlayEvent);
-    $(document).off('click', this.clickOutsideEvent);
 };
 
 Card.prototype.isEditable = function() {
