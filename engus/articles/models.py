@@ -26,7 +26,7 @@ class Article(models.Model):
     ADVANCED = 5
 
     LEVEL_CHOICES = (
-        (BEGINNER, u'Beginner (для начинающих)'),
+        (BEGINNER, u'Beginner'),
         (ELEMENTARY, u'Elementary'),
         (INTERMEDIATE, u'Intermediate'),
         (UPPER_INTERMEDIATE, u'Upper-Intermediate'),
