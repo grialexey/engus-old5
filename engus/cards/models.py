@@ -59,7 +59,7 @@ class Card(models.Model):
 
     def set_next_repeat(self):
         now = timezone.now()
-        if self.level == 0:
+        if self.level == 0 and self.next_repeat > now:
             self.next_repeat = now
         elif self.level == 1:
             self.next_repeat = now + datetime.timedelta(minutes=20)
@@ -73,7 +73,7 @@ class Card(models.Model):
             self.next_repeat = now + datetime.timedelta(weeks=2)
         elif self.level == 6:
             self.next_repeat = now + datetime.timedelta(weeks=6)
-        else:
+        elif self.level > 6:
             self.next_repeat = now + datetime.timedelta(weeks=52)
 
     def good(self):
