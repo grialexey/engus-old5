@@ -12,6 +12,10 @@
             {% for card in card_list %}
                 {% include "cards/card.html" %}
             {% endfor %}
+
+            {% if user.is_authenticated %}
+                {% include "cards/card.html" %}
+            {% endif %}
         </ul>
 
         {% if is_paginated %}{% load paginator %}{% paginator 2 %}{% endif %}

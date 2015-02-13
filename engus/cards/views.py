@@ -46,6 +46,7 @@ def create_card_view(request):
             card_template = loader.get_template('cards/card.html')
             context = RequestContext(request, {'card': card, })
             response_data = {
+                'id': card.pk,
                 'card': card_template.render(context),
                 'cards_to_repeat_count': context['cards_to_repeat_count']
             }
@@ -69,6 +70,7 @@ def update_card_view(request, pk):
             card_template = loader.get_template('cards/card.html')
             context = RequestContext(request, {'card': card, })
             response_data = {
+                'id': card.pk,
                 'card': card_template.render(context),
                 'cards_to_repeat_count': context['cards_to_repeat_count']
             }
@@ -90,6 +92,7 @@ def update_card_level_view(request, pk):
             card_template = loader.get_template('cards/card.html')
             context = RequestContext(request, {'card': card, })
             response_data = {
+                'id': card.pk,
                 'card': card_template.render(context),
                 'cards_to_repeat_count': context['cards_to_repeat_count']
             }

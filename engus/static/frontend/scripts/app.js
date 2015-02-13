@@ -1,5 +1,11 @@
 $(document).ready(function() {
     var cardList = new CardList($('.card-list'));
-    new CardCreatorQuick($('.card__form--create-top'), $('.header__menu-link--add'), $('.content__overlay'));
-    new CardCreatorForArticle($('.card__form--create-article'));
+    $('.card-list .card.m-creator').each(function() {
+        var cardCreator = new CardCreator($(this));
+        cardCreator.$el.on('created', function(event, data) {
+            window.location.hash = '#card' + data['id'];
+            window.location.reload();
+        });
+    });
+    new CardQuickCreator();
 });

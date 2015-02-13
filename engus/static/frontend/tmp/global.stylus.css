@@ -554,6 +554,15 @@ textarea {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   position: relative;
+  list-style: none;
+}
+.card.m-creator.m-quick-creator {
+  position: absolute;
+  top: 80px;
+  left: 0;
+  right: 0;
+  margin: 0;
+  z-index: 200;
 }
 .card__content {
   padding: 11px 22px;
@@ -923,16 +932,8 @@ textarea {
   background-color: #fff;
   color: #ccc;
 }
-.card__form--create-top {
-  position: absolute;
-  top: 80px;
-  left: 15px;
-  right: 15px;
-  margin: 0;
-  z-index: 200;
-}
 .card__form-image {
-  margin: 0 0 10px 22px;
+  margin-top: 10px;
 }
 .card__form-input {
   display: block;
@@ -1062,6 +1063,7 @@ textarea {
   flex-wrap: wrap;
   width: 100%;
   padding: 10px 0;
+  position: relative;
 }
 .header__menu-item {
   -webkit-box-flex: 1;

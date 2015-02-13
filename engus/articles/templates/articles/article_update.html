@@ -4,6 +4,20 @@
 
 {% block extrascripts %}
     {{ form.media }}
+    <script>
+        $(document).ready(function() {
+            var $cardCreators = $('.card-list .card.m-creator');
+            var $cards = $('.card-list .card:not(.m-creator)');
+            if ($cards.length < 12) {
+                $cardCreators.removeClass('m-hide');
+            }
+
+            $cardCreators.each(function() {
+                var $articleInput = $('<input type="hidden" name="article" value="' + {{ form.instance.pk }} + '"/>');
+                $(this).find('.card__form').append($articleInput);
+            });
+        });
+    </script>
 {% endblock %}
 
 
@@ -36,28 +50,23 @@
         <h2 class="article-form__subtitle">Добавление карточек</h2>
 
         {% with card_list=article.card_set.public %}
-            {% include "cards/card_list.html" %}
-        {% endwith %}
+            <section class="card-list">
+                <div class="card-list__content">
+                    <ul class="card-list__list">
+                        {% for card in card_list %}
+                            {% include "cards/card.html" %}
+                        {% endfor %}
 
-        {% if article.card_set.public.count < 12 %}
-            <form action="{% url 'cards:card-create' %}" method="post" class="card card__form card__form--create-article" enctype="multipart/form-data">
-                {% csrf_token %}
-                {% include "cards/card_edit_form.html" %}
 
-                <div class="card__form-image">
-                    <input type="file" name="image">
+                        {% if form.instance.card_set.public.count < 12 %}
+                            {% include "cards/card.html" %}
+                        {% else %}
+                            <li style="color: #555; margin: 20px 0; text-align: center; display: block;">Не более 12 карточек</li>
+                        {% endif %}
+                    </ul>
+                    <div class="card-list__overlay"></div>
                 </div>
-
-                <input type="hidden" name="article" value="{{ form.instance.pk }}">
-
-                <ul class="card__controls">
-                    <li class="card__controls-item card__controls-item--single"><input type="submit" value="Добавить" class="card__button card__button--add"></li>
-                </ul>
-
-                <div class="card__overlay m-full"></div>
-            </form>
-        {% else %}
-            <div>Не более 12 карточек</div>
-        {% endif %}
+            </section>
+        {% endwith %}
     </section>
 {% endblock %}

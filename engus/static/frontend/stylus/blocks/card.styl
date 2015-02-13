@@ -7,6 +7,17 @@
     margin: 10px 0;
     box-sizing: border-box;
     position: relative;
+    list-style: none;
+
+    &.m-creator.m-quick-creator {
+        position: absolute;
+        top: 80px;
+        left: 0;
+        right: 0;
+        margin: 0;
+        z-index: 200;
+    }
+
 
     &__content {
         padding: 11px 22px;
@@ -297,17 +308,8 @@
 
     &__form {
 
-        &--create-top {
-            position: absolute;
-            top: 80px;
-            left: 15px;
-            right: 15px;
-            margin: 0;
-            z-index: 200;
-        }
-
         &-image {
-            margin: 0 0 10px 22px;
+            margin-top: 10px;
         }
 
 

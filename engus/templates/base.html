@@ -16,7 +16,8 @@
         <script type="text/javascript" src="{{ STATIC_URL }}frontend/libs/url.js"></script>
         <script type="text/javascript" src="{{ STATIC_URL }}frontend/scripts/card.js"></script>
         <script type="text/javascript" src="{{ STATIC_URL }}frontend/scripts/card-list.js"></script>
-        <script type="text/javascript" src="{{ STATIC_URL }}frontend/scripts/card-creator-quick.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}frontend/scripts/card-quick-creator.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}frontend/scripts/card-creator.js"></script>
         <script type="text/javascript" src="{{ STATIC_URL }}frontend/scripts/card-creator-for-article.js"></script>
         <script type="text/javascript" src="{{ STATIC_URL }}frontend/scripts/app.js"></script>
     {% else %}
@@ -38,6 +39,7 @@
                         {% if cards_to_repeat_count %}<a href="{% url "cards:card-list-my" %}?sort=repeat&mode=repeat-right" class="header__menu-repeat-count {% if cards_sort == 'repeat' %}m-active{% endif %}">{{ cards_to_repeat_count }}</a>{% endif %}
                     </li>
                     <li class="header__menu-item"><span href="/" class="header__menu-link header__menu-link--add">+</span></li>
+                    {% include 'cards/card.html' %}
                     <li class="header__menu-item header__menu-item--fill"></li>
                     <li class="header__menu-item">
                         <a href="{% url 'profile' %}" class="header__menu-link {% block header_menu_item_profile_class %}{% endblock %}">Мой профиль</a>
@@ -48,18 +50,6 @@
                     <li class="header__menu-item"><a href="{% url "login" %}" class="header__menu-link {% block header_menu_item_login_class %}{% endblock %}">Войти</a></li>
                 {% endif %}
             </ul>
-
-            {% if user.is_authenticated %}
-                <form action="{% url 'cards:card-create' %}" method="post" class="card card__form--create-top card__form" style="display: none;">
-                    {% csrf_token %}
-                    {% include "cards/card_edit_form.html" %}
-                    <ul class="card__controls">
-                        <li class="card__controls-item card__controls-item--single"><input type="submit" value="Добавить" class="card__button card__button--add"></li>
-                    </ul>
-
-                    <div class="card__overlay" style="display: none;"></div>
-                </form>
-            {% endif %}
         </div>
     </header>
 

@@ -1,100 +1,143 @@
-<li class="card {% if user.is_authenticated and card.user == user %}m-user-owned{% endif %}">
-    <div class="card__content {% if card.is_to_repeat %}m-to-repeat{% endif %} {% if user.is_authenticated and card.user == user and not mode == 'repeat-right' and not mode == 'repeat-left' %}editable{% endif %}">
-        <div class="card__top">
-            <span class="card__front">
-                <span class="card__front-word">{{ card.front.text }}</span>
-                {% if card.front.pronunciation %}
-                    <span class="card__front-pron {% if card.front.audio %}with-audio{% endif %}">{{ card.front.pronunciation }}</span>
-                {% endif %}
-                {% if card.front.audio %}
-                    <audio class="card__audio" src="{{ card.front.audio.url }}" preload="auto"></audio>
-                {% endif %}
-            </span><!--
-         --><span class="card__back {% if mode == 'repeat-right' %}m-hide{% endif %}">{{ card.back }}</span>
-        </div>
+<li id="card{{ card.pk }}" class="card {% if user.is_authenticated and card.user == user %}m-user-owned{% endif %} {% if not card %}m-creator m-hide{% endif %}">
 
-        {% if card.example %}
-            <div class="card__example {% if mode == 'repeat-right' or mode == 'repeat-left' %}m-hide{% endif %}">{{ card.example|linebreaksbr }}</div>
-        {% endif %}
+    {% if card %}
+        <div class="card__content {% if card.is_to_repeat %}m-to-repeat{% endif %} {% if user.is_authenticated and card.user == user and not mode == 'repeat-right' and not mode == 'repeat-left' %}editable{% endif %}">
+            <div class="card__top">
+                <span class="card__front">
+                    <span class="card__front-word">{{ card.front.text }}</span>
+                    {% if card.front.pronunciation %}
+                        <span class="card__front-pron {% if card.front.audio %}with-audio{% endif %}">{{ card.front.pronunciation }}</span>
+                    {% endif %}
+                    {% if card.front.audio %}
+                        <audio class="card__audio" src="{{ card.front.audio.url }}" preload="auto"></audio>
+                    {% endif %}
+                </span><!--
+             --><span class="card__back {% if mode == 'repeat-right' %}m-hide{% endif %}">{{ card.back }}</span>
+            </div>
 
-        {% if card.image %}
-            {% load thumbnail %}
-            {% thumbnail card.image 100x80  quality=80 as thumb %}
-            <img class="card__image {% if mode == 'repeat-right' or mode == 'repeat-left' %}m-hide{% endif %}" src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}">
-        {% endif %}
-    </div>
-
-    <ul class="card__controls card__controls--level-change" style="display: none;">
-        <li class="card__controls-item">
-            <form class="card__form--level" action="{% url 'cards:card-update-level' card.pk %}" method="post">
-                {% csrf_token %}
-                <input type="hidden" name="pk" value="{{ card.pk }}">
-                <input type="hidden" name="level" value="up">
-                <button class="card__button card__button--learned">Вспомнил</button>
-            </form>
-        </li>
-        <li class="card__controls-item">
-            <form class="card__form--level" action="{% url 'cards:card-update-level' card.pk %}" method="post">
-                {% csrf_token %}
-                <input type="hidden" name="pk" value="{{ card.pk }}">
-                <input type="hidden" name="level" value="down">
-                <button class="card__button card__button--forget">Не вспомнил</button>
-            </form>
-        </li>
-    </ul>
-
-    {% if user.is_authenticated and card.user == user %}
-        <div class="card__infomenu" style="display: none;">
-            {% if not card.article %}
-            <ul class="card__infoline">
-                <li class="card__infoline-item">Следующее повторение: {{ card.next_repeat|date:"d.m.Y H:i" }}</li>
-                <li class="card__infoline-item">Добавлена: {{ card.created|date:"d.m.Y" }}</li>
-            </ul>
+            {% if card.example %}
+                <div class="card__example {% if mode == 'repeat-right' or mode == 'repeat-left' %}m-hide{% endif %}">{{ card.example|linebreaksbr }}</div>
             {% endif %}
 
-            <ul class="card__controls card__controls--edit">
-                {% if not card.article %}
-                <li class="card__controls-item">
-                    <form class="card__form--level" action="{% url 'cards:card-update-level' card.pk %}" method="post">
-                        {% csrf_token %}
-                        <input type="hidden" name="pk" value="{{ card.pk }}">
-                        <input type="hidden" name="level" value="up">
-                        <button class="card__button card__button--learned" {% if not card.is_to_repeat %}disabled{% endif %}>Запомнил</button>
-                    </form>
-                </li>
-                <li class="card__controls-item">
-                    <form class="card__form--level" action="{% url 'cards:card-update-level' card.pk %}" method="post">
-                        {% csrf_token %}
-                        <input type="hidden" name="pk" value="{{ card.pk }}">
-                        <input type="hidden" name="level" value="down">
-                        <button class="card__button card__button--forget">Забыл</button>
-                    </form>
-                </li>
-                {% endif %}
-                <li class="card__controls-item"><span class="card__button card__button--edit">Редактировать</span></li>
-                <li class="card__controls-item">
-                    <form class="card__form--delete" action="{% url 'cards:card-delete' card.pk %}" method="post">
-                        {% csrf_token %}
-                        <input type="hidden" name="pk" value="{{ card.pk }}">
-                        <button class="card__button card__button--remove">Удалить</button>
-                    </form>
-                </li>
-            </ul>
+            {% if card.image %}
+                {% load thumbnail %}
+                {% thumbnail card.image 100x80  quality=80 as thumb %}
+                <img class="card__image {% if mode == 'repeat-right' or mode == 'repeat-left' %}m-hide{% endif %}" src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}">
+            {% endif %}
         </div>
 
+        <ul class="card__controls card__controls--level-change" style="display: none;">
+            <li class="card__controls-item">
+                <form class="card__form--level" action="{% url 'cards:card-update-level' card.pk %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="pk" value="{{ card.pk }}">
+                    <input type="hidden" name="level" value="up">
+                    <button class="card__button card__button--learned">Вспомнил</button>
+                </form>
+            </li>
+            <li class="card__controls-item">
+                <form class="card__form--level" action="{% url 'cards:card-update-level' card.pk %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="pk" value="{{ card.pk }}">
+                    <input type="hidden" name="level" value="down">
+                    <button class="card__button card__button--forget">Не вспомнил</button>
+                </form>
+            </li>
+        </ul>
 
-        <form action="{% url 'cards:card-update' card.pk %}" method="post" class="card__form card__form--update" enctype="multipart/form-data" style="display: none;">
+        {% if user.is_authenticated and card.user == user %}
+            <div class="card__infomenu" style="display: none;">
+                {% if not card.article %}
+                <ul class="card__infoline">
+                    <li class="card__infoline-item">Следующее повторение: {{ card.next_repeat|date:"d.m.Y H:i" }}</li>
+                    <li class="card__infoline-item">Добавлена: {{ card.created|date:"d.m.Y" }}</li>
+                </ul>
+                {% endif %}
+
+                <ul class="card__controls card__controls--edit">
+                    {% if not card.article %}
+                    <li class="card__controls-item">
+                        <form class="card__form--level" action="{% url 'cards:card-update-level' card.pk %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="pk" value="{{ card.pk }}">
+                            <input type="hidden" name="level" value="up">
+                            <button class="card__button card__button--learned" {% if not card.is_to_repeat %}disabled{% endif %}>Запомнил</button>
+                        </form>
+                    </li>
+                    <li class="card__controls-item">
+                        <form class="card__form--level" action="{% url 'cards:card-update-level' card.pk %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="pk" value="{{ card.pk }}">
+                            <input type="hidden" name="level" value="down">
+                            <button class="card__button card__button--forget">Забыл</button>
+                        </form>
+                    </li>
+                    {% endif %}
+                    <li class="card__controls-item"><span class="card__button card__button--edit">Редактировать</span></li>
+                    <li class="card__controls-item">
+                        <form class="card__form--delete" action="{% url 'cards:card-delete' card.pk %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="pk" value="{{ card.pk }}">
+                            <button class="card__button card__button--remove">Удалить</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+
+
+            <form action="{% url 'cards:card-update' card.pk %}" method="post" class="card__form card__form--update" enctype="multipart/form-data" style="display: none;">
+                {% csrf_token %}
+                <div class="card__content">
+                    <div class="card__top">
+                        <span class="card__front">
+                            <input class="card__form-input" placeholder="Слово" maxlength="255" name="front" type="text" autocomplete="off" required value="{{ card.front.text }}">
+                        </span><!--
+                     --><span class="card__back">
+                            <input class="card__form-input" placeholder="Перевод" maxlength="255" name="back" type="text" autocomplete="off" value="{{ card.back }}">
+                        </span>
+                    </div>
+                    <div class="card__example">
+                        <textarea class="card__form-input" rows="1" placeholder="Пример" name="example">{{ card.example }}</textarea>
+                    </div>
+                </div>
+
+                {% if card.article %}<input type="hidden" name="article" value="{{ card.article.pk }}">{% endif %}
+                <input type="hidden" name="pk" value="{{ card.pk }}">
+
+                <ul class="card__controls">
+                    <li class="card__controls-item card__controls-item--single"><input type="submit" value="Сохранить" class="card__button card__button--add"></li>
+                </ul>
+
+                <div class="card__overlay" style="display: none;"></div>
+            </form>
+        {% endif %}
+
+    {% else %}
+
+        <form action="{% url 'cards:card-create' %}" method="post" class="card__form--create card__form" enctype="multipart/form-data">
             {% csrf_token %}
-            {% include 'cards/card_edit_form.html' %}
+            <div class="card__content">
+                <div class="card__top">
+                    <span class="card__front">
+                        <input class="card__form-input" placeholder="Слово" maxlength="255" name="front" type="text" autocomplete="off" required value="{{ card.front.text }}">
+                    </span><!--
+                 --><span class="card__back">
+                        <input class="card__form-input" placeholder="Перевод" maxlength="255" name="back" type="text" autocomplete="off" value="{{ card.back }}">
+                    </span>
+                </div>
+                <div class="card__example">
+                    <textarea class="card__form-input" rows="1" placeholder="Пример" name="example">{{ card.example }}</textarea>
+                </div>
 
-            {% if card.article %}<input type="hidden" name="article" value="{{ card.article.pk }}">{% endif %}
-            <input type="hidden" name="pk" value="{{ card.pk }}">
+                <div class="card__form-image">
+                    <input type="file" name="image">
+                </div>
+            </div>
 
             <ul class="card__controls">
-                <li class="card__controls-item card__controls-item--single"><input type="submit" value="Сохранить" class="card__button card__button--add"></li>
+                <li class="card__controls-item card__controls-item--single"><input type="submit" value="Добавить" class="card__button card__button--add"></li>
             </ul>
 
-            <div class="card__overlay" style="display: none;"></div>
         </form>
 
     {% endif %}
