@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.template import RequestContext, loader
+from django.utils import timezone
 from braces.views import LoginRequiredMixin
 from .models import Card
 from .forms import CardForm, DeleteCardForm, UpdateCardLevelForm
@@ -18,8 +19,8 @@ class MyCardListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         cards = Card.objects.filter(user=self.request.user).learning()
-        if self.request.GET.get('sort') == 'repeat':
-            cards = cards.to_repeat().order_by('-next_repeat')
+        cards = cards.extra(select={'_is_to_repeat': "next_repeat > '%s'" % timezone.now()})
+        cards = cards.order_by('_is_to_repeat', '-next_repeat')
         return cards
 
     def get_template_names(self):
@@ -61,7 +62,7 @@ def create_card_view(request):
 def update_card_view(request, pk):
     card_to_update = get_object_or_404(Card, pk=pk, user=request.user)
     if request.is_ajax() and request.method == 'POST':
-        form = CardForm(request.POST, instance=card_to_update)
+        form = CardForm(request.POST, files=request.FILES, instance=card_to_update)
         if form.is_valid():
             card_front_text = form.cleaned_data['front']
             card = form.save(commit=False)
