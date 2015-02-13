@@ -14,9 +14,13 @@
                 <h3 class="article-list__item-subtitle">{{ article.subtitle }}</h3>
             </a>
             <div class="article-list__item-infoline">
+                <a class="link article-list__item-category" href="{{ article.category.get_absolute_url }}">{{ article.category.name }}</a>.
+                <a class="link article-list__item-category" href="{{ article.category.get_absolute_url }}">{{ article.get_level_display }}</a>
+            </div>
+            <div class="article-list__item-infoline">
+                {% load humanize %}
+                <span class="article-list__item-date">{{ article.published|naturalday:"d.m.Y"|capfirst }}</span>
                 <span class="article-list__item-rating {% if article.rating > 0 %}m-positive{% elif article.rating < 0 %}m-negative{% endif %}">{{ article.rating }}</span>
-                <a class="link article-list__item-category" href="">{{ article.category.name }}</a>
-                <span class="article-list__item-date">{{ article.published|date:"d.m.Y" }}</span>
             </div>
         </li>{% endfor %}
     </ul>

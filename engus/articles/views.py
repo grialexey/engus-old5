@@ -12,6 +12,8 @@ class ArticleListView(ListView):
 
     def get_queryset(self):
         articles = Article.objects.published()
+        if self.kwargs.get('category'):
+            articles = articles.filter(category__slug=self.kwargs['category'])
         return articles
 
 

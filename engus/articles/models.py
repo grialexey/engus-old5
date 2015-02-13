@@ -89,6 +89,9 @@ class ArticleCategory(models.Model):
         verbose_name = u'Раздел'
         verbose_name_plural = u'Разделы'
 
+    def get_absolute_url(self):
+        return reverse('articles:article-list', kwargs={'category': self.slug, })
+
 
 class ArticleRating(models.Model):
     article = models.ForeignKey(Article, verbose_name=u'Статья')
