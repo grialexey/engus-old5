@@ -15,6 +15,10 @@
         </div>
     </div>
 
+    <h2 class="profile__subtitle">Моя статистика</h2>
+    <div class="">Всего карточек: {{ request.user.card_set.learning.count }}</div>
+    <div class="">На данный момент вы запомнили: {{ learned_cards_count }}</div>
+
     <h2 class="profile__subtitle">Мои статьи <a class="link profile__subtitle-link" href="{% url 'articles:article-create' %}">+ Добавить</a></h2>
     <ul class="profile__article-list">
         {% for article in user.article_set.all %}
@@ -28,9 +32,6 @@
             <li class="profile__article-list-item">У Вас нет статей</li>
         {% endfor %}
     </ul>
-
-    <h2 class="profile__subtitle">Моя статистика</h2>
-    <div class="">Всего карточек: {{ request.user.card_set.learning.count }}</div>
 
 
     <h2 class="profile__subtitle">Мои приглашения</h2>

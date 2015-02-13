@@ -5,16 +5,21 @@ from django.conf import settings
 from django.shortcuts import redirect, render_to_response
 from django.views.generic.base import TemplateView
 from django.template import RequestContext
+from braces.views import LoginRequiredMixin
+from engus.cards.models import Card
 from .forms import CustomUserCreationForm
 from .models import Invite
 
 
-class ProfileView(TemplateView):
+class ProfileView(LoginRequiredMixin, TemplateView):
 
     template_name = 'registration/profile.html'
 
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
+        all_cards_learning_by_user = Card.objects.filter(user=self.request.user).learning().count()
+        card_to_repeat_by_user = Card.objects.filter(user=self.request.user).to_repeat().count()
+        context['learned_cards_count'] = all_cards_learning_by_user - card_to_repeat_by_user
         return context
 
 

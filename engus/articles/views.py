@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.core.urlresolvers import reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
-from braces.views import LoginRequiredMixin, StaffuserRequiredMixin, PermissionRequiredMixin
+from braces.views import LoginRequiredMixin
 from .forms import ArticleCreateForm, ArticleUpdateForm
 from .models import Article
 
