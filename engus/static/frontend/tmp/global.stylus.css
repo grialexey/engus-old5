@@ -756,8 +756,9 @@ textarea {
   color: #555;
 }
 .card__overlay.m-left {
+  left: 5px;
   right: 50%;
-  padding-left: 22px;
+  padding-left: 7px;
 }
 .card__overlay.m-right {
   left: 50%;
