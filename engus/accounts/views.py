@@ -17,9 +17,10 @@ class ProfileView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
-        all_cards_learning_by_user = Card.objects.filter(user=self.request.user).learning().count()
-        card_to_repeat_by_user = Card.objects.filter(user=self.request.user).to_repeat().count()
-        context['learned_cards_count'] = all_cards_learning_by_user - card_to_repeat_by_user
+        all_cards_learning_by_user = Card.objects.filter(user=self.request.user).learning()
+        card_to_repeat_by_user = Card.objects.filter(user=self.request.user).to_repeat()
+        context['learned_cards_count'] = all_cards_learning_by_user.count() - card_to_repeat_by_user.count()
+        context['most_difficult_cards'] = all_cards_learning_by_user.order_by('repeat_count')[:10]
         return context
 
 

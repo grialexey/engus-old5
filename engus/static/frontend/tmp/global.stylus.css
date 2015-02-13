@@ -1285,6 +1285,9 @@ textarea {
   font-weight: normal;
   margin-left: 10px;
 }
+.profile__statistics-item {
+  margin: 7px 0;
+}
 .profile__article-list-item {
   margin-bottom: 15px;
   border-left: 5px solid rgba(0,160,240,0.3);

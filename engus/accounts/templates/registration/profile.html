@@ -16,8 +16,16 @@
     </div>
 
     <h2 class="profile__subtitle">Моя статистика</h2>
-    <div class="">Всего карточек: {{ request.user.card_set.learning.count }}</div>
-    <div class="">На данный момент вы запомнили: {{ learned_cards_count }}</div>
+    <div class="profile__statistics-item">Всего карточек: {{ request.user.card_set.learning.count }}</div>
+    <div class="profile__statistics-item">На данный момент вы запомнили: {{ learned_cards_count }}</div>
+    {% if most_difficult_cards %}
+    <div class="profile__statistics-item">
+        10 самых сложных карточек:
+        {% for card in most_difficult_cards %}
+            <b style="font-weight: bold;">{{ card.front.text }}</b> – {{ card.back }}{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
 
     <h2 class="profile__subtitle">Мои статьи <a class="link profile__subtitle-link" href="{% url 'articles:article-create' %}">+ Добавить</a></h2>
     <ul class="profile__article-list">
