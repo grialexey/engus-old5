@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
-import json
-from django.views.generic import ListView, DetailView
-from django.views.generic.edit import CreateView
-from django.http import HttpResponse, Http404, HttpResponseBadRequest
+from django.views.generic import ListView
+from django.http import JsonResponse, Http404
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render_to_response, get_object_or_404
-from django.template import RequestContext
+from django.shortcuts import get_object_or_404
 from django.template import RequestContext, loader
 from django.utils import timezone
 from braces.views import LoginRequiredMixin
@@ -51,9 +48,9 @@ def create_card_view(request):
                 'card': card_template.render(context),
                 'cards_to_repeat_count': context['cards_to_repeat_count']
             }
-            return HttpResponse(json.dumps(response_data), status=201, content_type="application/json")
+            return JsonResponse(response_data, status=201)
         else:
-            return HttpResponseBadRequest()
+            return JsonResponse(form.errors, status=400)
     else:
         raise Http404
 
@@ -75,9 +72,9 @@ def update_card_view(request, pk):
                 'card': card_template.render(context),
                 'cards_to_repeat_count': context['cards_to_repeat_count']
             }
-            return HttpResponse(json.dumps(response_data), content_type="application/json")
+            return JsonResponse(response_data, status=201)
         else:
-            return HttpResponseBadRequest()
+            return JsonResponse(form.errors, status=400)
     else:
         raise Http404
 
@@ -97,9 +94,9 @@ def update_card_level_view(request, pk):
                 'card': card_template.render(context),
                 'cards_to_repeat_count': context['cards_to_repeat_count']
             }
-            return HttpResponse(json.dumps(response_data), content_type="application/json")
+            return JsonResponse(response_data, status=201)
         else:
-            return HttpResponseBadRequest()
+            return JsonResponse(form.errors, status=400)
     else:
         raise Http404
 
@@ -111,8 +108,9 @@ def delete_card_view(request, pk):
         form = DeleteCardForm(request.POST, instance=card_to_delete)
         if form.is_valid():
             card_to_delete.delete()
-            return HttpResponse(status=200)
+            response_data = {'cards_to_repeat_count': RequestContext(request)['cards_to_repeat_count'], }
+            return JsonResponse(response_data, status=200)
         else:
-            return HttpResponseBadRequest()
+            return JsonResponse(form.errors, status=400)
     else:
         raise Http404

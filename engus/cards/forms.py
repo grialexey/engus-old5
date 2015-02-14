@@ -4,13 +4,13 @@ from .models import Card, CardFront
 
 
 class CardForm(forms.ModelForm):
-    front = forms.CharField(max_length=255)
+    front = forms.CharField(max_length=255, required=True)
 
     def clean(self):
         super(CardForm, self).clean()
-        self.cleaned_data['back'] = self.cleaned_data['back'].strip()
-        self.cleaned_data['example'] = self.cleaned_data['example'].strip()
-        self.cleaned_data['front'] = self.cleaned_data['front'].strip()
+        self.cleaned_data['front'] = self.cleaned_data.get('front', '').strip()
+        self.cleaned_data['back'] = self.cleaned_data.get('back', '').strip()
+        self.cleaned_data['example'] = self.cleaned_data.get('example', '').strip()
 
     class Meta:
         model = Card

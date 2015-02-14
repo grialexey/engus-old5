@@ -212,7 +212,8 @@ Card.prototype.deleteCardEvent = function(event) {
         url: self.$deleteForm.attr('action'),
         method: 'post',
         data: self.$deleteForm.serialize()
-    }).done(function() {
+    }).done(function(data) {
+        $('.header__menu-repeat-count').text(data['cards_to_repeat_count']);
         self.$el.remove();
     }).error(function() {
         self.$el.show();
