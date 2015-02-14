@@ -7,6 +7,7 @@ Card.prototype.init = function($element) {
     this.bindEvents();
     this.isRegisteredUserOwned = this.$el.is('.m-user-owned');
     this.isToRepeat = this.$content.is('.m-to-repeat');
+    this.isOpened = false;
 };
 
 Card.prototype.destroy = function() {
@@ -48,7 +49,7 @@ Card.prototype.bindEvents = function() {
     this.$playAudioBtn.on('click', { self: this }, this.playAudioEvent);
     this.$rightOverlay.on('click', { self: this }, this.clickRightOverlayEvent);
     this.$leftOverlay.on('click', { self: this }, this.clickLeftOverlayEvent);
-    //$(document).on('click', { self: this }, this.clickOutsideEvent);
+    $(document).on('click', { self: this }, this.clickOutsideEvent);
 };
 
 Card.prototype.unbindEvents = function() {
@@ -101,6 +102,7 @@ Card.prototype.clickRightOverlayEvent = function(event) {
     if (self.isToRepeat) {
         setTimeout(function() {
             self.$levelChangeControls.slideDown(200);
+            self.isOpened = true;
         }, 350);
     }
     //self.cardsToRepeatCount -= 1;
@@ -117,6 +119,7 @@ Card.prototype.clickLeftOverlayEvent = function(event) {
     if (self.isToRepeat) {
         setTimeout(function() {
             self.$levelChangeControls.slideDown(200);
+            self.isOpened = true;
         }, 550);
     }
     //self.cardsToRepeatCount -= 1;
@@ -126,6 +129,7 @@ Card.prototype.clickLeftOverlayEvent = function(event) {
 };
 
 Card.prototype.toggleControlsMenu = function() {
+    this.isOpened = !this.$infoMenu.is(":visible");
     this.$infoMenu.slideToggle(200);
     this.$content.show();
     this.$editForm.hide();
@@ -133,6 +137,7 @@ Card.prototype.toggleControlsMenu = function() {
 };
 
 Card.prototype.closeControlsMenu = function() {
+    this.isOpened = false;
     this.$infoMenu.slideUp(100);
     this.$content.show();
     this.$editForm.hide();
@@ -142,7 +147,7 @@ Card.prototype.closeControlsMenu = function() {
 Card.prototype.clickOutsideEvent = function(event) {
     var self = event.data.self;
     var $target = $(event.target);
-    if (!self.$el.is($target) && !self.$el.has($target).length > 0) {
+    if (self.isOpened && !self.$el.is($target) && !self.$el.has($target).length > 0) {
         self.closeControlsMenu();
     }
 };
@@ -153,6 +158,7 @@ Card.prototype.clickOnEditButtonEvent = function(event) {
 };
 
 Card.prototype.openEditForm = function() {
+    this.isOpened = true;
     this.$content.hide();
     this.$infoline.hide();
     this.$infoMenu.hide();
@@ -223,6 +229,7 @@ Card.prototype.updateCardLevelEvent = function(event) {
         $form = $(this),
         levelChange = $form.find('input[name=level]').val();
     self.$levelChangeControls.slideUp(100);
+    self.isOpened = false;
     if (levelChange == 'up') {
         self.levelUp();
     } else if (levelChange == 'down') {
