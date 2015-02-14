@@ -48,7 +48,7 @@ Card.prototype.bindEvents = function() {
     this.$playAudioBtn.on('click', { self: this }, this.playAudioEvent);
     this.$rightOverlay.on('click', { self: this }, this.clickRightOverlayEvent);
     this.$leftOverlay.on('click', { self: this }, this.clickLeftOverlayEvent);
-    $(document).on('click', { self: this }, this.clickOutsideEvent);
+    //$(document).on('click', { self: this }, this.clickOutsideEvent);
 };
 
 Card.prototype.unbindEvents = function() {
