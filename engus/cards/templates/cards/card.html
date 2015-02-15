@@ -16,7 +16,8 @@
             </div>
 
             {% if card.example %}
-                <div class="card__example {% if is_repeat_mode %}m-hide{% endif %}">{{ card.example|linebreaksbr }}</div>
+                {% load list_items %}
+                <ul class="card__example {% if is_repeat_mode %}m-hide{% endif %}">{{ card.example|list_items|safe }}</ul>
             {% endif %}
 
             {% if card.image %}
