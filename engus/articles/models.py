@@ -19,17 +19,17 @@ class ArticleManager(models.Manager):
 
 
 class Article(models.Model):
-    BEGINNER = 1
-    ELEMENTARY = 2
-    INTERMEDIATE = 3
-    UPPER_INTERMEDIATE = 4
-    ADVANCED = 5
+    BEGINNER = 'beginner'
+    ELEMENTARY = 'elementary'
+    PRE_INTERMEDIATE = 'pre-intermediate'
+    INTERMEDIATE = 'intermediate'
+    UPPER_INTERMEDIATE = 'upper-intermediate'
+    ADVANCED = 'advanced'
+    PROFICIENCY = 'proficiency'
 
     LEVEL_CHOICES = (
-        (BEGINNER, u'Beginner'),
         (ELEMENTARY, u'Elementary'),
         (INTERMEDIATE, u'Intermediate'),
-        (UPPER_INTERMEDIATE, u'Upper-Intermediate'),
         (ADVANCED, u'Advanced'),
     )
 
@@ -39,7 +39,8 @@ class Article(models.Model):
     subtitle = models.CharField(max_length=255, blank=True, verbose_name=u'Подзаголовок')
     category = models.ForeignKey('ArticleCategory', verbose_name=u'Раздел')
     image = models.ImageField(upload_to="article/%Y_%m_%d", blank=True, verbose_name=u'Изображение')
-    level = models.IntegerField(choices=LEVEL_CHOICES, verbose_name=u'Уровень владения языком')
+    level = models.CharField(max_length=100, choices=LEVEL_CHOICES, default=ELEMENTARY,
+                             verbose_name=u'Уровень владения языком')
     tags = models.ManyToManyField('ArticleTag', blank=True, null=True, verbose_name=u'Теги')
     description = models.TextField(blank=True, verbose_name=u'Текст')
     rating = models.IntegerField(default=0, verbose_name=u'Рейтинг')
