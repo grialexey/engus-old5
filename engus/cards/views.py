@@ -26,6 +26,7 @@ class MyCardListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(MyCardListView, self).get_context_data(**kwargs)
         context['mode'] = self.request.GET.get('mode', '')
+        context['is_repeat_mode'] = context['mode'] in ('repeat-left', 'repeat-right')
         context['card_sorting'] = self.request.GET.get('sort')
         context['to_repeat_count'] = self.request.GET.get('filter')
         return context
@@ -88,7 +89,7 @@ def update_card_level_view(request, pk):
             form.update_level()
             card = form.save()
             card_template = loader.get_template('cards/card.html')
-            context = RequestContext(request, {'card': card, })
+            context = RequestContext(request, {'card': card, 'is_repeat_mode': True, })
             response_data = {
                 'id': card.pk,
                 'card': card_template.render(context),
