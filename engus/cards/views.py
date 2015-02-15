@@ -91,7 +91,7 @@ def update_card_level_view(request, pk):
             form.update_level()
             card = form.save()
             card_template = loader.get_template('cards/card.html')
-            context = RequestContext(request, {'card': card, 'normal_mode': False, })
+            context = RequestContext(request, {'card': card, })
             response_data = {
                 'id': card.pk,
                 'card': card_template.render(context),

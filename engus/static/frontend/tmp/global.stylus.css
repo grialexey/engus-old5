@@ -748,6 +748,7 @@ textarea {
   -o-transition: color 0.2s;
   -ms-transition: color 0.2s;
   transition: color 0.2s;
+  z-index: 3;
 }
 .card__overlay.m-next-repeat:hover {
   color: #555;
