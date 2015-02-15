@@ -9,16 +9,9 @@
         {% if is_paginated %}{% load paginator %}{% paginator 2 %}{% endif %}
 
         <ul class="card-list__list">
-            {% if mode == 'repeat-left' or mode == 'repeat-right' %}
-                {% load shuffle %}
-                {% for card in card_list|shuffle %}
-                    {% include "cards/card.html" %}
-                {% endfor %}
-            {% else %}
-                {% for card in card_list %}
-                    {% include "cards/card.html" %}
-                {% endfor %}
-            {% endif %}
+            {% for card in card_list %}
+                {% include "cards/card.html" %}
+            {% endfor %}
 
             {% if user.is_authenticated %}
                 {% include "cards/card.html" %}
