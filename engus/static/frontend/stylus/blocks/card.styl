@@ -140,7 +140,7 @@
         right: 0;
         bottom: 0;
         background-color: #fff;
-        line-height: 49px;
+        /*line-height: 49px;*/
         text-align: center;
         font-size: 20px;
         opacity: 0.5;
@@ -152,6 +152,18 @@
 
         &.m-active {
             display: flex;
+        }
+
+        &.m-next-repeat {
+            font-size: 15px;
+            opacity: 1;
+            color: #999;
+            cursor: pointer;
+            transition: color 0.2s;
+
+            &:hover {
+                color: #555;
+            }
         }
 
         &.m-error {

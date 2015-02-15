@@ -162,4 +162,8 @@
     <div class="card__overlay m-full"></div>
     <div class="card__overlay m-right {% if mode == 'repeat-right' %}m-active{% endif %}">Показать</div>
     <div class="card__overlay m-left {% if mode == 'repeat-left' %}m-active{% endif %}">Показать</div>
+    {% if not card.is_to_repeat and mode == 'repeat-right' or mode == 'repeat-left' %}
+        {% load humanize %}
+        <div class="card__overlay m-active m-next-repeat">Следующее повторение: {{ card.next_repeat|naturaltime }}</div>
+    {% endif %}
 </li>

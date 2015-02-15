@@ -22,6 +22,7 @@ Card.prototype.cacheElements = function($element) {
     this.$editControls = this.$el.find('.card__controls--edit');
     this.$levelChangeControls = this.$el.find('.card__controls--level-change');
     this.$fullOverlay = this.$el.find('.card__overlay.m-full');
+    this.$nextRepeatTimeOverlay = this.$el.find('.card__overlay.m-next-repeat');
     this.$rightOverlay = this.$el.find('.card__overlay.m-right');
     this.$leftOverlay = this.$el.find('.card__overlay.m-left');
     this.$content = this.$el.find('> .card__content');
@@ -51,6 +52,7 @@ Card.prototype.bindEvents = function() {
     this.$playAudioBtn.on('click', { self: this }, this.playAudioEvent);
     this.$rightOverlay.on('click', { self: this }, this.clickRightOverlayEvent);
     this.$leftOverlay.on('click', { self: this }, this.clickLeftOverlayEvent);
+    this.$nextRepeatTimeOverlay.on('click', { self: this }, this.clickNextRepeatTimeOverlay);
     $(document).on('click', { self: this }, this.clickOutsideEvent);
 };
 
@@ -134,6 +136,11 @@ Card.prototype.clickLeftOverlayEvent = function(event) {
     //}
 };
 
+Card.prototype.clickNextRepeatTimeOverlay = function(event) {
+    var self = event.data.self;
+    self.$nextRepeatTimeOverlay.removeClass('m-active');
+};
+
 Card.prototype.toggleControlsMenu = function() {
     this.isOpened = !this.$infoMenu.is(":visible");
     this.$infoMenu.slideToggle(200);
@@ -181,6 +188,7 @@ Card.prototype.closeEditForm = function() {
 Card.prototype.normalMode = function() {
     this.$rightOverlay.removeClass('m-active');
     this.$leftOverlay.removeClass('m-active');
+    this.$nextRepeatTimeOverlay.removeClass('m-active');
     this.$frontContent.removeClass('m-hide');
     this.$back.removeClass('m-hide');
     this.$example.removeClass('m-hide');
@@ -196,6 +204,7 @@ Card.prototype.repeatRightMode = function() {
     this.$example.addClass('m-hide');
     this.$image.addClass('m-hide');
     this.$content.removeClass('editable');
+    this.$nextRepeatTimeOverlay.removeClass('m-active');
     this.$leftOverlay.removeClass('m-active');
     this.$rightOverlay.addClass('m-active');
 };
@@ -206,6 +215,7 @@ Card.prototype.repeatLeftMode = function() {
     this.$example.addClass('m-hide');
     this.$image.addClass('m-hide');
     this.$content.removeClass('editable');
+    this.$nextRepeatTimeOverlay.removeClass('m-active');
     this.$rightOverlay.removeClass('m-active');
     this.$leftOverlay.addClass('m-active');
 };
