@@ -28,9 +28,7 @@ class MyCardListView(LoginRequiredMixin, ListView):
         mode = self.request.GET.get('mode', '')
         context['repeat_right_mode'] = (mode == 'repeat-right')
         context['repeat_left_mode'] = (mode == 'repeat-left')
-        context['normal_mode'] = not context['repeat_right_mode'] and not context['repeat_left_mode']
         context['card_sorting'] = self.request.GET.get('sort')
-        context['to_repeat_count'] = self.request.GET.get('filter')
         return context
 
 
