@@ -139,7 +139,7 @@ Card.prototype.clickLeftOverlayEvent = function(event) {
 
 Card.prototype.clickNextRepeatTimeOverlay = function(event) {
     var self = event.data.self;
-    self.normalMode();
+    self.$nextRepeatTimeOverlay.addClass('m-hide');
 };
 
 Card.prototype.toggleControlsMenu = function() {
