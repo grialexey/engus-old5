@@ -7,7 +7,7 @@ from django.template import RequestContext, loader
 from django.utils import timezone
 from braces.views import LoginRequiredMixin
 from .models import Card
-from .forms import CardForm, DeleteCardForm, UpdateCardLevelForm
+from .forms import CardForm, DeleteCardForm, UpdateCardLevelForm, CopyCardForm
 
 
 class MyCardListView(LoginRequiredMixin, ListView):
@@ -72,7 +72,7 @@ def update_card_view(request, pk):
                 'card': card_template.render(context),
                 'cards_to_repeat_count': context['cards_to_repeat_count']
             }
-            return JsonResponse(response_data, status=201)
+            return JsonResponse(response_data, status=200)
         else:
             return JsonResponse(form.errors, status=400)
     else:
@@ -94,7 +94,7 @@ def update_card_level_view(request, pk):
                 'card': card_template.render(context),
                 'cards_to_repeat_count': context['cards_to_repeat_count']
             }
-            return JsonResponse(response_data, status=201)
+            return JsonResponse(response_data, status=200)
         else:
             return JsonResponse(form.errors, status=400)
     else:
@@ -108,6 +108,22 @@ def delete_card_view(request, pk):
         form = DeleteCardForm(request.POST, instance=card_to_delete)
         if form.is_valid():
             card_to_delete.delete()
+            response_data = {'cards_to_repeat_count': RequestContext(request)['cards_to_repeat_count'], }
+            return JsonResponse(response_data, status=200)
+        else:
+            return JsonResponse(form.errors, status=400)
+    else:
+        raise Http404
+
+
+@login_required
+def copy_card_view(request, pk):
+    card = get_object_or_404(Card, pk=pk, article__isnull=False)
+    if request.is_ajax() and request.method == 'POST':
+        form = CopyCardForm(request.POST, instance=card)
+        if form.is_valid():
+            new_card = card.make_copy(request.user)
+            new_card.save()
             response_data = {'cards_to_repeat_count': RequestContext(request)['cards_to_repeat_count'], }
             return JsonResponse(response_data, status=200)
         else:

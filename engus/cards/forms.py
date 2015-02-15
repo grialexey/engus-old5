@@ -45,3 +45,10 @@ class DeleteCardForm(forms.ModelForm):
     class Meta:
         model = Card
         fields = []
+
+
+class CopyCardForm(forms.ModelForm):
+
+    class Meta:
+        model = Card
+        fields = []

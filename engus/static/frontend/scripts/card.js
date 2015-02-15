@@ -31,6 +31,7 @@ Card.prototype.cacheElements = function($element) {
     this.$image = this.$content.find('.card__image');
     this.$example = this.$content.find('.card__example');
     this.$deleteForm = this.$el.find('.card__form--delete');
+    this.$copyForm = this.$el.find('.card__form--copy');
     this.$editForm = this.$el.find('.card__form--update');
     this.$levelChangeForm = this.$el.find('.card__form--level');
     this.$editButton = this.$el.find('.card__button--edit');
@@ -42,6 +43,7 @@ Card.prototype.cacheElements = function($element) {
 
 Card.prototype.bindEvents = function() {
     this.$deleteForm.on('submit', { self: this }, this.deleteCardEvent);
+    this.$copyForm.on('submit', { self: this }, this.copyCardEvent);
     this.$editForm.on('submit', { self: this }, this.updateCardEvent);
     this.$levelChangeForm.on('submit', { self: this }, this.updateCardLevelEvent);
     this.$content.on('click', { self: this }, this.clickOnContentEvent);
@@ -65,6 +67,10 @@ Card.prototype.unbindEvents = function() {
 
 Card.prototype.isEditable = function() {
     return this.$content.is('.editable');
+};
+
+Card.prototype.isDefaultEditable = function() {
+    return this.$el.is('.m-default-editable');
 };
 
 Card.prototype.levelUp = function() {
@@ -179,7 +185,7 @@ Card.prototype.normalMode = function() {
     this.$back.removeClass('m-hide');
     this.$example.removeClass('m-hide');
     this.$image.removeClass('m-hide');
-    if (this.isRegisteredUserOwned) {
+    if (this.isDefaultEditable()) {
         this.$content.addClass('editable');
     }
 };
@@ -218,6 +224,32 @@ Card.prototype.deleteCardEvent = function(event) {
     }).error(function() {
         self.$el.show();
         self.$fullOverlay.addClass('m-active m-error').text('Ошибка при удалении');
+        setTimeout(function() {
+            self.$fullOverlay.removeClass('m-active m-error').text('');
+        }, 1500);
+    });
+};
+
+Card.prototype.copyCardEvent = function(event) {
+    event.preventDefault();
+    var self = event.data.self;
+    self.$fullOverlay.addClass('m-active');
+    $.ajax({
+        url: self.$copyForm.attr('action'),
+        method: 'post',
+        data: self.$copyForm.serialize()
+    }).done(function(data) {
+        $('.header__menu-repeat-count').text(data['cards_to_repeat_count']);
+        self.$fullOverlay.text('Скопирована');
+        setTimeout(function() {
+            self.$fullOverlay.removeClass('m-active').text('');
+        }, 1500);
+        self.closeControlsMenu();
+        self.$infoMenu.remove();
+        self.$content.removeClass('editable');
+        self.$el.removeClass('.m-default-editable');
+    }).error(function() {
+        self.$fullOverlay.addClass('m-active m-error').text('Ошибка при копировании');
         setTimeout(function() {
             self.$fullOverlay.removeClass('m-active m-error').text('');
         }, 1500);

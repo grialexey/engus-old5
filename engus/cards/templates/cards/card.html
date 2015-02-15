@@ -1,7 +1,7 @@
-<li id="card{{ card.pk }}" class="card {% if user.is_authenticated and card.user == user %}m-user-owned{% endif %} {% if not card %}m-creator m-hide{% endif %}">
+<li id="card{{ card.pk }}" class="card {% if user.is_authenticated and card.user == user %}m-user-owned{% endif %} {% if not card %}m-creator m-hide{% endif %} {% if user.is_authenticated %}m-default-editable{% endif %}">
 
     {% if card %}
-        <div class="card__content {% if card.is_to_repeat %}m-to-repeat{% endif %} {% if user.is_authenticated and card.user == user and not mode == 'repeat-right' and not mode == 'repeat-left' %}editable{% endif %}">
+        <div class="card__content {% if card.is_to_repeat %}m-to-repeat{% endif %} {% if user.is_authenticated and not mode == 'repeat-right' and not mode == 'repeat-left' %}editable{% endif %}">
             <div class="card__top">
                 <span class="card__front">
                     <span class="card__front-word">{{ card.front.text }}</span>
@@ -77,7 +77,6 @@
                     <li class="card__controls-item">
                         <form class="card__form--delete" action="{% url 'cards:card-delete' card.pk %}" method="post">
                             {% csrf_token %}
-                            <input type="hidden" name="pk" value="{{ card.pk }}">
                             <button class="card__button card__button--remove">Удалить</button>
                         </form>
                     </li>
@@ -114,6 +113,20 @@
 
                 <div class="card__overlay" style="display: none;"></div>
             </form>
+
+        {% elif user.is_authenticated %}
+
+            <div class="card__infomenu" style="display: none;">
+                <ul class="card__controls card__controls--edit">
+                    <li class="card__controls-item">
+                        <form class="card__form--copy" action="{% url 'cards:card-copy' card.pk %}" method="post">
+                            {% csrf_token %}
+                            <button class="card__button card__button--copy">Скопировать в Мои карточки</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+
         {% endif %}
 
     {% else %}

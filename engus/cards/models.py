@@ -50,6 +50,7 @@ class Card(models.Model):
     next_repeat = models.DateTimeField(default=timezone.now)
     repeat_count = models.PositiveIntegerField(default=0)
     article = models.ForeignKey('articles.Article', null=True, blank=True, verbose_name=u'Статья')
+    copy_from = models.ForeignKey('self', null=True, blank=True, related_name='copy_set', verbose_name=u'Скопирована с')
     created = models.DateTimeField(auto_now_add=True, verbose_name=u'Создана')
 
     objects = CardManager().from_queryset(CardQuerySet)()
@@ -93,6 +94,16 @@ class Card(models.Model):
         except IndexError:
             card_front_obj = CardFront.objects.create(text=text, author=user)
         self.front = card_front_obj
+
+    def make_copy(self, user):
+        new_card = Card()
+        new_card.copy_from = self
+        new_card.front = self.front
+        new_card.image = self.image
+        new_card.back = self.back
+        new_card.example = self.example
+        new_card.user = user
+        return new_card
 
     class Meta:
         verbose_name = u'Карточка'

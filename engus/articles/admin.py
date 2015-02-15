@@ -2,6 +2,7 @@
 from django.contrib import admin
 from django import forms
 from ckeditor.widgets import CKEditorWidget
+from engus.cards.models import Card
 from .models import Article, ArticleCategory, ArticleTag, ArticleRating
 
 
@@ -17,6 +18,13 @@ class ArticleAdminForm(forms.ModelForm):
         self.fields['tags'].queryset = ArticleTag.objects.all()
 
 
+class CardInline(admin.StackedInline):
+    model = Card
+    raw_id_fields = ('front', 'user', )
+    fields = ('front', 'back', 'example', 'image', 'user', )
+    extra = 1
+
+
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ('name', 'category', 'is_published', 'is_approved', 'author', 'created', 'modified',
                     'published', 'rating', )
@@ -25,6 +33,7 @@ class ArticleAdmin(admin.ModelAdmin):
     filter_horizontal = ('tags', )
     list_filter = ('is_published', 'is_approved', )
     ordering = ('published', )
+    inlines = [CardInline, ]
 
 
 class ArticleRatingAdmin(admin.ModelAdmin):

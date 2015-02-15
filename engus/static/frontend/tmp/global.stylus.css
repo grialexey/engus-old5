@@ -821,12 +821,12 @@ textarea {
   -webkit-flex-direction: row;
   -ms-flex-direction: row;
   flex-direction: row;
-  -webkit-box-pack: justify;
-  -moz-box-pack: justify;
-  -o-box-pack: justify;
-  -ms-flex-pack: justify;
-  -webkit-justify-content: space-between;
-  justify-content: space-between;
+  -webkit-box-pack: distribute;
+  -moz-box-pack: distribute;
+  -o-box-pack: distribute;
+  -ms-flex-pack: distribute;
+  -webkit-justify-content: space-around;
+  justify-content: space-around;
   -webkit-box-lines: multiple;
   -moz-box-lines: multiple;
   -o-box-lines: multiple;
@@ -894,6 +894,15 @@ textarea {
 .card__button--remove.active {
   color: #fff;
   background-color: #f00;
+}
+.card__button--copy {
+  border-color: #9d9aff;
+  color: #9d9aff;
+}
+.card__button--copy:active,
+.card__button--copy.active {
+  color: #fff;
+  background-color: #9d9aff;
 }
 .card__button--edit {
   border-color: #ffa500;
