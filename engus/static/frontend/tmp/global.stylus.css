@@ -673,10 +673,17 @@ textarea {
   color: #aaa;
   padding: 0;
   margin: 11px 0 0;
-  list-style: disc outside;
+  list-style: none;
 }
 .card__example > li {
-  margin-left: 1em;
+  position: relative;
+}
+.card__example > li::before {
+  content: '•';
+  position: absolute;
+  left: -0.6em;
+  color: #999;
+  top: 0;
 }
 .card__example > li:not(:last-of-type) {
   margin-bottom: 5px;

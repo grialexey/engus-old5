@@ -65,6 +65,7 @@ Card.prototype.unbindEvents = function() {
     this.$playAudioBtn.off('click', this.playAudioEvent);
     this.$rightOverlay.off('click', this.clickRightOverlayEvent);
     this.$leftOverlay.off('click', this.clickLeftOverlayEvent);
+    this.$nextRepeatTimeOverlay.off('click', this.clickNextRepeatTimeOverlay);
 };
 
 Card.prototype.isEditable = function() {
@@ -138,7 +139,7 @@ Card.prototype.clickLeftOverlayEvent = function(event) {
 
 Card.prototype.clickNextRepeatTimeOverlay = function(event) {
     var self = event.data.self;
-    self.$nextRepeatTimeOverlay.removeClass('m-active');
+    self.normalMode();
 };
 
 Card.prototype.toggleControlsMenu = function() {

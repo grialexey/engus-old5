@@ -120,10 +120,18 @@
         color: #aaa;
         padding: 0;
         margin: 11px 0 0;
-        list-style: disc outside;
+        list-style: none;
 
         > li {
-            margin-left: 1em;
+            position: relative;
+
+            &::before {
+                content: '•';
+                position: absolute;
+                left: -0.6em;
+                color: #999;
+                top: 0;
+            }
 
             &:not(:last-of-type) {
                 margin-bottom: 5px;

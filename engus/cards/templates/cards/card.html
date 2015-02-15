@@ -1,29 +1,29 @@
 <li id="card{{ card.pk }}" class="card {% if user.is_authenticated and card.user == user %}m-user-owned{% endif %} {% if not card %}m-creator m-hide{% endif %} {% if user.is_authenticated %}m-default-editable{% endif %}">
 
     {% if card %}
-        <div class="card__content {% if card.is_to_repeat %}m-to-repeat{% endif %} {% if user.is_authenticated and not is_repeat_mode %}editable{% endif %}">
+        <div class="card__content {% if card.is_to_repeat %}m-to-repeat{% endif %} {% if user.is_authenticated and not repeat_left_mode and not repeat_right_mode %}editable{% endif %}">
             <div class="card__top">
                 <span class="card__front">
-                    <span class="card__front-word">{{ card.front.text }}</span>
+                    <span class="card__front-word {% if repeat_left_mode %}m-hide{% elif not card.is_to_repeat %}{% if repeat_left_mode or repeat_right_mode %}m-hide{% endif %}{% endif %}">{{ card.front.text }}</span>
                     {% if card.front.pronunciation %}
-                        <span class="card__front-pron {% if card.front.audio %}with-audio{% endif %}">{{ card.front.pronunciation }}</span>
+                        <span class="card__front-pron {% if repeat_left_mode %}m-hide{% elif not card.is_to_repeat %}{% if repeat_left_mode or repeat_right_mode %}m-hide{% endif %}{% endif %} {% if card.front.audio %}with-audio{% endif %}">{{ card.front.pronunciation }}</span>
                     {% endif %}
                     {% if card.front.audio %}
                         <audio class="card__audio" src="{{ card.front.audio.url }}" preload="auto"></audio>
                     {% endif %}
                 </span><!--
-             --><span class="card__back {% if mode == 'repeat-right' %}m-hide{% endif %}">{{ card.back }}</span>
+             --><span class="card__back {% if repeat_right_mode %}m-hide{% elif not card.is_to_repeat %}{% if repeat_left_mode or repeat_right_mode %}m-hide{% endif %}{% endif %}">{{ card.back }}</span>
             </div>
 
             {% if card.example %}
                 {% load list_items %}
-                <ul class="card__example {% if is_repeat_mode %}m-hide{% endif %}">{{ card.example|list_items|safe }}</ul>
+                <ul class="card__example {% if repeat_left_mode or repeat_right_mode %}m-hide{% endif %}">{{ card.example|list_items|safe }}</ul>
             {% endif %}
 
             {% if card.image %}
                 {% load thumbnail %}
                 {% thumbnail card.image 120x100  quality=80 as thumb %}
-                <img class="card__image {% if is_repeat_mode %}m-hide{% endif %}" src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}">
+                <img class="card__image {% if repeat_left_mode or repeat_right_mode %}m-hide{% endif %}" src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}">
             {% endif %}
         </div>
 
@@ -161,10 +161,12 @@
     {% endif %}
 
     <div class="card__overlay m-full"></div>
-    <div class="card__overlay m-right {% if mode == 'repeat-right' %}m-active{% endif %}">Показать</div>
-    <div class="card__overlay m-left {% if mode == 'repeat-left' %}m-active{% endif %}">Показать</div>
-    {% if not card.is_to_repeat and is_repeat_mode %}
-        {% load humanize %}
-        <div class="card__overlay m-active m-next-repeat">Следующее повторение: {{ card.next_repeat|naturaltime }}</div>
+    <div class="card__overlay m-right {% if repeat_right_mode %}m-active{% endif %}">Показать</div>
+    <div class="card__overlay m-left {% if repeat_left_mode %}m-active{% endif %}">Показать</div>
+    {% if not card.is_to_repeat %}
+        {% if  repeat_left_mode or repeat_right_mode %}
+            {% load humanize %}
+            <div class="card__overlay m-active m-next-repeat">Следующее повторение: {{ card.next_repeat|naturaltime }}</div>
+        {% endif %}
     {% endif %}
 </li>
