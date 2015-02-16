@@ -327,6 +327,23 @@ textarea {
   height: auto;
   margin: 10px 0;
 }
+.article__copy-btn {
+  border: 1px solid #8986e2;
+  border-bottom-width: 2px;
+  border-right-width: 2px;
+  padding: 10px 15px;
+  color: #555;
+  margin-bottom: 25px;
+}
+.article__copy-btn.m-active {
+  color: #8986e2;
+  cursor: pointer;
+  text-align: center;
+}
+.article__copy-btn.m-active:active {
+  background-color: #8986e2;
+  color: #fff;
+}
 .card-list {
   position: relative;
 }
@@ -927,13 +944,13 @@ textarea {
   background-color: #f00;
 }
 .card__button--copy {
-  border-color: #9d9aff;
-  color: #9d9aff;
+  border-color: #8986e2;
+  color: #8986e2;
 }
 .card__button--copy:active,
 .card__button--copy.active {
   color: #fff;
-  background-color: #9d9aff;
+  background-color: #8986e2;
 }
 .card__button--edit {
   border-color: #ffa500;
