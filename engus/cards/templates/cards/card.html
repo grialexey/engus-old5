@@ -1,4 +1,4 @@
-<li id="card{{ card.pk }}" class="card {% if user.is_authenticated and card.user == user %}m-user-owned{% endif %} {% if not card %}m-creator m-hide{% endif %} {% if user.is_authenticated %}m-default-editable{% endif %}">
+<li id="card{{ card.pk }}" class="card {% if user.is_authenticated and card.user == user and card.article == None %}m-user-owned{% endif %} {% if not card %}m-creator m-hide{% endif %} {% if user.is_authenticated %}m-default-editable{% endif %}">
 
     {% if card %}
         <div class="card__content {% if card.is_to_repeat %}m-to-repeat{% endif %} {% if user.is_authenticated and not repeat_left_mode and not repeat_right_mode %}editable{% endif %}">
