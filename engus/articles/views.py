@@ -25,6 +25,11 @@ class ArticleDetailView(DetailView):
     def get_queryset(self):
         return Article.objects.published().filter(category__slug=self.kwargs['category'])
 
+    def get_context_data(self, **kwargs):
+        context = super(ArticleDetailView, self).get_context_data(**kwargs)
+        context['page_title'] = self.object.name
+        return context
+
 
 class ArticleCreateView(LoginRequiredMixin, CreateView):
 
