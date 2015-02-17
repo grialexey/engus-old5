@@ -73,8 +73,10 @@ class Card(models.Model):
         elif self.level == 5:
             self.next_repeat = now + datetime.timedelta(hours=72)
         elif self.level == 6:
-            self.next_repeat = now + datetime.timedelta(weeks=3)
-        elif self.level > 6:
+            self.next_repeat = now + datetime.timedelta(weeks=2)
+        elif self.level == 7:
+            self.next_repeat = now + datetime.timedelta(weeks=6)
+        elif self.level > 7:
             self.next_repeat = now + datetime.timedelta(weeks=52)
 
     def good(self):
