@@ -46,7 +46,7 @@
                 {% else %}
                     <li class="header__menu-item header__menu-slogan">Изучение английского</li>
                     <li class="header__menu-item header__menu-item--fill"></li>
-                    <li class="header__menu-item"><a href="/" class="header__menu-link">О сайте</a></li>
+                    <li class="header__menu-item"><a href="/about/" class="header__menu-link {% if request.path == '/about/' %}active{% endif %}">О сайте</a></li>
                     <li class="header__menu-item"><a href="{% url "login" %}" class="header__menu-link {% block header_menu_item_login_class %}{% endblock %}">Войти</a></li>
                 {% endif %}
             </ul>
