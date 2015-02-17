@@ -67,10 +67,8 @@ CardQuickCreator.prototype.createEvent = function(event) {
     event.preventDefault();
     var self = event.data.self,
         $form = $(this);
+    self.$cardCreator.$fullOverlay.addClass('m-active');
     self.loading = true;
-    self.$cardCreator.hide();
-    self.$button.removeClass('active').addClass('loading');
-    self.$pageOverlay.fadeOut(150);
     $.ajax({
         url: $form.attr('action'),
         method: $form.attr('method'),
@@ -81,19 +79,15 @@ CardQuickCreator.prototype.createEvent = function(event) {
     }).done(function(data) {
         $('.header__menu-repeat-count').text(data['cards_to_repeat_count']);
         self.loading = false;
-        self.$button.removeClass('loading');
+        self.$button.removeClass('active');
+        self.$pageOverlay.fadeOut(150);
         self.$cardCreator.remove();
         self.$cardCreator = self.createCardCreator();
     }).error(function() {
         self.loading = false;
-        self.$button.removeClass('loading');
-        self.$button.addClass('active');
-        self.$cardCreator.fadeIn(150);
-        self.$pageOverlay.fadeIn(150);
-        self.$cardCreator.$fullOverlay.css('opacity', '1').css('color', '#ff0000').text('Ошибка при добавлении').show();
-        self.$cardCreator.$fullOverlay.show();
+        self.$cardCreator.$fullOverlay.addClass('m-active m-error').text('Ошибка при добавлении');
         setTimeout(function() {
-            self.$cardCreator.$fullOverlay.css('opacity', '0.5').css('color', '#000').text('').hide();
+            self.$cardCreator.$fullOverlay.removeClass('m-active m-error').text('');
         }, 1500);
     });
 };
