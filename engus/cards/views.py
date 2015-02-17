@@ -17,7 +17,7 @@ class MyCardListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         cards = Card.objects.filter(user=self.request.user).learning()
         cards = cards.extra(select={'_is_to_repeat': "next_repeat > '%s'" % timezone.now()})
-        cards = cards.order_by('_is_to_repeat', '-next_repeat')
+        cards = cards.order_by('_is_to_repeat', '-next_repeat', 'pk', )
         return cards
 
     def get_template_names(self):
