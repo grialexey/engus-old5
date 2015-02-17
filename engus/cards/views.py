@@ -131,3 +131,10 @@ def copy_card_view(request, pk):
             return JsonResponse(form.errors, status=400)
     else:
         raise Http404
+
+
+@login_required
+def my_cards_count_view(request):
+    cards_count = Card.objects.filter(user=request.user).to_repeat().count()
+    response_data = {'cards_to_repeat_count': cards_count, }
+    return JsonResponse(response_data)

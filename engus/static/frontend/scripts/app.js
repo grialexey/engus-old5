@@ -8,4 +8,10 @@ $(document).ready(function() {
         });
     });
     new CardQuickCreator();
+
+    setInterval(function() {
+        $.get('/cards/api/my-cards-count/').done(function(data) {
+            $('.header__menu-repeat-count').text(data['cards_to_repeat_count']);
+        });
+    }, 180000);
 });
