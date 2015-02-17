@@ -13,6 +13,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.humanize',
+    'django.contrib.flatpages',
 
     # Third-party apps, patches, fixes
     'easy_thumbnails',
@@ -23,6 +24,7 @@ INSTALLED_APPS = (
     'django_select2',
 
     # Application base, containing global templates.
+    'engus.base',
     'engus.accounts',
     'engus.cards',
     'engus.articles',
@@ -40,6 +42,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
