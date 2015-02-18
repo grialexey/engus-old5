@@ -30,7 +30,7 @@ $(document).ready(function() {
                 data: $form.serialize()
             }).done(function(data) {
                 $('.header__menu-repeat-count').text(data['cards_to_repeat_count']);
-                $btn.html('Карточки добавлены в&nbsp;Мои&nbsp;карточки');
+                $btn.html('Все&nbsp;карточки добавлены в&nbsp;Мои&nbsp;карточки');
             }).error(function() {
                 var text = $btn.text();
                 $btn.addClass('m-active');
