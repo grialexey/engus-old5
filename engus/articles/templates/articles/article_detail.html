@@ -18,7 +18,12 @@
                 {% if not user.is_authenticated %}
                     <div class="article__copy-btn">После <a class="link" href="{% url 'register' %}">регистрации</a> вы сможете добавить данные карточки в свой набор карточек. Вам станет доступна <a href="" class="link">интервальная система повторений</a>, а так же статистика по изученным карточкам и другие функции</div>
                 {% else %}
-                    <div class="article__copy-btn m-active">Добавить все&nbsp;карточки в&nbsp;Мои&nbsp;карточки</div>
+                    <form action="{% url 'articles:api-copy-article-cards' article.pk %}" method="post" class="article__copy-cards-form">
+                        {% csrf_token %}
+                        <button class="article__copy-btn m-active">
+                            Добавить все&nbsp;карточки в&nbsp;Мои&nbsp;карточки
+                        </button>
+                    </form>
                 {% endif %}
                 {% include "cards/card_list.html" %}
             {% endif %}

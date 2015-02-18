@@ -30,12 +30,20 @@
     }
 
     &__copy-btn {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+        background-color: #fff;
         border: 1px solid #8986e2;
         border-bottom-width: 2px;
         border-right-width: 2px;
         padding: 10px 15px;
         color: #555;
         margin-bottom: 25px;
+
+        &:disabled {
+            color: #ccc;
+        }
 
         &.m-active {
             color: #8986e2;
