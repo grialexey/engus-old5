@@ -98,6 +98,9 @@ html {
 .clear {
   clear: both;
 }
+.m-bold {
+  font-weight: bold;
+}
 input,
 select,
 button,
@@ -556,6 +559,9 @@ textarea {
   content: '▶';
   font-size: 12px;
 }
+.card-list__modeswitch-item.m-repeat-right.m-active:hover {
+  background-color: #007000;
+}
 .card-list__modeswitch-item.m-repeat-left.m-active {
   background-color: #008000;
   color: #fff;
@@ -568,6 +574,9 @@ textarea {
   width: 0;
   content: '◀';
   font-size: 12px;
+}
+.card-list__modeswitch-item.m-repeat-left.m-active:hover {
+  background-color: #007000;
 }
 .card {
   overflow: hidden;
@@ -1520,6 +1529,25 @@ textarea {
 }
 .profile__article-list-item-title {
   font-weight: bold;
+}
+.profile__goal-completed {
+  color: #008000;
+}
+.profile__goal-text {
+  font-size: 19px;
+  margin: 5px 0;
+}
+.profile__goal-per-day {
+  color: #888;
+  font-size: 17px;
+}
+.profile__goal-behind-schedule-count {
+  font-weight: bold;
+  color: #f00;
+}
+.profile__goal-ahead-schedule-count {
+  font-weight: bold;
+  color: #008000;
 }
 .registration {
   max-width: 380px;

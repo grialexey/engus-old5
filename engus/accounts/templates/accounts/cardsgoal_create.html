@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block pagetitle %}Мой профиль. {% endblock %}
+
+{% block header_menu_item_profile_class %}active{% endblock %}
+
+{% block content %}
+    <h1>Создание цели</h1>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button>Создать</button>
+    </form>
+{% endblock %}

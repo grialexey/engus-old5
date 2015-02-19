@@ -41,7 +41,7 @@
                     {% include 'cards/card.html' %}
                     <li class="header__menu-item header__menu-item--fill"></li>
                     <li class="header__menu-item">
-                        <a href="{% url 'profile' %}" class="header__menu-link {% block header_menu_item_profile_class %}{% endblock %}">Мой профиль</a>
+                        <a href="{% url 'accounts:profile' %}" class="header__menu-link {% block header_menu_item_profile_class %}{% endblock %}">Мой профиль</a>
                     </li>
                 {% else %}
                     <li class="header__menu-item header__menu-slogan">Изучение английского</li>

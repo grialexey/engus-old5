@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
-from .models import Invite
+from .models import Invite, CardsGoal
 
 
 class InviteAdmin(admin.ModelAdmin):
@@ -10,3 +10,4 @@ class InviteAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Invite, InviteAdmin)
+admin.site.register(CardsGoal)

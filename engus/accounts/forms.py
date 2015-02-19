@@ -2,7 +2,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import Invite
+from .models import Invite, CardsGoal
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -24,3 +24,11 @@ class CustomUserCreationForm(UserCreationForm):
         except Invite.DoesNotExist:
             raise forms.ValidationError(u'Недействительное приглашение', code='invalid')
         return invite_code
+
+
+class CardsGoalCreateForm(forms.ModelForm):
+    days = forms.IntegerField(min_value=1, required=True, label=u'За дней')
+
+    class Meta:
+        model = CardsGoal
+        fields = ['number', ]

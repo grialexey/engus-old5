@@ -33,6 +33,9 @@ class CardQuerySet(models.QuerySet):
     def to_repeat(self):
         return self.learning().filter(next_repeat__lt=timezone.now())
 
+    def learned(self):
+        return self.learning().filter(next_repeat__gt=timezone.now())
+
 
 class CardManager(models.Manager):
 

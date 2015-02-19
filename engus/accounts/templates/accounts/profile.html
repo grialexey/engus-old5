@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block pagetitle %}Мой профиль. {% endblock %}
+
+{% block header_menu_item_profile_class %}active{% endblock %}
+
+{% block content %}
+    <h1 class="profile__title">Мой профиль</h1>
+
+    <div class="profile">
+        <div class="profile__name">Имя пользователя: {{ request.user.username }}</div>
+        <div>
+            <a class="link" href="{% url 'logout' %}">Выйти</a><br>
+            <a class="link" href="{% url 'password_change' %}">Изменить пароль</a>
+        </div>
+    </div>
+
+    <h2 class="profile__subtitle">
+        Моя цель
+        {% if not user.goal %}
+            <a class="link profile__subtitle-link" href="{% url 'accounts:goal-create' %}">+ Добавить</a>
+        {% else %}
+            <a class="link profile__subtitle-link" href="{% url 'accounts:goal-create' %}">Обновить</a>
+            <a class="link profile__subtitle-link" href="{% url 'accounts:goal-delete' user.goal.pk %}">Удалить</a>
+        {% endif %}
+    </h2>
+    <div class="">
+        {% if user.goal %}
+            {% load pytils_numeral %}
+            <div class="profile__goal-text">
+                <b class="m-bold">{{ user.goal.number }} {{ user.goal.number|choose_plural:"слово,слова,слов" }}</b> до {{ user.goal.finish|date:"d.m.Y" }}
+                {% if user.goal.cards_a_day > 0 %}
+                    <span class="profile__goal-per-day">({{ user.goal.cards_a_day }} {{ user.goal.cards_a_day|choose_plural:"слово,слова,слов" }} в день)</span>
+                {% endif %}
+            </div>
+
+            {% if user.goal.is_completed %}
+                <div class="profile__goal-completed">Вы достигли цели!</div>
+            {% elif not user.goal.is_active %}
+                <div>Данная цель неактивна</div>
+            {% else %}
+                <div>
+                    Прогресс: {{ user.goal.progress_in_cards }} из {{ user.goal.cards_to_learn }} ({{ user.goal.progress_in_percent|floatformat:"1" }}%)
+                </div>
+                <div>
+                    {% if  user.goal.behind_the_schedule_for_now == 0 %}
+                        Точно по графику
+                    {% elif  user.goal.behind_the_schedule_for_now > 0 %}
+                        Опережение графика на <span class="profile__goal-ahead-schedule-count">{{ user.goal.behind_the_schedule_for_now }}</span> {{ user.goal.behind_the_schedule_for_now|choose_plural:"слово,слова,слов" }}
+                    {% else %}
+                        {% load abs %}
+                        Отставание от графика на <span class="profile__goal-behind-schedule-count">{{ user.goal.behind_the_schedule_for_now|abs }}</span> {{ user.goal.behind_the_schedule_for_now|abs|choose_plural:"слово,слова,слов" }}
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% else %}
+            У Вас ещё нет цели
+        {% endif %}
+    </div>
+
+    <h2 class="profile__subtitle">Моя статистика</h2>
+    <div class="profile__statistics-item">Всего карточек: <b class="m-bold">{{ request.user.card_set.learning.count }}</b></div>
+    <div class="profile__statistics-item">На данный момент вы запомнили: <b class="m-bold">{{ learned_cards_count }}</b></div>
+    {% if most_difficult_cards %}
+    <div class="profile__statistics-item">
+        10 самых сложных карточек:
+        {% for card in most_difficult_cards %}
+            <b style="font-weight: bold;">{{ card.front.text }}</b> – {{ card.back }}{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <h2 class="profile__subtitle">Мои статьи <a class="link profile__subtitle-link" href="{% url 'articles:article-create' %}">+ Добавить</a></h2>
+    <ul class="profile__article-list">
+        {% for article in user.article_set.all %}
+            <li class="profile__article-list-item">
+                <a class="link profile__article-list-item-title" href="{{ article.get_absolute_url }}">{{ article.name }}</a>
+                <br>
+                {% if article.is_published %}Опубликована{% else %}Не опубликована{% endif %}
+                <a class="link" href="{% url 'articles:article-update' pk=article.pk %}">Редактировать</a>
+            </li>
+        {% empty %}
+            <li class="profile__article-list-item">У Вас нет статей</li>
+        {% endfor %}
+    </ul>
+
+
+    <h2 class="profile__subtitle">Мои приглашения</h2>
+    <ul class="profile__invite-list">
+        {% for invite in user.invite_set.all %}
+            <li class="profile__invite-list-item">
+                {{ invite.code }} – {% if invite.registered_user %}Использовано{% else %}Не использовано{% endif %}
+            </li>
+        {% empty %}
+            <li>У Вас нет приглашений</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
