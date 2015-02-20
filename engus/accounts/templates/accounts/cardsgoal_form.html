@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
-{% block pagetitle %}Создание цели. {% endblock %}
+{% block pagetitle %}Обновить цель. {% endblock %}
 
 {% block content %}
     <form action="" method="post" class="cards-goal__form">
-        <h1 class="cards-goal__form-title">Создание цели</h1>
+        <h1 class="cards-goal__form-title">Обновить цель</h1>
         {% csrf_token %}
         {{ form.as_p }}
-        <button>Создать</button>
+        <button>Сохранить</button>
     </form>
 {% endblock %}

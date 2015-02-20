@@ -1,0 +1,98 @@
+.cards-goal {
+    margin: 30px 0;
+
+    &__title {
+        text-align: center;
+        font-size: 35px;
+        margin: 10px 0;
+        color: green;
+    }
+
+    &__number {
+        text-align: center;
+        font-size: 50px;
+        margin: 15px 0;
+        font-weight: bold;
+    }
+
+    &__text {
+        text-align: center;
+
+    }
+
+    &__engus {
+        color: mainColor(1);
+        font-weight: bold;
+    }
+
+    &__completed {
+        text-align: center;
+        font-size: 30px;
+        color: #008000;
+        margin: 15px 0;
+    }
+
+    &__not-active {
+        text-align: center;
+        font-size: 20px;
+        color: #999;
+        margin: 15px 0;
+    }
+
+    &__progress {
+        text-align: center;
+        margin: 15px 0;
+        font-size: 22px;
+        color: #555;
+
+        &-line {
+            width: 100%;
+            margin-top: 10px;
+            border-bottom: 1px solid #ddd;
+
+            &-fill {
+                background-color: mainColor(1);
+                height: 2px;
+            }
+        }
+
+        &-title {
+
+        }
+    }
+
+    &__schedule {
+        text-align: center;
+        margin: 15px 0;
+        color: #999;
+    }
+
+    &__form {
+        margin: 30px 0;
+
+        &-title {
+            font-size: 25px;
+            margin: 10px 0;
+        }
+
+
+        .errorlist {
+            color: red;
+            margin-bottom: 5px;
+        }
+
+        label {
+            color: #555;
+        }
+
+        input {
+            display: block;
+            width: 5em;
+            margin-bottom: 15px;
+        }
+
+        input#id_number {
+            width: 10em;
+        }
+    }
+}

@@ -20,7 +20,7 @@
         {% if not user.goal %}
             <a class="link profile__subtitle-link" href="{% url 'accounts:goal-create' %}">+ Добавить</a>
         {% else %}
-            <a class="link profile__subtitle-link" href="{% url 'accounts:goal-create' %}">Обновить</a>
+            <a class="link profile__subtitle-link" href="{% url 'accounts:goal-update' user.goal.pk %}">Обновить</a>
             <a class="link profile__subtitle-link" href="{% url 'accounts:goal-delete' user.goal.pk %}">Удалить</a>
         {% endif %}
     </h2>
@@ -28,7 +28,8 @@
         {% if user.goal %}
             {% load pytils_numeral %}
             <div class="profile__goal-text">
-                <b class="m-bold">{{ user.goal.number }} {{ user.goal.number|choose_plural:"слово,слова,слов" }}</b> до {{ user.goal.finish|date:"d.m.Y" }}
+                <b class="m-bold">{{ user.goal.number }} {{ user.goal.number|choose_plural:"слово,слова,слов" }}</b>
+                с {{ user.goal.start|date:"d.m.Y" }} по {{ user.goal.finish|date:"d.m.Y" }}
                 {% if user.goal.cards_a_day > 0 %}
                     <span class="profile__goal-per-day">({{ user.goal.cards_a_day }} {{ user.goal.cards_a_day|choose_plural:"слово,слова,слов" }} в день)</span>
                 {% endif %}
@@ -37,7 +38,7 @@
             {% if user.goal.is_completed %}
                 <div class="profile__goal-completed">Вы достигли цели!</div>
             {% elif not user.goal.is_active %}
-                <div>Данная цель неактивна</div>
+                <div class="profile__goal-not-active">Данная цель неактивна</div>
             {% else %}
                 <div>
                     Прогресс: {{ user.goal.progress_in_cards }} из {{ user.goal.cards_to_learn }} ({{ user.goal.progress_in_percent|floatformat:"1" }}%)

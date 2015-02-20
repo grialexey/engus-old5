@@ -1,12 +1,10 @@
 {% extends "base.html" %}
 
-{% block pagetitle %}Мой профиль. {% endblock %}
-
-{% block header_menu_item_profile_class %}active{% endblock %}
+{% block pagetitle %}Удаление цели. {% endblock %}
 
 {% block content %}
-    <h1>Удаление цели</h1>
-    <form action="" method="post">
+    <form action="" method="post" class="cards-goal__form">
+        <h1 class="cards-goal__form-title">Удаление цели</h1>
         {% csrf_token %}
         <p>Вы действительно хотите удалить цель?</p>
         <input type="submit" value="Удалить" />

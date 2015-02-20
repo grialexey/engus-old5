@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block pagetitle %}Цель. {% endblock %}
+
+{% block content %}
+    {% load pytils_numeral %}
+    <section class="cards-goal">
+        <h1 class="cards-goal__title">Цель</h1>
+        <div class="cards-goal__number">{{ object.number }}</div>
+        <div class="cards-goal__text">{{ object.number|choose_plural:"английское слово,английских слова,английских слов" }} на <span class="cards-goal__engus">Ингус</span></div>
+        <div class="cards-goal__text">с {{ object.start|date:"d.m.Y" }} по {{ object.finish|date:"d.m.Y" }}</div>
+        {% if object.is_completed %}
+            <div class="cards-goal__completed">Цель достигнута!</div>
+        {% elif not object.is_active %}
+            <div class="cards-goal__not-active">Данная цель неактивна</div>
+        {% else %}
+            <div class="cards-goal__progress">
+                Прогресс: {{ object.progress_in_cards }} из {{ object.cards_to_learn }} ({{ object.progress_in_percent|floatformat:"1" }}%)
+                <div class="cards-goal__progress-line">
+                    <div class="cards-goal__progress-line-fill" style="width: {{ object.progress_in_percent|escapejs }}%"></div>
+                </div>
+            </div>
+            <div class="cards-goal__schedule">
+                {% if  object.behind_the_schedule_for_now == 0 %}
+                    Точно по графику
+                {% elif  object.behind_the_schedule_for_now > 0 %}
+                    Опережение графика на <span class="">{{ object.behind_the_schedule_for_now }}</span> {{ object.behind_the_schedule_for_now|choose_plural:"слово,слова,слов" }}
+                {% else %}
+                    {% load abs %}
+                    Отставание от графика на <span class="">{{ object.behind_the_schedule_for_now|abs }}</span> {{ object.behind_the_schedule_for_now|abs|choose_plural:"слово,слова,слов" }}
+                {% endif %}
+            </div>
+        {% endif %}
+    </section>
+{% endblock %}

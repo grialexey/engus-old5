@@ -26,8 +26,8 @@ class CustomUserCreationForm(UserCreationForm):
         return invite_code
 
 
-class CardsGoalCreateForm(forms.ModelForm):
-    days = forms.IntegerField(min_value=1, required=True, label=u'За дней')
+class CardsGoalForm(forms.ModelForm):
+    days = forms.IntegerField(min_value=1, required=True, label=u'Через дней')
 
     class Meta:
         model = CardsGoal

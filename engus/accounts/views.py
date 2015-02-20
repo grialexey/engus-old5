@@ -4,14 +4,15 @@ from django.core.urlresolvers import reverse_lazy
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 from django.views.generic.base import TemplateView
-from django.views.generic.edit import FormView, DeleteView
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.template import RequestContext
 from django.shortcuts import redirect, render_to_response
 from django.contrib.auth import login, authenticate
 from django.utils import timezone
 from braces.views import LoginRequiredMixin
 from engus.cards.models import Card
-from .forms import CustomUserCreationForm, CardsGoalCreateForm
+from .forms import CustomUserCreationForm, CardsGoalForm
 from .models import Invite, CardsGoal
 
 
@@ -28,8 +29,13 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         return context
 
 
-class CardsGoalCreateView(LoginRequiredMixin, FormView):
-    form_class = CardsGoalCreateForm
+class CardsGoalDetailView(DetailView):
+
+    model = CardsGoal
+
+
+class CardsGoalCreateView(LoginRequiredMixin, CreateView):
+    form_class = CardsGoalForm
     template_name = 'accounts/cardsgoal_create.html'
     success_url = reverse_lazy('accounts:profile')
 
@@ -49,6 +55,24 @@ class CardsGoalCreateView(LoginRequiredMixin, FormView):
         goal.initial_number = Card.objects.filter(user=self.request.user).learned().count()
         goal.save()
         return super(CardsGoalCreateView, self).form_valid(form)
+
+
+class CardsGoalUpdateView(LoginRequiredMixin, UpdateView):
+    model = CardsGoal
+    form_class = CardsGoalForm
+    success_url = reverse_lazy('accounts:profile')
+
+    def get_queryset(self):
+        base_qs = super(CardsGoalUpdateView, self).get_queryset()
+        return base_qs.filter(user=self.request.user)
+
+    def form_valid(self, form):
+        now = timezone.now()
+        goal = form.save(commit=False)
+        goal.start = now
+        goal.finish = now + datetime.timedelta(days=form.cleaned_data['days'])
+        goal.save()
+        return super(CardsGoalUpdateView, self).form_valid(form)
 
 
 class CardsGoalDeleteView(LoginRequiredMixin, DeleteView):
