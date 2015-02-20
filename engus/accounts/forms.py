@@ -9,7 +9,8 @@ class CustomUserCreationForm(UserCreationForm):
     username = forms.CharField(max_length=254, label=u'Имя пользователя',
         help_text=u'Не более 30 символов. Только <b>латинские</b> буквы, цифры и символы @/./+/-/_.')
     email = forms.EmailField(required=True)
-    invite_code = forms.CharField(max_length=20, label=u'Ваше приглашение', required=True)
+    invite_code = forms.CharField(max_length=20, label=u'Ваше приглашение', required=True,
+                                  help_text=u'<a href="/about/invite/">Как получить приглашение?</a>')
 
     class Meta:
         model = User

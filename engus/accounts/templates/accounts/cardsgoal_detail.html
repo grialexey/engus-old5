@@ -1,13 +1,16 @@
 {% extends "base.html" %}
 
+{% load pytils_numeral %}
+
 {% block pagetitle %}Цель {{ object.number }} {{ object.number|choose_plural:"английское слово,английских слова,английских слов" }}{% endblock %}
 
 {% block content %}
-    {% load pytils_numeral %}
     <section class="cards-goal">
-        <h1 class="cards-goal__title">Цель</h1>
+        <h1 class="cards-goal__title">
+            <span class="cards-goal__title-word">Цель</span>
+        </h1>
         <div class="cards-goal__number">{{ object.number }}</div>
-        <div class="cards-goal__text">{{ object.number|choose_plural:"английское слово,английских слова,английских слов" }} на <span class="cards-goal__engus">Ингус</span></div>
+        <div class="cards-goal__text">{{ object.number|choose_plural:"английское слово,английских слова,английских слов" }}</div>
         <div class="cards-goal__text">с {{ object.start|date:"d.m.Y" }} по {{ object.finish|date:"d.m.Y" }}</div>
         {% if object.is_completed %}
             <div class="cards-goal__completed">Цель достигнута!</div>
@@ -30,6 +33,12 @@
                     Отставание от графика на <span class="">{{ object.behind_the_schedule_for_now|abs }}</span> {{ object.behind_the_schedule_for_now|abs|choose_plural:"слово,слова,слов" }}
                 {% endif %}
             </div>
+        {% endif %}
+
+        {% if not user.is_authenticated %}
+        <div class="cards-goal__signup">
+            Это цель участника сообщества Ингус. Вы сможете создать свою цель после <a class="link" href="{% url "accounts:register" %}">регистрации</a>. Ингус это тематические наборы слов и фраз, <a class="link" href="/about/repetition/">интервальная система повторений</a>, статистика изученных слов и многое другое для успешного изучения английского.
+        </div>
         {% endif %}
     </section>
 {% endblock %}

@@ -1081,8 +1081,15 @@ textarea {
 .cards-goal__title {
   text-align: center;
   font-size: 35px;
-  margin: 10px 0;
-  color: #008000;
+  margin: -23px 0 38px;
+  border-bottom: 2px solid rgba(0,160,240,0.35);
+}
+.cards-goal__title-word {
+  color: #00a0f0;
+  background-color: #fff;
+  position: relative;
+  bottom: -23px;
+  padding: 0 20px;
 }
 .cards-goal__number {
   text-align: center;
@@ -1117,7 +1124,7 @@ textarea {
 }
 .cards-goal__progress-line {
   width: 100%;
-  margin-top: 10px;
+  margin-top: 15px;
   border-bottom: 1px solid #ddd;
 }
 .cards-goal__progress-line-fill {
@@ -1128,6 +1135,19 @@ textarea {
   text-align: center;
   margin: 15px 0;
   color: #999;
+}
+.cards-goal__signup {
+  margin-top: 35px;
+  display: block;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 1px solid #8986e2;
+  border-bottom-width: 2px;
+  border-right-width: 2px;
+  padding: 10px 15px;
+  color: #555;
 }
 .cards-goal__form {
   margin: 30px 0;
@@ -1172,6 +1192,9 @@ textarea {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=92)";
   filter: alpha(opacity=92);
   z-index: 5;
+}
+.flatcontent {
+  margin: 35px 0;
 }
 .flatcontent a {
   color: #0096f0;
@@ -1612,6 +1635,7 @@ textarea {
 }
 .profile__share {
   margin: 10px 0;
+  color: #555;
 }
 .profile__share-title {
   margin-bottom: 5px;

@@ -9,8 +9,16 @@
     &__title {
         text-align: center;
         font-size: 35px;
-        margin: 10px 0;
-        color: green;
+        margin: -23px 0 38px;
+        border-bottom: 2px solid mainColor(0.35);
+
+        &-word {
+            color: mainColor(1);
+            background-color: #fff;
+            position: relative;
+            bottom: -23px;
+            padding: 0 20px;
+        }
     }
 
     &__number {
@@ -52,7 +60,7 @@
 
         &-line {
             width: 100%;
-            margin-top: 10px;
+            margin-top: 15px;
             border-bottom: 1px solid #ddd;
 
             &-fill {
@@ -70,6 +78,18 @@
         text-align: center;
         margin: 15px 0;
         color: #999;
+    }
+
+    &__signup {
+        margin-top: 35px;
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+        border: 1px solid #8986e2;
+        border-bottom-width: 2px;
+        border-right-width: 2px;
+        padding: 10px 15px;
+        color: #555;
     }
 
     &__form {
