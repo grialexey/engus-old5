@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block pagetitle %}Цель. {% endblock %}
+{% block pagetitle %}Цель {{ object.number }} {{ object.number|choose_plural:"английское слово,английских слова,английских слов" }}{% endblock %}
 
 {% block content %}
     {% load pytils_numeral %}

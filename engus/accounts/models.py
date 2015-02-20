@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import datetime
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -43,6 +44,9 @@ class CardsGoal(models.Model):
     class Meta:
         verbose_name = u'Цель'
         verbose_name_plural = u'Цели'
+
+    def get_absolute_url(self):
+        return reverse('accounts:goal-detail', kwargs={'pk': self.pk, })
 
     def is_active(self):
         return self.start < timezone.now() < self.finish

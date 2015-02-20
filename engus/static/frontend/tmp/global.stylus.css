@@ -1074,6 +1074,10 @@ textarea {
 .cards-goal {
   margin: 30px 0;
 }
+.cards-goal .social-likes {
+  margin-top: 35px;
+  text-align: center;
+}
 .cards-goal__title {
   text-align: center;
   font-size: 35px;
@@ -1605,6 +1609,12 @@ textarea {
 }
 .profile__article-list-item-title {
   font-weight: bold;
+}
+.profile__share {
+  margin: 10px 0;
+}
+.profile__share-title {
+  margin-bottom: 5px;
 }
 .profile__goal-completed {
   color: #008000;

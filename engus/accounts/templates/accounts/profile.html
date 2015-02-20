@@ -4,6 +4,14 @@
 
 {% block header_menu_item_profile_class %}active{% endblock %}
 
+{% block extrastyles %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}libs/social-likes/social-likes_flat.css">
+{% endblock %}
+
+{% block extrascripts %}
+    <script src="{{ STATIC_URL }}libs/social-likes/social-likes.min.js"></script>
+{% endblock %}
+
 {% block content %}
     <h1 class="profile__title">Мой профиль</h1>
 
@@ -54,6 +62,20 @@
                     {% endif %}
                 </div>
             {% endif %}
+
+            <div class="profile__share">
+                <h3 class="profile__share-title">Рассказать о цели</h3>
+
+                <div class="social-likes" data-counters="no" data-url="http://{{ site_name }}{{ user.goal.get_absolute_url }}" data-title="Моя цель – выучить {{ user.goal.number }} {{ user.goal.number|choose_plural:"английское слово,английских слова,английских слов" }} на Ингус.ру">
+                    <div class="vkontakte" title="Поделиться ссылкой во Вконтакте">Вконтакте</div>
+                    <div class="facebook" title="Поделиться ссылкой на Фейсбуке">Facebook</div>
+                    <div class="twitter" title="Поделиться ссылкой в Твиттере">Twitter</div>
+                    <div class="mailru" title="Поделиться ссылкой в Моём мире">Мой мир</div>
+                    <div class="odnoklassniki" title="Поделиться ссылкой в Одноклассниках">Одноклассники</div>
+                    <div class="plusone" title="Поделиться ссылкой в Гугл-плюсе">Google+</div>
+                </div>
+            </div>
+
         {% else %}
             У Вас ещё нет цели
         {% endif %}
