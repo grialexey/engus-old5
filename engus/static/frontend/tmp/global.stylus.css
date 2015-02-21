@@ -332,6 +332,12 @@ textarea {
   height: auto;
   margin: 10px 0;
 }
+.article__likes {
+  margin: 25px 0;
+}
+.article__likes-title {
+  margin: 5px 0;
+}
 .article__copy-btn {
   display: block;
   width: 100%;

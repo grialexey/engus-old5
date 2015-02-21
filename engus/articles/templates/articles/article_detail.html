@@ -1,10 +1,25 @@
 {% extends "base.html" %}
 
+{% load thumbnail %}
+
+{% block extrastyles %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}libs/social-likes/social-likes_flat.css">
+{% endblock %}
+
+{% block extrascripts %}
+    <script src="{{ STATIC_URL }}libs/social-likes/social-likes.min.js"></script>
+{% endblock %}
+
+{% block extrahead %}
+    {% if article.image %}
+        {% thumbnail article.image 550x0  quality=80 as thumb %}
+        <meta property="og:image" content="http://{{ site }}{{ thumb.url }}">
+    {% endif %}
+{% endblock %}
 
 {% block content %}
 	<article class="article">
         {% if article.image %}
-            {% load thumbnail %}
             {% thumbnail article.image 550x0  quality=80 as thumb %}
             <img class="article__image" src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}">
         {% endif %}
@@ -29,5 +44,16 @@
             {% endif %}
         {% endwith %}
 
+        <div class="article__likes">
+            <div class="article__likes-title">Поделиться:</div>
+            <div class="social-likes">
+                <div class="vkontakte" title="Поделиться ссылкой во Вконтакте">Вконтакте</div>
+                <div class="facebook" title="Поделиться ссылкой на Фейсбуке">Facebook</div>
+                <div class="twitter" title="Поделиться ссылкой в Твиттере">Twitter</div>
+                <div class="mailru" title="Поделиться ссылкой в Моём мире">Мой мир</div>
+                <div class="odnoklassniki" title="Поделиться ссылкой в Одноклассниках">Одноклассники</div>
+                <div class="plusone" title="Поделиться ссылкой в Гугл-плюсе">Google+</div>
+            </div>
+        </div>
     </article>
 {% endblock %}

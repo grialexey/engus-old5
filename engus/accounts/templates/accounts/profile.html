@@ -64,7 +64,7 @@
             {% endif %}
 
             <div class="profile__share">
-                <div class="social-likes social-likes_single" data-single-title="Поделиться ссылкой на цель" data-counters="no" data-url="http://{{ site_name }}{{ user.goal.get_absolute_url }}" data-title="Моя цель – выучить {{ user.goal.number }} {{ user.goal.number|choose_plural:"английское слово,английских слова,английских слов" }} на Ингус.ру">
+                <div class="social-likes social-likes_single" data-single-title="Поделиться ссылкой на цель" data-counters="no" data-url="http://{{ site }}{{ user.goal.get_absolute_url }}" data-title="Моя цель – выучить {{ user.goal.number }} {{ user.goal.number|choose_plural:"английское слово,английских слова,английских слов" }} на Ингус.ру">
                     <div class="vkontakte" title="Поделиться ссылкой во Вконтакте">Вконтакте</div>
                     <div class="facebook" title="Поделиться ссылкой на Фейсбуке">Facebook</div>
                     <div class="twitter" title="Поделиться ссылкой в Твиттере">Twitter</div>

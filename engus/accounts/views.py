@@ -9,7 +9,6 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.template import RequestContext
 from django.shortcuts import redirect, render_to_response
 from django.contrib.auth import login, authenticate
-from django.contrib.sites.models import Site
 from django.utils import timezone
 from braces.views import LoginRequiredMixin
 from engus.cards.models import Card
@@ -27,7 +26,6 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         card_to_repeat_by_user = Card.objects.filter(user=self.request.user).to_repeat()
         context['learned_cards_count'] = all_cards_learning_by_user.count() - card_to_repeat_by_user.count()
         context['most_difficult_cards'] = all_cards_learning_by_user.order_by('-repeat_count')[:10]
-        context['site_name'] = Site.objects.get_current()
         return context
 
 
