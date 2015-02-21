@@ -1107,9 +1107,11 @@ textarea {
 .cards-goal__text {
   text-align: center;
 }
-.cards-goal__engus {
-  color: #00a0f0;
-  font-weight: bold;
+.cards-goal__per-day {
+  color: #999;
+  text-align: center;
+  margin: 2px 0;
+  font-size: 16px;
 }
 .cards-goal__completed {
   text-align: center;
@@ -1125,18 +1127,20 @@ textarea {
 }
 .cards-goal__progress {
   text-align: center;
-  margin: 15px 0;
-  font-size: 22px;
+  margin: 25px 0 12px;
+  font-size: 20px;
   color: #555;
 }
 .cards-goal__progress-line {
   width: 100%;
-  margin-top: 15px;
+  margin-top: 12px;
   border-bottom: 1px solid #ddd;
 }
 .cards-goal__progress-line-fill {
   background-color: #00a0f0;
-  height: 2px;
+  height: 3px;
+  position: relative;
+  bottom: -1px;
 }
 .cards-goal__schedule {
   text-align: center;

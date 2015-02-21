@@ -12,6 +12,7 @@
         <div class="cards-goal__number">{{ object.number }}</div>
         <div class="cards-goal__text">{{ object.number|choose_plural:"английское слово,английских слова,английских слов" }} на Ингус</div>
         <div class="cards-goal__text">с {{ object.start|date:"d.m.Y" }} по {{ object.finish|date:"d.m.Y" }}</div>
+        <div class="cards-goal__per-day">по {{ user.goal.cards_a_day }} {{ user.goal.cards_a_day|choose_plural:"слово,слова,слов" }} в день</div>
         {% if object.is_completed %}
             <div class="cards-goal__completed">Цель достигнута!</div>
         {% elif not object.is_active %}

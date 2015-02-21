@@ -28,6 +28,7 @@
         {% if not user.goal %}
             <a class="link profile__subtitle-link" href="{% url 'accounts:goal-create' %}">+ Добавить</a>
         {% else %}
+            <a class="link profile__subtitle-link" href="{% url 'accounts:goal-detail' user.goal.pk %}">Обзор</a>
             <a class="link profile__subtitle-link" href="{% url 'accounts:goal-update' user.goal.pk %}">Обновить</a>
             <a class="link profile__subtitle-link" href="{% url 'accounts:goal-delete' user.goal.pk %}">Удалить</a>
         {% endif %}
