@@ -34,11 +34,5 @@
                 {% endif %}
             </div>
         {% endif %}
-
-        {% if not user.is_authenticated %}
-        <div class="cards-goal__signup">
-            Это цель участника сообщества Ингус. Вы сможете создать свою цель после <a class="link" href="{% url "accounts:register" %}">регистрации</a>. Ингус это тематические наборы слов и фраз, <a class="link" href="/about/repetition/">интервальная система повторений</a>, статистика изученных слов и многое другое для успешного изучения английского.
-        </div>
-        {% endif %}
     </section>
 {% endblock %}
