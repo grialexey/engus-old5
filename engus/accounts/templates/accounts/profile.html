@@ -104,16 +104,4 @@
             <li class="profile__article-list-item">У Вас нет статей</li>
         {% endfor %}
     </ul>
-
-
-    <h2 class="profile__subtitle">Мои приглашения</h2>
-    <ul class="profile__invite-list">
-        {% for invite in user.invite_set.all %}
-            <li class="profile__invite-list-item">
-                {{ invite.code }} – {% if invite.registered_user %}Использовано{% else %}Не использовано{% endif %}
-            </li>
-        {% empty %}
-            <li>У Вас нет приглашений</li>
-        {% endfor %}
-    </ul>
 {% endblock %}
