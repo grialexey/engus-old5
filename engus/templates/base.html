@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">      
-    <title>{% block pagetitle %}{% if page_title %}{{ page_title }} | {% endif %}{% endblock %}Ингус – тренажер английского</title>
+    <title>{% block pagetitle %}{% if page_title %}{{ page_title }} | {% endif %}{% endblock %}Ингус – тренажёр английского</title>
     <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.ico" type="image/x-icon">
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -44,7 +44,7 @@
                         <a href="{% url 'accounts:profile' %}" class="header__menu-link {% block header_menu_item_profile_class %}{% endblock %}">Мой профиль</a>
                     </li>
                 {% else %}
-                    <li class="header__menu-item header__menu-slogan">Тренажер английского</li>
+                    <li class="header__menu-item header__menu-slogan">Тренажёр английского</li>
                     <li class="header__menu-item header__menu-item--fill"></li>
                     <li class="header__menu-item"><a href="/about/" class="header__menu-link {% if request.path == '/about/' %}active{% endif %}">О сайте</a></li>
                     <li class="header__menu-item"><a href="{% url "login" %}" class="header__menu-link {% block header_menu_item_login_class %}{% endblock %}">Войти</a></li>
