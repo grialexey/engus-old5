@@ -13,7 +13,7 @@ from django.utils import timezone
 from braces.views import LoginRequiredMixin
 from engus.cards.models import Card
 from .forms import CustomUserCreationForm, CardsGoalForm
-from .models import Invite, CardsGoal
+from .models import CardsGoal
 
 
 class ProfileView(LoginRequiredMixin, TemplateView):
@@ -97,9 +97,6 @@ def register(request):
                 username = form.clean_username()
                 password = form.clean_password2()
                 user = form.save()
-                invite = Invite.objects.get(code=form.cleaned_data['invite_code'])
-                invite.registered_user = user
-                invite.save()
                 authenticated_user = authenticate(username=username, password=password)
                 if authenticated_user is not None and authenticated_user.is_active:
                     login(request, authenticated_user)
