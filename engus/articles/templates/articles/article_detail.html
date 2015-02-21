@@ -11,6 +11,7 @@
 {% endblock %}
 
 {% block extrahead %}
+    <meta property="og:description" content="{{ article.description }}">
     {% if article.image %}
         {% thumbnail article.image 550x0  quality=80 as thumb %}
         <meta property="og:image" content="http://{{ site }}{{ thumb.url }}">
