@@ -10,7 +10,7 @@
             <span class="cards-goal__title-word">Цель</span>
         </h1>
         <div class="cards-goal__number">{{ object.number }}</div>
-        <div class="cards-goal__text">{{ object.number|choose_plural:"английское слово,английских слова,английских слов" }}</div>
+        <div class="cards-goal__text">{{ object.number|choose_plural:"английское слово,английских слова,английских слов" }} на Ингус</div>
         <div class="cards-goal__text">с {{ object.start|date:"d.m.Y" }} по {{ object.finish|date:"d.m.Y" }}</div>
         {% if object.is_completed %}
             <div class="cards-goal__completed">Цель достигнута!</div>
