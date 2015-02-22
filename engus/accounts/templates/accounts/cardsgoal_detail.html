@@ -24,7 +24,7 @@
                     <div class="cards-goal__progress-line-fill" style="width: {{ object.progress_in_percent|escapejs }}%"></div>
                 </div>
             </div>
-            <div class="cards-goal__schedule">
+            <div class="cards-goal__schedule {% if  object.behind_the_schedule_for_now > 0 %}m-positive{% elif  object.behind_the_schedule_for_now < 0 %}m-negative{% endif %}">
                 {% if  object.behind_the_schedule_for_now == 0 %}
                     Точно по графику
                 {% elif  object.behind_the_schedule_for_now > 0 %}
