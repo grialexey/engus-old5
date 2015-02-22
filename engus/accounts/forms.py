@@ -16,6 +16,7 @@ class CustomUserCreationForm(UserCreationForm):
 
 
 class CardsGoalForm(forms.ModelForm):
+    number = forms.IntegerField(min_value=1, required=True, label=u'Количество слов')
     days = forms.IntegerField(min_value=1, required=True, label=u'Через дней')
 
     class Meta:
