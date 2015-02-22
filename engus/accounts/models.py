@@ -14,6 +14,7 @@ class CardsGoal(models.Model):
     initial_number = models.PositiveIntegerField(verbose_name=u'Изначальное количество выученных слов')
     start = models.DateTimeField(verbose_name=u'Старт')
     finish = models.DateTimeField(verbose_name=u'Финиш')
+    created = models.DateTimeField(auto_now_add=True, verbose_name=u'Создана')
 
     class Meta:
         verbose_name = u'Цель'
@@ -38,7 +39,10 @@ class CardsGoal(models.Model):
         return progress_in_cards
 
     def progress_in_percent(self):
-        return float(self.progress_in_cards()) / float(self.cards_to_learn()) * 100
+        percent = 0
+        if self.cards_to_learn() > 0:
+            percent = float(self.progress_in_cards()) / float(self.cards_to_learn()) * 100
+        return percent
 
     def scheduled(self, date_time):
         cards_to_learn = self.number - self.initial_number

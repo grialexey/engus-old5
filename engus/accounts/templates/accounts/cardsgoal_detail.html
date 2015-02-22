@@ -2,7 +2,7 @@
 
 {% load pytils_numeral %}
 
-{% block pagetitle %}Цель {{ object.number }} {{ object.number|choose_plural:"английское слово,английских слова,английских слов" }}{% endblock %}
+{% block pagetitle %}Цель {{ object.number }} {{ object.number|choose_plural:"английское слово,английских слова,английских слов" }}. {% endblock %}
 
 {% block content %}
     <section class="cards-goal">
