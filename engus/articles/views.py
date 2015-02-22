@@ -63,6 +63,10 @@ class ArticleUpdateView(LoginRequiredMixin, UpdateView):
         form.instance.author = self.request.user
         return super(ArticleUpdateView, self).form_valid(form)
 
+    def get_queryset(self):
+        base_qs = super(ArticleUpdateView, self).get_queryset()
+        return base_qs.filter(author=self.request.user)
+
 
 @login_required
 def copy_article_cards_view(request, pk):
