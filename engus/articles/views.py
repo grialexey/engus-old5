@@ -57,7 +57,7 @@ class ArticleUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'articles/article_update.html'
 
     def get_success_url(self):
-        return reverse('profile')
+        return reverse('accounts:profile')
 
     def form_valid(self, form):
         form.instance.author = self.request.user
