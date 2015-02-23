@@ -34,7 +34,7 @@
                 <li class="header__menu-item"><a href="/" class="header__menu-link header__menu-link--logo">Ингус</a></li>
                 {% if user.is_authenticated %}
                     <li class="header__menu-item">
-                        <a href="{% url "cards:card-list-my" %}?mode={{ card_repeat_modes|random }}" class="header__menu-link  header__menu-link--mycards {% block header_menu_item_mycards_class %}{% endblock %}">Мои карточки</a>
+                        <a href="{% url "cards:card-list-my" %}?mode=repeat-left" class="header__menu-link  header__menu-link--mycards {% block header_menu_item_mycards_class %}{% endblock %}">Мои карточки</a>
                         {% if cards_to_repeat_count %}<a href="{% url "cards:card-list-my" %}?mode=repeat-left" class="header__menu-repeat-count {% if card_sorting == 'repeat' %}m-active{% endif %}">{{ cards_to_repeat_count }}</a>{% endif %}
                     </li>
                     <li class="header__menu-item"><span href="/" class="header__menu-link header__menu-link--add">+</span></li>
