@@ -28,6 +28,7 @@ Card.prototype.cacheElements = function($element) {
     this.$content = this.$el.find('> .card__content');
     this.$back = this.$content.find('.card__back');
     this.$front = this.$content.find('.card__front');
+    this.frontText = this.$front.find('.card__front-word').text();
     this.$frontContent = this.$content.find('.card__front > *');
     this.$image = this.$content.find('.card__image');
     this.$example = this.$content.find('.card__example');
@@ -87,6 +88,11 @@ Card.prototype.levelDown = function() {
 Card.prototype.playAudio = function() {
     if (this.$audio.length) {
         this.$audio[0].play();
+    } else if ('speechSynthesis' in window) {
+        var msg = new SpeechSynthesisUtterance(this.frontText);
+        msg.voiceURI = 'native';
+        msg.lang = 'en-US';
+        window.speechSynthesis.speak(msg);
     }
 };
 
