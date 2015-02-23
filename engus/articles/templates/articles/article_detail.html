@@ -30,7 +30,7 @@
 
         {% with card_list=article.card_set.public %}
             {% if card_list %}
-                <h2 class="article__heading2">Карточки</h2>
+                {% if article.description %}<h2 class="article__heading2">Карточки</h2>{% endif %}
                 {% if not user.is_authenticated %}
                     <a href="{% url "login" %}" class="article__copy-btn m-active">Добавить все&nbsp;карточки в&nbsp;Мои&nbsp;карточки</a>
                 {% else %}

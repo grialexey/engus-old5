@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
 from django.shortcuts import get_object_or_404
 from braces.views import LoginRequiredMixin
-from .forms import ArticleCreateForm, ArticleUpdateForm
+from .forms import ArticleForm, ArticleUpdateForm
 from .models import Article
 
 
@@ -39,7 +39,7 @@ class ArticleDetailView(DetailView):
 class ArticleCreateView(LoginRequiredMixin, CreateView):
 
     model = Article
-    form_class = ArticleCreateForm
+    form_class = ArticleForm
     template_name = 'articles/article_create.html'
 
     def get_success_url(self):

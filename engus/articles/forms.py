@@ -14,18 +14,16 @@ class ArticleTagsField(AutoModelSelect2TagField):
         return {'name': value, }
 
 
-class ArticleCreateForm(forms.ModelForm):
+class ArticleForm(forms.ModelForm):
     tags = ArticleTagsField(label=u'Теги', required=False)
-    description = forms.CharField(widget=CKEditorWidget(), label=u'Статья')
+    description = forms.CharField(widget=CKEditorWidget(), label=u'Статья', required=False)
 
     class Meta:
         model = Article
         fields = ['name', 'subtitle', 'image', 'category', 'level', 'description', 'tags', ]
 
 
-class ArticleUpdateForm(forms.ModelForm):
-    tags = ArticleTagsField(label=u'Теги', required=False)
-    description = forms.CharField(widget=CKEditorWidget(), label=u'Статья')
+class ArticleUpdateForm(ArticleForm):
 
     class Meta:
         model = Article
