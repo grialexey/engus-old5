@@ -58,10 +58,10 @@
                         {% endfor %}
 
 
-                        {% if form.instance.card_set.public.count < 12 %}
+                        {% if form.instance.card_set.public.count < 25 %}
                             {% include "cards/card.html" %}
                         {% else %}
-                            <li style="color: #555; margin: 20px 0; text-align: center; display: block;">Не более 12 карточек</li>
+                            <li style="color: #555; margin: 20px 0; text-align: center; display: block;">Не более 25 карточек</li>
                         {% endif %}
                     </ul>
                     <div class="card-list__overlay"></div>

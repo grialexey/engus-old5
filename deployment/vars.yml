@@ -1,7 +1,7 @@
 project_name: engus
 project_root: /var/webapps/engus
-project_repo: https://github.com/grialexey/engus.git
-server_hostname: engus.ru
+project_repo: https://github.com/grialexey/engus-old5.git
+server_hostname: old5.engus.ru
 remote_host: github.com
 timezone: Europe/Moscow
 system_packages:

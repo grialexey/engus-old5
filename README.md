@@ -1,2 +1,2 @@
-Engus Website
-=============
+Engus. Flash cards web app
+==================================
